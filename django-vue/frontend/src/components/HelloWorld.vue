@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <Navbar></Navbar>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -84,12 +85,16 @@
 </template>
 
 <script>
+import Navbar from './NavbarComponent'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components: {
+    Navbar
   }
 }
 </script>
