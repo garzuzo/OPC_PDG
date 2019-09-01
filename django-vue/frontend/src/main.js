@@ -3,12 +3,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
+import "vuetify/dist/vuetify.min.css";
 //import VeeValidate from 'vee-validate'
 import routes from './router/routes'
 import App from './App.vue'
 
 
-Vue.config.productionTip = false
+//Vue.config.productionTip = false
 window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(Vuetify)

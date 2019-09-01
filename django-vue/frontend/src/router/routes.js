@@ -1,7 +1,7 @@
-import HelloWorld from '@/components/HelloWorld'
+import BuildPeaceComponent from '@/components/BuildPeaceComponent'
 
 const routes = [
-  { path: '/', name:'HelloWorld', component: HelloWorld },
+  { path: '/construirpaz', component: BuildPeaceComponent },
   { path: '*', redirect: '/' }   
 ];
 

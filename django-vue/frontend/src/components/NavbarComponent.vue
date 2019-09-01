@@ -1,44 +1,61 @@
 <template>
-<div>
-    HEEEEEEEEEEEEELLOOOOOOOOO
-    MY NAME ISSS
+  <v-toolbar color="#E1E1E9" height="84">
+    <v-toolbar-title>
+      <img src="@/assets/bird.png" width="51" height="49" class="d-inline-block" alt />
+      <h1>Narrativas de paz</h1>
+    </v-toolbar-title>
 
-   <v-toolbar>
-      <v-toolbar-title>Title</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn
+        :ripple="false"
+        text
+        depressed
+        color="#E1E1E9"
+        class="btn"
+        to="/construirpaz"
+      >Construir paz</v-btn>
+      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Sobre nosotros</v-btn>
+      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Visualiza</v-btn>
+      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Campañas</v-btn>
+      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
+    </v-toolbar-items>
 
-      <div class="flex-grow-1"></div>
-
-      <v-toolbar-items>
-        <v-btn text>Link 1</v-btn>
-        <v-btn text>Link 2</v-btn>
-        <v-btn text>Link 3</v-btn>
-      </v-toolbar-items>
-
-      <template v-if="$vuetify.breakpoint.smAndUp">
-        <v-btn icon>
-          <v-icon>mdi-export-variant</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-delete-circle</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-plus-circle</v-icon>
-        </v-btn>
-      </template>
-    </v-toolbar>
-</div>    
+    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Log in</v-btn>
+  </v-toolbar>
 </template>
 
 <script>
-export default {
-  name: "HelloWorld",
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  }
-};
+export default {};
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap');
+
+h1 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  color: #0c186d;
+  font-size: 24px;
+  line-height: 36px;
+  display: inline-block;
+  position: absolute;
+  top: 20px;
+}
+
+.btn {
+  text-transform: none !important;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  color: #0c186d;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.login {
+  border-radius: 5px;
+  text-transform: none !important;
+}
 </style>
