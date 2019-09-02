@@ -8,17 +8,16 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn
-        :ripple="false"
-        text
+        :ripple="false"        
         depressed
         color="#E1E1E9"
         class="btn"
         to="/construirpaz"
       >Construir paz</v-btn>
-      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Sobre nosotros</v-btn>
-      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Visualiza</v-btn>
-      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Campañas</v-btn>
-      <v-btn :ripple="false" text depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Sobre nosotros</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Visualiza</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Campañas</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
     </v-toolbar-items>
 
     <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Log in</v-btn>
@@ -57,5 +56,8 @@ h1 {
 .login {
   border-radius: 5px;
   text-transform: none !important;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
 }
 </style>

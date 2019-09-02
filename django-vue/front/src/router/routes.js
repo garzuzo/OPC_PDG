@@ -1,4 +1,4 @@
-import BuildPeaceComponent from '@/components/BuildPeaceComponent'
+import BuildPeaceComponent from '@/components/buildpeace/BuildPeaceComponent'
 
 const routes = [
   { path: '/construirpaz', component: BuildPeaceComponent },
