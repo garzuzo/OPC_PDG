@@ -1,15 +1,9 @@
 <template>
-<div>
-   <!-- <v-row align="start">
-      
-        
-      </v-col>
-    </v-row> -->
-
+  <div>
     <v-col cols="5">
-    <div class="form-group">
-          <label for="higherEducation">Nivel educativo más alto alcanzado*</label>
-          <v-select
+      <div class="form-group">
+        <label for="higherEducation">Nivel educativo más alto alcanzado*</label>
+        <v-select
           :items="education"
           outlined
           v-model="higherEducation"
@@ -17,28 +11,23 @@
           class="input"
           color="#0C186D"
           name="higherEducation"
-        ></v-select>         
-        </div>
+        ></v-select>
+      </div>
 
-        <div class="form-group">
-          <label for="level">Nivel más alto alcanzado en el anterior nivel*</label>
-          <v-text-field
-              v-model="level"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="level"
-              class="input"
-            ></v-text-field>
-        </div>
-</v-col>
-    <!--<v-row align="start">
-      <v-col cols="5">
-        
-      </v-col>
-    </v-row> -->
-</div>
+      <div class="form-group">
+        <label for="level">Nivel más alto alcanzado en el anterior nivel*</label>
+        <v-text-field
+          v-model="level"
+          outlined
+          color="#0C186D"
+          height="16"
+          required
+          name="level"
+          class="input"
+        ></v-text-field>
+      </div>
+    </v-col>
+  </div>
 </template>
 
 <script>
@@ -47,9 +36,18 @@ export default {
   //inject: ["$validator"],
   data() {
     return {
-      higherEducation: '',
-      level: '',
-      education:['Preescolar','Primaria', 'Bachillerato', 'Técnico', 'Tecnologo', 'Universitaria', 'Universitaria o superior','Ninguno']
+      higherEducation: "",
+      level: "",
+      education: [
+        "Preescolar",
+        "Primaria",
+        "Bachillerato",
+        "Técnico",
+        "Tecnologo",
+        "Universitaria",
+        "Universitaria o superior",
+        "Ninguno"
+      ]
     };
   }
 };

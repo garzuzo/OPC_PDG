@@ -2,7 +2,7 @@
   <div>
     <v-row align="center" justify="space-around">
       <!--FIRST COLUMN-->
-      <v-col cols="4">
+      <v-col cols="5">
         <div class="form-group">
           <label for="name">Nombre*</label>
           <v-text-field
@@ -14,24 +14,23 @@
             name="name"
             class="input"
           ></v-text-field>
-
-          <div class="form-group">
-            <label for="age">Edad*</label>
-            <v-text-field
-              v-model="age"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="age"
-              class="input"
-            ></v-text-field>
-          </div>
+        </div>
+        <div class="form-group">
+          <label for="age">Edad*</label>
+          <v-text-field
+            v-model="age"
+            outlined
+            color="#0C186D"
+            height="16"
+            required
+            name="age"
+            class="input"
+          ></v-text-field>
         </div>
       </v-col>
 
       <!--SECOND COLUMN -->
-      <v-col cols="4">
+      <v-col cols="5">
         <div class="form-group">
           <label for="lastname">Apellidos*</label>
           <v-text-field

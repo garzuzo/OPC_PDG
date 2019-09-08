@@ -1,9 +1,11 @@
 <template>
   <div>
     
-     <v-col cols="4">
-     <h3>Territorio donde vives </h3>
-     <div class="form-group">
+    <v-row justify="space-around">
+      <!--FIRST COLUMN-->
+      <v-col cols="5">
+        <h3>Territorio donde vives</h3>
+        <div class="form-group">
           <label for="currentZone">Zona*</label>
           <v-select
             :items="zones"
@@ -15,11 +17,7 @@
             name="currentZone"
           ></v-select>
         </div>
-     </v-col>
-
-    <v-row align="center" justify="space-around">
-      <!--FIRST COLUMN-->
-      <v-col cols="4">
+        
         <div class="form-group">
           <label for="currentState">Departamento*</label>
           <v-select
@@ -31,7 +29,7 @@
             color="#0C186D"
             name="currentState"
           ></v-select>
-
+        </div>
           <div class="form-group" v-if="currentZone == zones[1]">
             <label for="currentComuna">Comuna*</label>
             <v-text-field
@@ -57,11 +55,11 @@
               class="input"
             ></v-text-field>
           </div>
-        </div>
+      
       </v-col>
 
       <!--SECOND COLUMN -->
-      <v-col cols="4">
+      <v-col align-self="end" cols="5">
         <div class="form-group">
           <label for="currentCity">Ciudad*</label>
           <v-select
@@ -77,52 +75,56 @@
 
         <div class="form-group" v-if="currentZone == zones[1]">
           <label for="currentNeighborhood">Barrio*</label>
-           <v-text-field
-              v-model="currentNeighborhood"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="currentNeighborhood"
-              class="input"
-            ></v-text-field>
+          <v-text-field
+            v-model="currentNeighborhood"
+            outlined
+            color="#0C186D"
+            height="16"
+            required
+            name="currentNeighborhood"
+            class="input"
+          ></v-text-field>
         </div>
 
         <div class="form-group" v-if="currentZone == zones[0]">
           <label for="currentVereda">Vereda*</label>
-           <v-text-field
-              v-model="currentVereda"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="currentVereda"
-              class="input"
-            ></v-text-field>
+          <v-text-field
+            v-model="currentVereda"
+            outlined
+            color="#0C186D"
+            height="16"
+            required
+            name="currentVereda"
+            class="input"
+          ></v-text-field>
         </div>
       </v-col>
     </v-row>
 
     <!--ORIGIN TERRITORY -->
-    <v-col cols="4">
-     <h3>Territorio de origen</h3>
-     <div class="form-group">
-          <label for="originZone">Zona*</label>
-          <v-select
-            :items="zones"
-            outlined
-            v-model="originZone"
-            required
-            class="input"
-            color="#0C186D"
-            name="originZone"
-          ></v-select>
-        </div>
-     </v-col>
-
-    <v-row align="center" justify="space-around">
+    <v-row justify="space-around">
       <!--FIRST COLUMN-->
-      <v-col cols="4">
+      <v-col cols="5">
+
+        <h3>Territorio de origen</h3>
+        <v-checkbox
+      v-model="checkbox"
+      label="¿Tu territorio de origen es igual al territorio donde vives?"
+    ></v-checkbox>
+
+      <div class="form-group">
+        <label for="originZone">Zona*</label>
+        <v-select
+          :items="zones"
+          outlined
+          v-model="originZone"
+          required
+          class="input"
+          color="#0C186D"
+          name="originZone"
+        ></v-select>
+      </div>
+
         <div class="form-group">
           <label for="originState">Departamento*</label>
           <v-select
@@ -134,6 +136,7 @@
             color="#0C186D"
             name="originState"
           ></v-select>
+        </div>
 
           <div class="form-group" v-if="originZone == zones[1]">
             <label for="originComuna">Comuna*</label>
@@ -160,11 +163,10 @@
               class="input"
             ></v-text-field>
           </div>
-        </div>
       </v-col>
 
       <!--SECOND COLUMN -->
-      <v-col cols="4">
+      <v-col align-self="end" cols="5">
         <div class="form-group">
           <label for="originCity">Ciudad*</label>
           <v-select
@@ -180,28 +182,28 @@
 
         <div class="form-group" v-if="originZone == zones[1]">
           <label for="originNeighborhood">Barrio*</label>
-           <v-text-field
-              v-model="originNeighborhood"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="originNeighborhood"
-              class="input"
-            ></v-text-field>
+          <v-text-field
+            v-model="originNeighborhood"
+            outlined
+            color="#0C186D"
+            height="16"
+            required
+            name="originNeighborhood"
+            class="input"
+          ></v-text-field>
         </div>
 
         <div class="form-group" v-if="originZone == zones[0]">
           <label for="originVereda">Vereda*</label>
-           <v-text-field
-              v-model="originVereda"
-              outlined
-              color="#0C186D"
-              height="16"
-              required
-              name="originVereda"
-              class="input"
-            ></v-text-field>
+          <v-text-field
+            v-model="originVereda"
+            outlined
+            color="#0C186D"
+            height="16"
+            required
+            name="originVereda"
+            class="input"
+          ></v-text-field>
         </div>
       </v-col>
     </v-row>
@@ -215,20 +217,21 @@ export default {
   data() {
     return {
       currentZone: "",
-      currentState:"",
-      currentCity:"",
-      currentComuna:"",
-      currentNeighborhood:"",
-      currentCorregimiento:"",
-      currentVereda:"",
+      currentState: "",
+      currentCity: "",
+      currentComuna: "",
+      currentNeighborhood: "",
+      currentCorregimiento: "",
+      currentVereda: "",
       originZone: "",
-      originState:"",
-      originCity:"",
-      originComuna:"",
-      originNeighborhood:"",
-      originCorregimiento:"",
-      originVereda:"",
-      zones: ["Zona rural", "Zona urbana"]
+      originState: "",
+      originCity: "",
+      originComuna: "",
+      originNeighborhood: "",
+      originCorregimiento: "",
+      originVereda: "",
+      zones: ["Zona rural", "Zona urbana"],
+      checkbox:false
     };
   }
 };
@@ -252,8 +255,8 @@ label {
   font-size: 16px;
 }
 
-h3{
-    font-family: "Roboto";
+h3 {
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
