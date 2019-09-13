@@ -12,6 +12,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+
+import json
+from six.moves.urllib import request
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,8 +45,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   'opcapp',
+
+     'rest_framework',
+    'rest_framework_jwt',
+    'corsheaders',
+   'opcapp.apps.OpcappConfig',
+   
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,7 +70,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
 
 ROOT_URLCONF = 'opc.urls'
 
@@ -125,3 +151,39 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+#Auth0 code
+
+AUTH0_DOMAIN = 'opc-cali.auth0.com'
+API_IDENTIFIER = 'https://opc-api'
+PUBLIC_KEY = None
+JWT_ISSUER = None
+
+if AUTH0_DOMAIN:
+    jsonurl = request.urlopen('https://' + AUTH0_DOMAIN + '/.well-known/jwks.json')
+    jwks = json.loads(jsonurl.read().decode('utf-8'))
+    cert = '-----BEGIN CERTIFICATE-----\n' + jwks['keys'][0]['x5c'][0] + '\n-----END CERTIFICATE-----'
+    certificate = load_pem_x509_certificate(cert.encode('utf-8'), default_backend())
+    PUBLIC_KEY = certificate.public_key()
+    JWT_ISSUER = 'https://' + AUTH0_DOMAIN + '/'
+
+
+def jwt_get_username_from_payload_handler(payload):
+    return 'auth0user'
+
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
+    'JWT_PUBLIC_KEY': PUBLIC_KEY,
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': API_IDENTIFIER,
+    'JWT_ISSUER': JWT_ISSUER,
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
+
+
+#Auth0
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)

@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from django.conf.urls import url
+from opcapp import views
+
 urlpatterns = [
  path('opcapp/', include('opcapp.urls')),
    path('admin/', admin.site.urls),
+      url(r'^api/public/', views.public),
+    url(r'^api/private/', views.private)
 ]
