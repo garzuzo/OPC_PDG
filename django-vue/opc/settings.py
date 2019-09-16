@@ -170,7 +170,8 @@ if AUTH0_DOMAIN:
 
 
 def jwt_get_username_from_payload_handler(payload):
-    return 'auth0user'
+    print(payload)
+    return payload.get('sub').replace('|', '.')
 
 
 JWT_AUTH = {
@@ -185,5 +186,5 @@ JWT_AUTH = {
 
 #Auth0
 CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
+    'http://localhost:8080',
 )
