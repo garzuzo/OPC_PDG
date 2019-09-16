@@ -9,6 +9,20 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
+import { Icon }  from 'leaflet'
+import '../node_modules/leaflet/dist/leaflet.css'
+
+
+
+delete Icon.Default.prototype._getIconUrl;
+Icon.Default.imagePath = '.';
+Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
+
+
 Vue.use(Vuetify)
 Vue.use(VueRouter);
 Vue.config.productionTip = false
