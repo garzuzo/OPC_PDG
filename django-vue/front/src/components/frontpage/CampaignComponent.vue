@@ -2,14 +2,17 @@
 
 <div class="objective"> 
 
-<v-container>
-      <v-col justify="center" cols="7">
+  <v-row justify="center"> 
+    <v-col cols="4">
+      <img src="@/assets/person.png"/>
+      </v-col>
+      <v-col cols="6">
         <h3> {{subtitle}} </h3>
         <h2>{{title}}</h2>
         <br>
         <p>{{description}} </p>
       </v-col>
-</v-container>
+  </v-row>
     </div> 
 
 
@@ -22,8 +25,8 @@ export default {
   name: "Objective",
   data() {
     return {
-        subtitle:"Objetivo",
-        title:"Construir paz entre todos",
+        subtitle:"Campañas",
+        title:"Narrativas que buscan construir Paz",
         description:"Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños. Estos relatos surgen de talleres que funcionan como espacios de encuentro para la construcción de una definición de paz desde un enfoque territorial. "
         };
   }

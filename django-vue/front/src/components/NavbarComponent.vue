@@ -16,7 +16,7 @@
       >Construir paz</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn"  to="/sobrenosotros">Sobre nosotros</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Visualiza</v-btn>
-      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Campañas</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campañas">Campañas</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
     </v-toolbar-items>
 

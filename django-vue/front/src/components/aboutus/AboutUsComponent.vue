@@ -60,48 +60,8 @@
       <h3 align="center">Nuestro equipo</h3>
 
       <v-row justify="center">
-        <v-col cols="4">
-          <v-card>
-            <v-container>
-              <v-col align="center">
-                <img src="https://picsum.photos/id/11/500/300" class="img" />
-                <h4>Juan Muñoz</h4>
-                <h5>Sociologo</h5>
-              </v-col>
-            </v-container>
-          </v-card>
-          <br />
-          <v-card>
-            <v-container>
-              <v-col align="center">
-                <img src="https://picsum.photos/id/11/500/300" class="img" />
-                <h4>Juan Muñoz</h4>
-                <h5>Sociologo</h5>
-              </v-col>
-            </v-container>
-          </v-card>
-        </v-col>
-
-        <v-col cols="4">
-          <v-card>
-            <v-container>
-              <v-col align="center">
-                <img src="https://picsum.photos/id/11/500/300" class="img" />
-                <h4>Juan Muñoz</h4>
-                <h5>Sociologo</h5>
-              </v-col>
-            </v-container>
-          </v-card>
-          <br />
-          <v-card>
-            <v-container>
-              <v-col align="center">
-                <img src="https://picsum.photos/id/11/500/300" class="img" />
-                <h4>Juan Muñoz</h4>
-                <h5>Sociologo</h5>
-              </v-col>
-            </v-container>
-          </v-card>
+        <v-col v-for="n in 4" :key="n" class="d-flex child-flex" cols="5">
+          <member-item-component></member-item-component>
         </v-col>
       </v-row>
     </v-container>

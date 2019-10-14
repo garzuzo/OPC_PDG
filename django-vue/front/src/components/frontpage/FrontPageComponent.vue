@@ -1,46 +1,31 @@
 <template>
 <div>
 
-<v-row>
+<navbar-component></navbar-component>
 
+    <div class="init">
+      <v-container>
+        <!--INITIAL IMAGE -->
+        <v-row>
+          <v-col cols="7">
+            <br />
+            <h1>Narrativas de Paz</h1>
+            <br />
+            <br />
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas, metus ac dignissim mattis, metus risus pretium ligula, ut mattis purus eros at nisl. </p>
+            <br />
+            <br />
+            <v-btn :ripple="false" rounded class="ma-2 ml-5 edit" color="#673AB7" dark>Quiero construir paz</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
-<v-col>
+    <how-it-works-component></how-it-works-component>
 
-
-<h1>
-{{title}}
-
-</h1>
-
-<p>
-{{text}}
-</p>
-
-<v-btn
-:ripple="false"
- class="ma-2 next"
-outlined
- color="#673ab7"
-@click="e1 = 2"
->
-
-{{buttonText}}
-
-</v-btn>
-
-</v-col>
-
-
-<v-col>
-
-
-
-
-
-</v-col>
-
-</v-row>
-
+    <objective-component> </objective-component>
+     <testimonial-component> </testimonial-component>
+     <campaign-component> </campaign-component>
 
 
 </div>
@@ -51,7 +36,6 @@ outlined
 
 <script>
 export default {
-  name: "FrontPage",
   data() {
     return {
 
@@ -70,7 +54,26 @@ body {
   background-color: white;
 }
 
-h1{
-  text-color:#0C186D;
+.init {
+  background-image: url("../../assets/handpeace.png");
+  background-size: cover;
 }
+
+h1 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 96px;
+  color: #0c186d;
+}
+
+p {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 36px;
+}
+
 </style>
