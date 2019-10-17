@@ -14,14 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
 from django.conf.urls import url
 from opcapp import views
 
+
+
+
+
 urlpatterns = [
- path('opcapp/', include('opcapp.urls')),
-   path('admin/', admin.site.urls),
-      url(r'^api/public/', views.public),
-    url(r'^api/private/', views.private)
+    path('', include('opcapp.urls')),
+    path('admin/', admin.site.urls),
+  #  url(r'^api/public/', views.public),
+  #  url(r'^api/private/', views.private)
 ]

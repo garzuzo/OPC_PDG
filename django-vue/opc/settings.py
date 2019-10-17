@@ -46,19 +46,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-     'rest_framework',
-    'rest_framework_jwt',
-    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',  # <-- Here
+
    'opcapp.apps.OpcappConfig',
    
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-       'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
@@ -104,8 +101,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'opc_db',
-        'USER':os.environ['OPC_USER'],
-        'PASSWORD':os.environ['OPC_PASS'],
+       # 'USER':os.environ['OPC_USER'],
+        #'PASSWORD':os.environ['OPC_PASS'],
+         'USER': 'opc_user',
+         'PASSWORD':'opc_passwd',
         'HOST': 'localhost',
         'PORT': '',
 
@@ -153,38 +152,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-#Auth0 code
 
-AUTH0_DOMAIN = 'opc-cali.auth0.com'
-API_IDENTIFIER = 'https://opc-api'
-PUBLIC_KEY = None
-JWT_ISSUER = None
-
-if AUTH0_DOMAIN:
-    jsonurl = request.urlopen('https://' + AUTH0_DOMAIN + '/.well-known/jwks.json')
-    jwks = json.loads(jsonurl.read().decode('utf-8'))
-    cert = '-----BEGIN CERTIFICATE-----\n' + jwks['keys'][0]['x5c'][0] + '\n-----END CERTIFICATE-----'
-    certificate = load_pem_x509_certificate(cert.encode('utf-8'), default_backend())
-    PUBLIC_KEY = certificate.public_key()
-    JWT_ISSUER = 'https://' + AUTH0_DOMAIN + '/'
-
-
-def jwt_get_username_from_payload_handler(payload):
-    print(payload)
-    return payload.get('sub').replace('|', '.')
-
-
-JWT_AUTH = {
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER': jwt_get_username_from_payload_handler,
-    'JWT_PUBLIC_KEY': PUBLIC_KEY,
-    'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': API_IDENTIFIER,
-    'JWT_ISSUER': JWT_ISSUER,
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-}
-
-
-#Auth0
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-)
