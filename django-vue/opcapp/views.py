@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 
-from .models import (RoleUser, Gender)
-from .serializers import (RoleUserSerializer, GenderSerializer)
+from .models import (RoleUser, Gender, HigherLevelEducation, AchievedLevel)
+from .serializers import (RoleUserSerializer, GenderSerializer, HigherLevelEducationSerializer, AchievedLevelSerializer)
 from rest_framework import viewsets
 
 from rest_framework import status
@@ -39,7 +39,21 @@ def roleuser_list(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def leveleducation_list(request):
+    if request.method == "GET":
+        name=request.query_params.get('name', None)
+        if name is not None:
+            levelsEducationList=AchievedLevel.objects.filter(higherLevelEducation__name=name)
+            serializer=AchievedLevelSerializer(levelsEducationList, many=True)
+            return Response(serializer.data)
 
+
+
+      
+class HigherLevelEducationViewSet(viewsets.ModelViewSet):
+    queryset = HigherLevelEducation.objects.all()
+    serializer_class = HigherLevelEducationSerializer
 
 
 class RoleUserViewSet(viewsets.ModelViewSet):
