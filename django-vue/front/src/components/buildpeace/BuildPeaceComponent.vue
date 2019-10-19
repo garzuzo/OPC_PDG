@@ -40,8 +40,8 @@
             <!-- ITEMS INSIDE EACH TAB-->
             <v-stepper-items>
               <v-stepper-content step="1">
-                <personal-form-component></personal-form-component>
-
+                <personal-form-component v-on:nameToParent="onNameClick" v-on:lastnameToParent="onLastnameClick" v-on:ageToParent="onAgeClick" v-on:genderToParent="onGenderClick"></personal-form-component>
+               
                 <v-container>
                   <v-row justify="end">
                     <v-col cols="2">
@@ -102,7 +102,11 @@
 
       <!-- NARRATIVE -->
       <br />
-
+       HERE ARE THE NEW THINGS:
+       {{age}} 
+       {{gender}}
+       {{name}}
+       {{lastname}}
       <v-row align="center" justify="center">
         <v-col cols="8">
           <h3>Con un texto ayudanos a responder la pregunta:</h3>
@@ -120,7 +124,7 @@
           </div>
         </v-col>
       </v-row>
-
+       
       <!--KEYWORDS -->
       <v-row align="center" justify="center">
         <v-col cols="8">
@@ -192,10 +196,11 @@
 
       <v-row align="center" justify="center" no-gutters>
         <v-col cols="2">
-          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark>Visualiza</v-btn>
+          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark>Finalizar</v-btn>
         </v-col>
         <v-col cols="2">
-          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark>Guardar datos</v-btn>
+          <p>¿Deseas guardar tus datos para una próxima ocasión? </p>
+          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark>Crea tu cuenta</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -213,8 +218,27 @@ export default {
       word2: "",
       word3: "",
       word4: "",
-      word5: ""
+      word5: "",
+      //PERSONAL COMPONENT
+      age: 0,
+      gender: "",
+      name: "",
+      lastname: ""
     };
+  },
+  methods:{
+    onAgeClick (value) {
+      this.age = value
+    },
+    onGenderClick (value){
+      this.gender = value
+    },
+    onNameClick(value){
+      this.name = value
+    },
+    onLastnameClick(value){
+      this.lastname = value
+    }
   }
 };
 </script>

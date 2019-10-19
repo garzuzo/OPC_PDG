@@ -21,7 +21,7 @@
         <div class="form-group">
           <label for="currentState">Departamento*</label>
           <v-select
-            :items="zones"
+            :items="states"
             outlined
             v-model="currentState"
             required
@@ -63,7 +63,7 @@
         <div class="form-group">
           <label for="currentCity">Ciudad*</label>
           <v-select
-            :items="zones"
+            :items="cities"
             outlined
             v-model="currentCity"
             required
@@ -128,7 +128,7 @@
         <div class="form-group">
           <label for="originState">Departamento*</label>
           <v-select
-            :items="zones"
+            :items="states"
             outlined
             v-model="originState"
             required
@@ -170,7 +170,7 @@
         <div class="form-group">
           <label for="originCity">Ciudad*</label>
           <v-select
-            :items="zones"
+            :items="cities"
             outlined
             v-model="originCity"
             required
@@ -231,9 +231,14 @@ export default {
       originCorregimiento: "",
       originVereda: "",
       zones: ["Zona rural", "Zona urbana"],
+      cities: [],
+      states: [],
+
       checkbox:false
     };
-  }
+  },
+  created(){
+  },
 };
 </script>
 

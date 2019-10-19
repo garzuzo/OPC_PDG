@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
 import routes from './router/routes'
-
+import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
@@ -25,6 +25,7 @@ Icon.Default.mergeOptions({
 
 Vue.use(Vuetify)
 Vue.use(VueRouter);
+Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
 /**

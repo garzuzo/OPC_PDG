@@ -16,21 +16,23 @@
 
       <div class="form-group">
         <label for="level">Nivel más alto alcanzado en el anterior nivel*</label>
-        <v-text-field
-          v-model="level"
+        <v-select
+          :items="levels"
           outlined
-          color="#0C186D"
-          height="16"
+          v-model="level"
           required
-          name="level"
           class="input"
-        ></v-text-field>
+          color="#0C186D"
+          name="level"
+        ></v-select>
       </div>
     </v-col>
   </div>
 </template>
 
 <script>
+import api from "../../axios.js";
+
 export default {
   name: "PersonalForm",
   //inject: ["$validator"],
@@ -47,8 +49,23 @@ export default {
         "Universitaria",
         "Universitaria o superior",
         "Ninguno"
-      ]
+      ], 
+      levels: ["En curso", "Terminado"]
     };
+  }, 
+  created() {
+    
+    api.getLevelsEducation().then(response => {
+        this.education = response.data
+      }).catch(err =>{
+        console.log(err)
+      });
+
+    api.getAchievedLevel(this.higherEducation).then(response => {
+      this.levels = response.data
+    }).catch(err => {
+      console.log(err)
+    })
   }
 };
 </script>
