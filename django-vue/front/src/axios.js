@@ -7,7 +7,7 @@ export default {
     */
     getLevelsEducation() {
         return new Promise((resolve, reject) => {
-            axios.get('/levelseducation')
+            axios.get('/levelseducation/')
                 .then((response) => {
                     resolve(response);
                 })
@@ -19,7 +19,7 @@ export default {
 
     getAchievedLevel(levelEducation) {
         return new Promise((resolve, reject) => {
-            axios.get(`/levelineducation?name=${levelEducation}`)
+            axios.get(`/levelineducation?name=${levelEducation}/`)
                 .then((response) => {
                     resolve(response);
                 })
@@ -35,9 +35,9 @@ export default {
 
    getGender() {
         return new Promise((resolve, reject) => {
-            axios.get('/gender')
+            axios.get('/gender/')
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting genders', err);
@@ -50,7 +50,7 @@ export default {
     */
    getStates(country) {
         return new Promise((resolve, reject) => {
-            axios.get(`/states?country=${country}`)
+            axios.get(`/states?country=${country}/`)
                 .then((response) => {
                     resolve(response);
                 })
@@ -61,7 +61,7 @@ export default {
     },
     getCities(state) {
         return new Promise((resolve, reject) => {
-            axios.get(`/cities?state=${state}`)
+            axios.get(`/cities?state=${state}/`)
                 .then((response) => {
                     resolve(response);
                 })
@@ -72,7 +72,7 @@ export default {
     },
     getCorregimientosComunas(data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/corregimientos_comunas?city=${data[0]}&zone=${data[1]}`)
+            axios.get(`/corregimientos_comunas?city=${data[0]}&zone=${data[1]}/`)
                 .then((response) => {
                     resolve(response);
                 })
@@ -83,7 +83,7 @@ export default {
     },
     getNeighborhoodsVeredas(data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/veredas_neighborhoods?city=${data[0]}&zone=${data[1]}`)
+            axios.get(`/veredas_neighborhoods?city=${data[0]}&zone=${data[1]}/`)
                 .then((response) => {
                     resolve(response);
                 })
