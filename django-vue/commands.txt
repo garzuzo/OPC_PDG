@@ -1,0 +1,63 @@
+CREATE DATABASE opc_db;
+CREATE USER opc_user WITH PASSWORD 'opc_passwd';
+ALTER ROLE opc_user SET client_encoding TO 'utf8';
+ALTER ROLE opc_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE opc_user SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE opc_db TO opc_user;
+
+
+
+
+
+to install:
+sudo pip install virtualenv
+
+#virtualenv myprojectenv - ya está en el proyecto
+source myprojectenv/bin/activate
+
+#al activar el virtual env instalo las siguientes dependencias:
+pip install django psycopg2
+pip install djangorestframework
+pip install djangorestframework_simplejwt
+
+
+
+
+migraciones:
+
+cd ~/myproject
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+
+#
+python manage.py createsuperuser
+user: opc_admin
+password:opc_password
+
+
+
+docs:
+
+    migrate, which is responsible for applying and unapplying migrations.
+    makemigrations, which is responsible for creating new migrations based on the changes you have made to your models.
+    sqlmigrate, which displays the SQL statements for a migration.
+    showmigrations, which lists a project’s migrations and their status.
+    
+    
+    
+    
+New migration:
+
+sudo su - postgres
+psql
+drop database opc_db;
+CREATE DATABASE opc_db;
+GRANT ALL PRIVILEGES ON DATABASE opc_db TO opc_user;
+exit
+python manage.py makemigrations
+python manage.py migrate
+
+
+Notes:
+    Remove migrations without delete __init__.py
