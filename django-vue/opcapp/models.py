@@ -130,7 +130,7 @@ class Person(models.Model):
 
 class Campaign(models.Model):
     #campain_id=models.CharField(max_length=30)
-    startDate=models.DateTimeField(default=timezone.now)
+    startDate=models.DateField()
     endDate=models.DateField()
     description=models.CharField(max_length=200)
     title=models.CharField(max_length=30)
