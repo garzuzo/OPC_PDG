@@ -7,42 +7,59 @@
           <v-icon>fas fa-search</v-icon>
         </v-btn>
   </div>-->
-  <v-card class="mx-auto" color="#E1E1E9" dark max-width="400">
+  <v-card class="mx-auto" v-bind:color="color" dark max-width="400">
     <v-card-title>
-      <h2>{{title}}</h2>
+      <h2>{{campaign.title}}</h2>
     </v-card-title>
 
     <v-card-text class="headline font-weight-bold">
-      <p class="description">{{description}}</p>
+      <p class="description">{{campaign.description}}</p>
     </v-card-text>
 
     <v-card-actions>
       <p class="ml-2">
-        <v-icon>far fa-calendar-alt</v-icon>
-        {{startDate}} - {{endDate}}
+        <v-icon color="#000000">far fa-calendar-alt</v-icon>
+        {{campaign.startDate}} - {{campaign.endDate}}
       </p>
 
       <v-row align="center" justify="end">
-        <v-btn icon class="mr-2">
-          <v-icon>fas fa-search</v-icon>
-        </v-btn>
+        <!--DIALOG -->
+        <!--<v-btn icon class="mr-2">
+          <v-icon color="#000000">fas fa-search</v-icon>
+        </v-btn>-->
+
+        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <template v-slot:activator="{ on }">
+            <v-btn icon class="mr-2" v-on="on">
+              <v-icon color="#000000">fas fa-search</v-icon>
+            </v-btn>
+            <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
+          </template>
+          <v-card>
+            <v-toolbar dark color="#0C186D">
+              <v-btn icon dark @click="dialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title>{{campaign.title}}</v-toolbar-title>
+            </v-toolbar>
+            <report-campaign-component :campaign="campaign"> </report-campaign-component>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-card-actions>
   </v-card>
 </template>
 
 
-</template>
-
 <script>
 export default {
+  props: {
+    color: String,
+    campaign: Object
+  },
   data() {
     return {
-      title: "Campaña Río Cali",
-      description: "Esta campaña es para el cuidado del río Cali",
-      startDate: "24/06/2019",
-      endDate: "05/09/2019",
-      color: "#FFFFFF"
+      dialog: false
     };
   }
 };

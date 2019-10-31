@@ -21,8 +21,8 @@
     <v-container>
       <h3>Campañas Activas</h3>
       <v-row justify="center">
-        <v-col v-for="n in 9" :key="n" cols="5">
-          <campaign-item-component></campaign-item-component>
+        <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" cols="5">
+          <campaign-item-component color="#FFFFFF" :campaign="campaign"></campaign-item-component>
         </v-col>
       </v-row>
 
@@ -44,22 +44,67 @@
         </form>
       </v-col>
 
-      <v-row justify="center">
-        <v-col v-for="n in 9" :key="n" class="d-flex child-flex" cols="5">
-          <campaign-item-component></campaign-item-component>
+      <v-row v-if="year == ''" justify="center">
+        <v-col v-for="campaign in notActiveCampaigns" v-bind:key="campaign.id" cols="5">
+          <campaign-item-component color="#E1E1E9" :campaign="campaign"></campaign-item-component>
         </v-col>
       </v-row>
+
+      <v-row v-if="year != ''" justify="center">
+        <v-col v-for="campaign in filterCampaigns" v-bind:key="campaign.id" cols="5">
+          <campaign-item-component color="#E1E1E9" :campaign="campaign"></campaign-item-component>
+        </v-col>
+      </v-row>  
     </v-container>
   </div>
 </template>
 
 <script>
+import api from "../../axios.js";
+
 export default {
   data() {
     return {
-      years: ["2019", "2018", "2017"],
-      year: ""
+      years: [],
+      year: "",
+      activeCampaigns: [],
+      notActiveCampaigns: []
     };
+  },
+  created() {
+    api
+      .getActiveCampaigns()
+      .then(response => {
+        this.activeCampaigns = response;
+      })
+      .catch(err => console.log(err));
+    
+    api
+      .getNotActiveCampaigns()
+      .then(response => {
+        this.notActiveCampaigns = response;
+        const dateYears = new Set()
+        for(var i=0; i < this.notActiveCampaigns.length; i++){
+          var date= this.notActiveCampaigns[i].endDate.split("-");
+          dateYears.add(new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2])).getFullYear());
+        }
+        this.years = Array.from(dateYears)
+      })
+      .catch(err => console.log(err));
+  },
+  computed: {
+    filterCampaigns(){
+      var campaigns = []
+      if(this.year != ""){
+        for(var i=0; i < this.notActiveCampaigns.length; i++){
+          var campaign = this.notActiveCampaigns[i];
+          if(campaign.endDate.split("-")[0] == this.year){
+            campaigns.push(campaign)
+          }
+        }
+      }
+      return campaigns
+    }
   }
 };
 </script>

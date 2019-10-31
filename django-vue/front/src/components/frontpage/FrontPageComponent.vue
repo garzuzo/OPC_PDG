@@ -15,7 +15,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas, metus ac dignissim mattis, metus risus pretium ligula, ut mattis purus eros at nisl. </p>
             <br />
             <br />
-            <v-btn :ripple="false" rounded class="ma-2 ml-5 edit" color="#673AB7" dark>Quiero construir paz</v-btn>
+            <v-btn :ripple="false" depressed rounded class="ma-2 ml-5 btn" color="#673AB7" dark to="/construirpaz">Quiero construir paz</v-btn>
           </v-col>
         </v-row>
       </v-container>

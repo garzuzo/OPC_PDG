@@ -3,13 +3,74 @@ import axios from './configaxios.js'
 export default {
     
     /*
+    CAMPAIGNS
+    */
+    getActiveCampaigns() {
+        return new Promise((resolve, reject) => {
+            axios.get('/activecampaigns/')
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting active campaigns', err);
+                })
+        });
+    },
+    getNotActiveCampaigns() {
+        return new Promise((resolve, reject) => {
+            axios.get('/notactivecampaigns/')
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting not active campaigns', err);
+                })
+        });
+    },
+
+    getPeopleByCampaignAndComuna(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/women_men/?id=${data[0]}&comuna=${data[1]}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting active campaigns', err);
+                })
+        });
+    },
+
+    getRangesOfAgeByCampaignAndComuna(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/ages/?id=${data[0]}&comuna=${data[1]}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting active campaigns', err);
+                })
+        });
+    },
+
+    getNarratives(idCampaign){
+        return new Promise((resolve, reject) => {
+            axios.get(`/ages/?id=${idCampaign}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting active campaigns', err);
+                })
+        });
+    },
+    /*
     EDUCATION
     */
     getLevelsEducation() {
         return new Promise((resolve, reject) => {
             axios.get('/levelseducation/')
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting levels of education', err);
@@ -19,9 +80,9 @@ export default {
 
     getAchievedLevel(levelEducation) {
         return new Promise((resolve, reject) => {
-            axios.get(`/levelineducation?name=${levelEducation}/`)
+            axios.get(`/levelineducation/?name=${levelEducation}`)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting the achieved level', err);
@@ -48,11 +109,22 @@ export default {
     /*
     TERRITORY
     */
+   getZones(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/zones/`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting zones', err);
+            })
+        });
+   },
    getStates(country) {
         return new Promise((resolve, reject) => {
-            axios.get(`/states?country=${country}/`)
+            axios.get(`/states/?country=${country}`)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting the achieved level', err);
@@ -61,9 +133,9 @@ export default {
     },
     getCities(state) {
         return new Promise((resolve, reject) => {
-            axios.get(`/cities?state=${state}/`)
+            axios.get(`/cities/?state=${state}`)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting the achieved level', err);
@@ -72,9 +144,9 @@ export default {
     },
     getCorregimientosComunas(data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/corregimientos_comunas?city=${data[0]}&zone=${data[1]}/`)
+            axios.get(`/corregimientos_comunas/?city=${data[0]}&zone=${data[1]}`)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting the achieved level', err);
@@ -83,13 +155,24 @@ export default {
     },
     getNeighborhoodsVeredas(data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/veredas_neighborhoods?city=${data[0]}&zone=${data[1]}/`)
+            axios.get(`/veredas_neighborhoods/?city=${data[0]}&zone=${data[1]}`)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject('Error getting the achieved level', err);
             })
         });
     },
+    saveData(data){
+        return new Promise((resolve, reject) => {
+            axios.post(`/saveall/`, data)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting the achieved level', err);
+            })
+        });
+    }
 }

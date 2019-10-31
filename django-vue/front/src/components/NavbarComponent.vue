@@ -1,7 +1,11 @@
 <template>
   <v-toolbar color="#E1E1E9" height="84">
     <v-toolbar-title>
-      <img src="@/assets/bird.png" width="51" height="49" class="d-inline-block" alt />
+      <v-btn class="ma-2 btn"  :ripple="false" depressed text icon to="/home">
+      <v-icon>fas fa-dove</v-icon>
+       <!--<img src="@/assets/bird.png" width="51" height="49" class="d-inline-block" alt />-->
+    </v-btn>
+     
       <h1>Narrativas de paz</h1>
     </v-toolbar-title>
 
@@ -56,6 +60,7 @@ h1 {
 .login {
   border-radius: 5px;
   text-transform: none !important;
+  text-decoration: none !important;
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;

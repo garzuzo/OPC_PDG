@@ -8,7 +8,7 @@ import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-
+import VCharts from 'v-charts'
 import { Icon }  from 'leaflet'
 import '../node_modules/leaflet/dist/leaflet.css'
 
@@ -26,6 +26,7 @@ Icon.Default.mergeOptions({
 Vue.use(Vuetify)
 Vue.use(VueRouter);
 Vue.use(Vuelidate)
+Vue.use(VCharts)
 Vue.config.productionTip = false
 
 /**

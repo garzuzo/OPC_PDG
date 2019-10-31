@@ -11,8 +11,24 @@
         <h2>{{title}}</h2>
         <br>
         <p>{{description}} </p>
+        
+      <v-row justify="start">
+        <v-col cols="5">
+          <v-btn
+            :ripple="false"
+            class="ma-2 ml-5 btn"
+            color="#ffffff"
+            depressed 
+            rounded  
+            light
+            to="/construirpaz"
+          >Aprender más</v-btn>
+        </v-col>
+      </v-row>
       </v-col>
   </v-row>
+
+  
     </div> 
 
 

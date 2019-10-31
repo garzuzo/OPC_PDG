@@ -7,6 +7,7 @@ import PieChartComponent from '@/components/chart/PieChartComponent'
 import CampaignsComponent from '@/components/campaign/CampaignsComponent'
 import ProfileComponent from '@/components/profile/ProfileComponent'
 import FrontPageComponent from '@/components/frontpage/FrontPageComponent'
+import VisualizationCampaignComponent from '@/components/visualization/VisualizationCampaignComponent'
 const routes = [
   { path: '/construirpaz', component: BuildPeaceComponent },
   { path: '/sobrenosotros', component: AboutUsComponent },
@@ -16,6 +17,7 @@ const routes = [
   {path: '/pie', component: PieChartComponent},
   {path: '/campañas', component: CampaignsComponent},
   {path: '/perfil', component: ProfileComponent},
+  {path: '/visualizacampaña', component: VisualizationCampaignComponent},
   { path: '*', redirect: '/' }   
 ];
 
