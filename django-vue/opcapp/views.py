@@ -94,7 +94,7 @@ def corregcomunas_list(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def zones_list(request):
     if request.method == "GET":
         zoneList=Zone.objects.all()
@@ -110,9 +110,10 @@ def neigdhborvereda_list(request):
        #if 'city' or 'zone'\ are not informed, the values ​​are None.
         city=request.query_params.get('city', None)
         zone=request.query_params.get('zone', None)
-        if city is not None and zone is not None:
+        comunaCorregimiento=request.query_params.get('comuna_corregimiento', None)
+        if city is not None and zone is not None and comunaCorregimiento is not None :
             cityAct=City.objects.filter(name=city).first()
-            nvList=NeighborhoodVereda.objects.filter(zone__zoneType=zone).filter(comunaCorregimiento__city=cityAct.id)
+            nvList=NeighborhoodVereda.objects.filter(zone__zoneType=zone).filter(comunaCorregimiento__city=cityAct.id,comunaCorregimiento__name=comunaCorregimiento)
             serializer=NeighborhoodVeredaSerializer(nvList, many=True)
             return Response(serializer.data)
 
@@ -267,6 +268,113 @@ def create_user(request):
 
 
 
+
+@api_view(['POST'])
+def save_info(request):
+    if request.method == "POST":
+       # email=request.data.get('email', None)
+       # password=request.data.get('password', None)
+
+        campaign =request.data.get('campaign', None)
+        age=request.data.get('age', None)
+        gender=request.data.get('gender', None)
+        name=request.data.get('name', None)
+        lastname=request.data.get('lastname', None)
+        level=request.data.get('level', None)
+        higherEducation=request.data.get('higherEducation', None)
+        currentZone=request.data.get('currentZone', None)
+        currentState=request.data.get('currentState', None)
+        currentCity=request.data.get('currentCity', None)
+        currentComuna=request.data.get('currentComuna', None)
+        currentNeighborhood=request.data.get('currentNeighborhood', None)
+        currentCorregimiento=request.data.get('currentCorregimiento', None)
+        currentVereda=request.data.get('currentVereda', None)
+        originZone=request.data.get('originZone', None)
+        originState=request.data.get('originState', None)
+        originCity=request.data.get('originCity', None)
+        originComuna=request.data.get('originComuna', None)
+        originNeighborhood=request.data.get('originNeighborhood', None)
+        originCorregimiento=request.data.get('originCorregimiento', None)
+        originVereda=request.data.get('originVereda', None)
+        narrative=request.data.get('narrative', None)
+        word1=request.data.get('word1', None)
+        word2=request.data.get('word2', None)
+        word3=request.data.get('word3', None)
+        word4=request.data.get('word4', None)
+        word5=request.data.get('word5', None)
+
+
+        if name is not None and lastname is not None:
+
+            
+
+            education=AchievedLevel.objects.filter(higherLevelEducation_name=higherEducation,name=level).id
+            genderId=Gender.objects.filter(typeGender=gender).id
+           # neighborhoodVeredaSource=NeighborhoodVereda.objects.filter(name=)
+            #neighborhoodVeredaActual=
+            dataPerson={
+                'name':name, 
+                'lastname':lastname, 
+                'birthdate':age,        
+                'achievedLevel':education,
+                'gender':genderId,
+                'neighborhoodVeredaSource':age,
+                'neighborhoodVeredaActual':age,
+                'user':None
+
+    #achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
+   # gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
+    #neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
+   # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
+   # user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+            }
+    
+
+
+            dataPersonCampaign={
+            #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
+             #   roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
+                'person':name, 
+                'roleCampaign':lastname, 
+                'campaign':age,
+                'achievedLevel':age,
+                'gender':age,
+                'neighborhoodVeredaSource':age,
+                'neighborhoodVeredaActual':age,
+            
+                
+   #             campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
+  #  achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
+   # gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
+  #  neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
+   # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
+
+            }
+
+            
+
+
+            serializer=ComunaCorregimientoSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def login(request):
+    if request.method == "POST":
+        email=request.data.get('email', None)
+        password=request.data.get('password', None)
+        if username is not None and password is not None:
+            userAct=User.objects.get(email=email)
+            if userAct.password == password:
+                return HttpResponse("You're logged in.")
+            else:
+                return HttpResponse("Your username and password didn't match.")
+
+@api_view(['GET'])
+def logout_view(request):
+    logout(request)
+    # Redirect to a succes
 
 
 @api_view(['POST'])
