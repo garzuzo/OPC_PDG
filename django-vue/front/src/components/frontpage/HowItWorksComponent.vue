@@ -52,6 +52,22 @@
           </v-col>
         </v-row>
 
+        <v-container>
+      <v-row justify="center">
+        <v-col cols="5">
+          <v-btn
+            :ripple="false"
+            class="ma-2 ml-5 btn"
+            color="#673AB7"
+            depressed 
+            rounded  
+            dark
+            to="/construirpaz"
+          >Quiero construir paz</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+
       </v-container>
 
     </div>

@@ -7,40 +7,42 @@
           <label for="name">Nombre*</label>
           <v-text-field
             v-model="name"
+            :error-messages="nameErrors"
             outlined
             color="#0C186D"
             height="16"
             required
             name="name"
             class="input"
-            v-on:keyup="emitNameToParent"
+            @input="$v.name.$touch()"
           ></v-text-field>
         </div>
         <div class="form-group">
           <label for="age">Fecha de nacimiento*</label>
           <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-      > 
-      <template v-slot:activator="{ on }">
-          <v-text-field            
-            v-model="age"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="age"
-            class="input"
-            readonly
-            v-on="on"
-            v-on:keyup="emitAgeToParent"
-          ></v-text-field>
-      </template>
-          <v-date-picker v-model="age" color="#0C186D"  @input="menu2 = false"></v-date-picker>
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="age"
+                :error-messages="dateErrors"
+                outlined
+                color="#0C186D"
+                height="16"
+                required
+                name="age"
+                class="input"
+                readonly
+                v-on="on"
+                @change="$v.age.$touch()"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="age" color="#0C186D" @input="menu2 = false"></v-date-picker>
           </v-menu>
         </div>
       </v-col>
@@ -51,13 +53,14 @@
           <label for="lastname">Apellidos*</label>
           <v-text-field
             v-model="lastname"
+            :error-messages="lastnameErrors"
             outlined
             color="#0C186D"
             height="16"
             required
             name="lastname"
             class="input"
-            v-on:keyup="emitLastnameToParent"
+            @input="$v.lastname.$touch()"
           ></v-text-field>
         </div>
 
@@ -65,54 +68,122 @@
           <label for="gender">Género*</label>
           <v-select
             :items="genders"
-            item-text = "typeGender"
-            item-value = "typeGender"
+            item-text="typeGender"
+            item-value="typeGender"
             outlined
             v-model="gender"
+            :error-messages="genderErrors"
             required
             class="input"
             color="#0C186D"
-            v-on:change="emitGenderToParent"
+            @change="$v.gender.$touch()"
           ></v-select>
         </div>
       </v-col>
     </v-row>
+    
+    <v-container>
+      <p v-if="submitStatus!=''">Revisa las advertencias. Tienes algún error en los campos</p>
+      <v-row justify="end">
+        <v-col cols="2">
+          <v-btn
+            :ripple="false"
+            class="ma-2 next"
+            outlined
+            color="#673ab7"
+            @click="emitAllToParent"
+          >Siguiente</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import api from "../../axios.js";
+import { required, minLength, minValue} from 'vuelidate/lib/validators'
+import { validationMixin } from 'vuelidate'
+
+function dateMaxValue (date) {
+      //const validator = minValue(new Date())
+      const dateSplit = date.split("-")
+      date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
+      console.log(date)
+      return date < new Date()
+}
 
 export default {
   name: "PersonalForm",
+  mixins: [validationMixin],
+  
+  validations: {
+    
+    name: { required, minLength: minLength(3) },
+    lastname : {required, minLength: minLength(3)},
+    age : {required, dateMaxValue},
+    gender : {required}
+  },
+
   data() {
     return {
       name: "",
       lastname: "",
       age: new Date().toISOString().substr(0, 10),
       gender: "",
-      genders: [], 
-      menu2 : false
+      genders: [],
+      menu2: false,
+      submitStatus: ''
     };
+  },
+  created() {
+    api
+      .getGender()
+      .then(response => {
+        this.genders = response;
+        console.log(this.genders);
+      })
+      .catch(err => console.log(err));
+  },
+  methods: {
+    emitAllToParent(event) {
+      this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+      }else{
+        let data = [this.age, this.gender, this.name, this.lastname, "2"];
+        this.submitStatus = ""
+        this.$emit("allToParent", data);
+      }
+      
+    }
   }, 
-  created(){
-    api.getGender().then( response => {
-      this.genders = response
-      console.log(this.genders )
-    }).catch(err => console.log(err));
-  }, 
-  methods:{
-    emitAgeToParent(event){
-      this.$emit('ageToParent', this.age)
+  computed: {
+    nameErrors () {
+        const errors = []
+        if (!this.$v.name.$dirty) return errors
+        !this.$v.name.minLength && errors.push('Nombre debe tener mínimo 3 caracteres')
+        !this.$v.name.required && errors.push('Nombre es requerido.')
+        return errors
+      }, 
+    lastnameErrors(){
+      const errors = []
+        if (!this.$v.lastname.$dirty) return errors
+        !this.$v.lastname.minLength && errors.push('Apellido debe tener mínimo 3 caracteres')
+        !this.$v.lastname.required && errors.push('Apellido es requerido.')
+        return errors
     },
-    emitGenderToParent(event){
-      this.$emit('genderToParent', this.gender)
+    dateErrors(){
+      const errors = []
+        if (!this.$v.age.$dirty) return errors
+        !this.$v.age.required && errors.push('Fecha de nacimiento es requerido.')
+        !this.$v.age.dateMaxValue && errors.push('Fecha de nacimiento debe ser menor a la fecha actual.')
+        return errors
     },
-    emitNameToParent(event){
-      this.$emit('nameToParent', this.name)
-    },
-    emitLastnameToParent(event){
-      this.$emit('lastnameToParent', this.lastname)
+    genderErrors(){
+      const errors = []
+        if (!this.$v.gender.$dirty) return errors
+        !this.$v.gender.required && errors.push('Genero es requerido.')
+        return errors
     }
   }
 };
@@ -134,5 +205,18 @@ label {
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
+}
+
+.next {
+  text-transform: none;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: normal !important;
 }
 </style>
