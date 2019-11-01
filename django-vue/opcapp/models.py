@@ -96,7 +96,7 @@ class City(models.Model):
         return self.name
 
 class ComunaCorregimiento(models.Model):
-    name=models.CharField(max_length=30)
+    name=models.CharField(max_length=60)
     city=models.ForeignKey(City, on_delete=models.CASCADE)
     zone=models.ForeignKey(Zone, on_delete=models.CASCADE)
     def __str__(self):
@@ -104,7 +104,7 @@ class ComunaCorregimiento(models.Model):
 
 
 class NeighborhoodVereda(models.Model):
-    name=models.CharField(max_length=30)
+    name=models.CharField(max_length=60)
     comunaCorregimiento=models.ForeignKey(ComunaCorregimiento, on_delete=models.CASCADE, blank= True)
     zone=models.ForeignKey(Zone, on_delete=models.CASCADE)
     def __str__(self):
