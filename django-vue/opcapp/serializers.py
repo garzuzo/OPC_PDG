@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from opcapp.models import (RoleUser, Gender, HigherLevelEducation, AchievedLevel,Country, State, City, ComunaCorregimiento, NeightborhoodVereda, Zone, Campaign)
+from opcapp.models import (RoleUser, Gender, HigherLevelEducation, AchievedLevel,Country, State, City, ComunaCorregimiento, NeighborhoodVereda, Zone, Campaign, ActivityNarrative, Concept, KeyConcept)
 
 
 class RoleUserSerializer(serializers.ModelSerializer):
@@ -59,10 +59,10 @@ class ZoneSerializer(serializers.ModelSerializer):
         model = Zone
         fields = ['id', 'zoneType']
 
-
-class NeightborhoodVeredaSerializer(serializers.ModelSerializer):
+ActivityNarrative
+class NeighborhoodVeredaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = NeightborhoodVereda
+        model = NeighborhoodVereda
         fields = ['id', 'name', 'comunaCorregimiento', 'zone']
 
 
@@ -71,3 +71,21 @@ class CampaignSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['id', 'startDate', 'endDate', 'description', 'title', 'narrativesGoal', 'accumulatedNarratives', 'isActive']
 
+
+class ConceptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Concept
+        fields = '__all__'
+
+class ActivityNarrativeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityNarrative
+        fields = '__all__'
+
+
+class KeyConceptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KeyConcept
+        fields = '__all__'
+
+        

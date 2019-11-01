@@ -1,6 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
 from . import views
+#Auth
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+
+)
 
 router = routers.DefaultRouter()
 router.register(r'roleusers',views.RoleUserViewSet)
@@ -28,7 +34,15 @@ urlpatterns = [
     path('api/notactivecampaigns/', views.notacampaigns_list), 
     path('roleu/<int:pk>/', views.roleuser_list),
     #path('api/users', views.users),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+#Pagina Campañas
+    path('api/keywords/', views.fivekeywords_list), 
+    path('api/women_men/', views.womenmen_campaign_list), 
+    path('api/ages/', views.age_range_campaign_list), 
+    path('api/comunacorr/', views.create_comunacorr),
+    path('api/population_comunas/', views.population_comunas_list),
+    path('api/narratives/', views.narratives_campaign_list),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 

@@ -16,8 +16,8 @@ EDUCATION_LEVELS= (
 )
 
 GENDER_LIST= (
-    ('M', 'Masculino'),
-    ('F','Femenino')
+    ('Masculino', 'Masculino'),
+    ('Femenino','Femenino')
 
 )
 
@@ -103,7 +103,7 @@ class ComunaCorregimiento(models.Model):
         return self.name
 
 
-class NeightborhoodVereda(models.Model):
+class NeighborhoodVereda(models.Model):
     name=models.CharField(max_length=30)
     comunaCorregimiento=models.ForeignKey(ComunaCorregimiento, on_delete=models.CASCADE, blank= True)
     zone=models.ForeignKey(Zone, on_delete=models.CASCADE)
@@ -120,8 +120,8 @@ class Person(models.Model):
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
     #higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
-    neightborhoodVeredaSource=models.ForeignKey(NeightborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
-    neightborhoodVeredaActual=models.ForeignKey(NeightborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
+    neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
+    neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
     user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
 
@@ -148,8 +148,8 @@ class PersonCampaign(models.Model):
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
     higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
-    neightborhoodVeredaSource=models.ForeignKey(NeightborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
-    neightborhoodVeredaActual=models.ForeignKey(NeightborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
+    neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
+    neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
 
 
 

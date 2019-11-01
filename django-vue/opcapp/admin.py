@@ -11,7 +11,7 @@ Country,
 State,
 City,
 ComunaCorregimiento,
-NeightborhoodVereda,
+NeighborhoodVereda,
 Campaign,
 PersonCampaign,
 ActivityNarrative,
@@ -33,7 +33,7 @@ admin.site.register(Country)
 admin.site.register(State)
 admin.site.register(City)
 admin.site.register(ComunaCorregimiento)
-admin.site.register(NeightborhoodVereda)
+admin.site.register(NeighborhoodVereda)
 admin.site.register(Campaign)
 admin.site.register(PersonCampaign)
 admin.site.register(ActivityNarrative)
