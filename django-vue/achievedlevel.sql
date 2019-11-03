@@ -1,0 +1,1 @@
+﻿INSERT INTO opcapp_achievedlevel (id, name, "higherLevelEducation_id" ) VALUES (1,'1',1), (2,'2',1), (3,'3',1), (4,'4',1), (5,'5',1), (6,'6',2), (7,'7',2), (8,'8',2), (9,'9',2), (10,'10',2), (11,'11',2), (12,'12',2), (13,'En curso',3), (14,'Finalizado',3), (15,'En curso',4), (16,'Finalizado',4), (17,'En curso',5), (18,'Finalizado',5), (19,'No Aplica',6);

@@ -1,0 +1,1 @@
+﻿INSERT INTO opcapp_gender (id, "typeGender") VALUES (1, 'Femenino'), (2, 'Masculino'), (3, 'Otro');
