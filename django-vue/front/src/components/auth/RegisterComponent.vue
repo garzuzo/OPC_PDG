@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12">
-      <v-form class="form pa-5" @submit.prevent="register">
+      <v-form class="form pa-5">
         <div class="form-group">
           <label for="email">Correo electrónico*</label>
           <v-text-field
@@ -35,41 +35,34 @@
         </div>
 
         <div class="form-group">
-          <label for="passwordConfirmed">Confirmar contraseña*</label>
+          <label for="passwordConfirmation">Confirmar contraseña*</label>
           <v-text-field
-            v-model="passwordConfirmed"
-            :error-messages="passwordConfirmedErrors"
+            v-model="passwordConfirmation"
+            :error-messages="passwordConfirmationErrors"
             outlined
             color="#0C186D"
             height="16"
             required
-            ref="password"
             type="password"
-            name="password"
+            name="passwordConfirmation"
             class="input"
-            @input="$v.passwordConfirmed.$touch()"
+            @input="$v.passwordConfirmation.$touch()"
           ></v-text-field>
         </div>
-        <v-btn :ripple="false" class="mx-2 login" tile color="#673AB7" dark>Guardar</v-btn>
+        
+        <v-btn :ripple="false" class="ma-5 login" tile color="#673AB7" dark @click="register">Guardar</v-btn>
       </v-form>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { required, email, minLength } from "vuelidate/lib/validators";
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { helpers } from "vuelidate/lib/validators";
 
 const upperCase = helpers.regex("upperCase", /[A-Z]/);
 const number = helpers.regex("number", /[0-9]/);
-function equal(password) {
-  let bool = false;
-  if (password == this.password) {
-    bool = true;
-  }
-  return bool;
-}
 
 export default {
   mixins: [validationMixin],
@@ -77,13 +70,13 @@ export default {
   validations: {
     email: { required, email },
     password: { required, minLength: minLength(6), upperCase, number },
-    passwordConfirmed: { required, minLength: minLength(6), upperCase, number }
+    passwordConfirmation: { required} //sameAsPassword: sameAs('password') }
   },
   data() {
     return {
       email: "",
       password: "",
-      passwordConfirmed: ""
+      passwordConfirmation: ""
     };
   },
   methods: {
@@ -91,7 +84,9 @@ export default {
       this.$v.$touch();
       if (this.$v.$anyError) {
         this.submitStatus = "Error";
+        console.log("Errorrrr")
       } else {
+          console.log("Entreeee")
         this.submitStatus = "";
         let data = {
           username: this.email,
@@ -101,6 +96,7 @@ export default {
         this.$store
         .dispatch("register", data)
         .then(() => {
+          console.log("Registerrr")
           this.$router.push("/login")
         })
         .catch(err => {
@@ -132,18 +128,19 @@ export default {
       return errors;
     }
   },
-  passwordConfirmedErrors() {
+  passwordConfirmationErrors() {
     const errors = [];
-    if (!this.$v.passwordConfirmed.$dirty) return errors;
-    !this.$v.passwordConfirmed.minLength &&
-      errors.push("Contraseña debe tener mínimo 6 caracteres");
-    !this.$v.passwordConfirmed.required &&
+    if (!this.$v.passwordConfirmation.$dirty) return errors;
+    !this.$v.passwordConfirmation.required &&
       errors.push("Contraseña es requerido.");
+    /*!this.$v.passwordConfirmed.minLength &&
+      errors.push("Contraseña debe tener mínimo 6 caracteres");
+    
     !this.$v.passwordConfirmed.upperCase &&
       errors.push("Contraseña debe tener una letra mayuscula.");
     !this.$v.passwordConfirmed.number &&
-      errors.push("Contraseña debe tener un número.");
-    //!this.$v.passwordConfirmed.equal && errors.push('Esta contraseña no coincide con la anterior.')
+      errors.push("Contraseña debe tener un número.");*/
+    //!this.$v.passwordConfirmation.sameAsPassword && errors.push('Esta contraseña no coincide con la anterior.')
     // !this.$v.password.specialCharacter && errors.push('Contraseña debe tener un caracter especial.')
     return errors;
   }

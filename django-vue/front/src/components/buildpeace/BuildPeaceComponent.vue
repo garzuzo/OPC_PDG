@@ -187,6 +187,8 @@
         </v-col>
       </v-row>
 
+       <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark @click="logout">LOGOUT</v-btn>
+
       <v-row align="center" justify="center" no-gutters>
         <v-col cols="2">
           <p v-if="submitStatus!=''"> Revisa las advertencias. Tienes algún error en los campos</p>
@@ -361,6 +363,16 @@ export default {
     },
     beforeTerritory(value) {
       this.e1 = value;
+    },
+    logout(){
+      this.$store
+        .dispatch("logout")
+        .then((resp) => {
+          this.$router.push("/profile")
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     //REAL HANDLE OF METHODS

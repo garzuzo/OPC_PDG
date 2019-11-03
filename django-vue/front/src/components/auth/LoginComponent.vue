@@ -38,7 +38,7 @@
           ></v-text-field>
         </div>
 
-    <v-btn :ripple="false" class="mx-2 login" tile color="#673AB7" dark @click="submit">Iniciar</v-btn>
+    <v-btn :ripple="false" class="mx-2 login" tile color="#673AB7" dark @click="login">Iniciar</v-btn>
   </v-form>
    </v-col>
  </v-row> 
@@ -82,15 +82,15 @@ export default {
 
         this.$store
         .dispatch("login", data)
-        .then(() => {
-          this.$router.push("/construirpaz")
+        .then((resp) => {
+          this.$router.push("/profile")
         })
         .catch(err => {
           console.log(err);
         });
       }
     }
-    }, 
+    },
     computed: {
     emailErrors () {
         const errors = []

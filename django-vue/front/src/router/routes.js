@@ -16,7 +16,7 @@ const routes = [
   {path: '/map', component: MapComponent},
   {path: '/pie', component: PieChartComponent},
   {path: '/campañas', component: CampaignsComponent},
-  {path: '/perfil', component: ProfileComponent},
+  {path: '/perfil', component: ProfileComponent, meta: { requiresAuth: true }},
   {path: '/visualizacampaña', component: VisualizationCampaignComponent},
   {path: '/login', component: LoginComponent},
   { path: '*', redirect: '/' }   

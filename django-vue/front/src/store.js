@@ -31,7 +31,7 @@ export default new Vuex.Store({
         login({ commit }, data) {
             return new Promise((resolve, reject) => {
               commit('auth_request')
-              axios.post('login', data)
+              axios.post('/login/', data)
                 .then(resp => {
                   const token = resp.data.access
                   localStorage.setItem('token', token)
@@ -50,12 +50,12 @@ export default new Vuex.Store({
           register({ commit }, data) {
             return new Promise((resolve, reject) => {
               commit('auth_request')
-              axios.post('register', data)
+              axios.post('/register/', data)
                 .then(resp => {
                  /* const token = resp.data.token
                   localStorage.setItem('token', token)
-                  axios.defaults.headers.common['Authorization'] = token*/
-                  commit('auth_success', token)
+                  axios.defaults.headers.common['Authorization'] = token
+                  commit('auth_success', token)*/
                   resolve(resp)
                 })
                 .catch(err => {

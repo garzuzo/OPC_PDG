@@ -29,6 +29,7 @@ Vue.use(Vuetify)
 Vue.use(VueRouter);
 Vue.use(Vuelidate)
 Vue.use(VCharts)
+Vue.use(Vuex)
 Vue.config.productionTip = false
 
 /**
@@ -45,6 +46,19 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 const router = new VueRouter({
   mode: 'history',
   routes 
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(store.getters.isLoggedIn)
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login') 
+  } else {
+    next() 
+  }
 })
 
 /*router.beforeEach((to, from, next) => {
@@ -64,6 +78,7 @@ const router = new VueRouter({
 new Vue({
   //el: '#app',
   router,
+  store,
   /*components: { App },
   template: '<App/>'*/
   vuetify: new Vuetify(),
