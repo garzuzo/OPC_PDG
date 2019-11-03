@@ -1,6 +1,29 @@
 from rest_framework import serializers
-from opcapp.models import (RoleUser, Gender, HigherLevelEducation, AchievedLevel,Country, State, City, ComunaCorregimiento, NeighborhoodVereda, Zone, Campaign, ActivityNarrative, Concept, KeyConcept)
+from opcapp.models import (RoleUser, 
+Gender,
+HigherLevelEducation, 
+AchievedLevel,
+Country, 
+State, 
+City, 
+ComunaCorregimiento, 
+NeighborhoodVereda, 
+Zone, 
+Campaign, 
+ActivityNarrative, 
+Concept, 
+KeyConcept,
+Person,
+PersonCampaign
+)
+from django.contrib.auth.models import User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+        
 
 class RoleUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,6 +109,18 @@ class ActivityNarrativeSerializer(serializers.ModelSerializer):
 class KeyConceptSerializer(serializers.ModelSerializer):
     class Meta:
         model = KeyConcept
+        fields = '__all__'
+
+
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
+class PersonCampaignSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonCampaign
         fields = '__all__'
 
         

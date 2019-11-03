@@ -41,7 +41,10 @@ urlpatterns = [
     path('api/comunacorr/', views.create_comunacorr),
     path('api/population_comunas/', views.population_comunas_list),
     path('api/narratives/', views.narratives_campaign_list),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/saveall/', views.save_info),
+    path('api/validuser/', views.valid_user),
+    path('api/register/', views.register),
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
