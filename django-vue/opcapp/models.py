@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your models here.
 #If you don’t specify primary_key=True for any fields in your model, 
 #Django will automatically add an IntegerField to hold the primary key
@@ -48,11 +49,11 @@ class RoleUser(models.Model):
         return self.name
 
 
-class User(models.Model):
-    email=models.CharField(max_length=30, primary_key=True)
-    password=models.CharField(max_length=30)
-    phoneNumber=models.CharField(max_length=30)
-    roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
+#class User(models.Model):
+#    email=models.CharField(max_length=30, primary_key=True)
+ #   password=models.CharField(max_length=30)
+#    phoneNumber=models.CharField(max_length=30)
+ #   roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
 
 
 
@@ -123,7 +124,8 @@ class Person(models.Model):
     neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
     neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
     user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-
+    phoneNumber=models.CharField(max_length=30,blank=True)
+    roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
 
 
 
@@ -147,7 +149,7 @@ class PersonCampaign(models.Model):
     campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
-    higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
+    #higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
     neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
     neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
 

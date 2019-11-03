@@ -3,7 +3,6 @@ from .models import (Person,
 HigherLevelEducation,
 AchievedLevel,
 RoleUser,
-User,
 Gender,
 RoleCampaign,
 Zone,
@@ -25,7 +24,6 @@ Participant)
 admin.site.register(HigherLevelEducation)
 admin.site.register(AchievedLevel)
 admin.site.register(RoleUser)
-admin.site.register(User)
 admin.site.register(Gender)
 admin.site.register(RoleCampaign)
 admin.site.register(Zone)

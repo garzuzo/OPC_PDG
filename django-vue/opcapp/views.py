@@ -3,8 +3,35 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 
-from opcapp.models import (RoleUser, Gender, HigherLevelEducation, AchievedLevel, State, Country, City, ComunaCorregimiento, NeighborhoodVereda, Zone, Campaign, ActivityNarrative, Concept, KeyConcept)
-from opcapp.serializers import (RoleUserSerializer, GenderSerializer, HigherLevelEducationSerializer, CountrySerializer, AchievedLevelSerializer, StateSerializer, CitySerializer, ComunaCorregimientoSerializer, NeighborhoodVeredaSerializer, ZoneSerializer, CampaignSerializer, ActivityNarrativeSerializer, ConceptSerializer, KeyConceptSerializer)
+from opcapp.models import (RoleUser, 
+Gender, 
+HigherLevelEducation, 
+AchievedLevel, 
+State, 
+Country, 
+City, 
+ComunaCorregimiento, 
+NeighborhoodVereda, 
+Zone, 
+Campaign, 
+ActivityNarrative, 
+Concept, 
+KeyConcept)
+
+from opcapp.serializers import (RoleUserSerializer, 
+GenderSerializer, 
+HigherLevelEducationSerializer, 
+CountrySerializer, 
+AchievedLevelSerializer, 
+StateSerializer, 
+CitySerializer, 
+ComunaCorregimientoSerializer, 
+NeighborhoodVeredaSerializer, 
+ZoneSerializer, CampaignSerializer, 
+ActivityNarrativeSerializer, 
+ConceptSerializer, 
+KeyConceptSerializer,
+UserSerializer)
 from rest_framework import viewsets
 
 from rest_framework import status
@@ -14,10 +41,11 @@ from rest_framework.response import Response
 #Auth
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate, login, logout
 
 #Hash
 from django.contrib.auth.hashers import make_password, check_password
-
+from django.contrib.auth.models import User
 
 from datetime import date
 
@@ -102,18 +130,20 @@ def zones_list(request):
         return Response(serializer.data)
 
 
-
-
 @api_view(['GET'])
-def neigdhborvereda_list(request):
+def neighborvereda_list(request):
     if request.method == "GET":
        #if 'city' or 'zone'\ are not informed, the values ​​are None.
         city=request.query_params.get('city', None)
         zone=request.query_params.get('zone', None)
         comunaCorregimiento=request.query_params.get('comuna_corregimiento', None)
         if city is not None and zone is not None and comunaCorregimiento is not None :
+<<<<<<< HEAD
             cityAct=City.objects.filter(name=city).first()
             nvList=NeighborhoodVereda.objects.filter(zone__zoneType=zone).filter(comunaCorregimiento__city__name=city,comunaCorregimiento__name=comunaCorregimiento)
+=======
+            nvList=NeighborhoodVereda.objects.filter(zone_zoneType=zone).filter(comunaCorregimientocityname=city,comunaCorregimiento_name=comunaCorregimiento)
+>>>>>>> d5d51ce42e17beb1b81cd1467cd2179f87bd3d45
             serializer=NeighborhoodVeredaSerializer(nvList, many=True)
             return Response(serializer.data)
 
@@ -303,6 +333,16 @@ def save_info(request):
         word4=request.data.get('word4', None)
         word5=request.data.get('word5', None)
 
+        email=request.data.get('email', None)
+
+
+
+       # if currentNeighborhood is not None and originNeighborhood is not None:
+
+        #elif currentVereda is not None and originVereda is not None:
+
+
+
 
         if name is not None and lastname is not None:
 
@@ -310,6 +350,16 @@ def save_info(request):
 
             education=AchievedLevel.objects.filter(higherLevelEducation_name=higherEducation,name=level).id
             genderId=Gender.objects.filter(typeGender=gender).id
+            roleUserId=RoleUser.objects.filter(name="Registrado").id
+
+            CityCurrentId=City.objects.filter(name=currentCity, state__name=currentState)#, state__country__name=currentCountry)
+            CityOriginId=City.objects.filter(name=originCity, state__name=originState)
+
+           # currentVeredaId=
+           # originVeredaId=
+            #originNeighborhoodId=
+            #currentNeighborhoodId=
+
            # neighborhoodVeredaSource=NeighborhoodVereda.objects.filter(name=)
             #neighborhoodVeredaActual=
             dataPerson={
@@ -320,6 +370,7 @@ def save_info(request):
                 'gender':genderId,
                 'neighborhoodVeredaSource':age,
                 'neighborhoodVeredaActual':age,
+                'roleUser':roleUserId,
                 'user':None
 
     #achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
@@ -350,31 +401,57 @@ def save_info(request):
    # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
 
             }
-
-            
-
-
             serializer=ComunaCorregimientoSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST'])
-def login(request):
+def login_view(request):
     if request.method == "POST":
-        email=request.data.get('email', None)
+        username=request.data.get('username', None)
         password=request.data.get('password', None)
         if username is not None and password is not None:
-            userAct=User.objects.get(email=email)
-            if userAct.password == password:
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                #login() saves the user’s ID in the session, using Django’s session framework.
+                login(request, user)
                 return HttpResponse("You're logged in.")
             else:
                 return HttpResponse("Your username and password didn't match.")
 
+
+@api_view(['POST'])
+def register(request):
+    if request.method == "POST":
+        username=request.data.get('username', None)
+        password=request.data.get('password', None)
+        if username is not None and password is not None:
+            
+            user = User.objects.create_user(username=username,
+                                 email=username,
+                                 password=password)
+            
+            user.save()
+            serializer=UserSerializer(user)
+            
+            return Response(serializer.data)
+
+  
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def valid_user(request):
+    print(request.user.email)
+    return HttpResponse("=)")
+    
+
 @api_view(['GET'])
 def logout_view(request):
     logout(request)
-    # Redirect to a succes
+    return HttpResponse("You're logged out.")
+    
 
 
 @api_view(['POST'])
