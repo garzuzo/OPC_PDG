@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="6">
+        <v-col cols="5">
           <p>
             <span>Descripción:</span>
             {{campaign.description}}
@@ -32,13 +32,13 @@
             "{{narratives[randomNumber]}}"
           </p>
         </v-col>
-
+        <v-divider vertical cols="1"> </v-divider>       
         <v-col cols="6">
           <h3>Los conceptos de percepción de paz más relevantes identificados en esta campaña son:</h3>
           <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud>
         </v-col>
       </v-row>
-
+      <v-divider> </v-divider>
       <!-- <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud> -->
 
       <v-row>
@@ -125,18 +125,39 @@ export default {
         adultez: 0,
         vejez: 0
       };
-      /*var data = [campaign.id, i]*/
-      /*api.getPeopleByCampaignAndComuna(data)*/
-      object.mujeres = 50;
+      object.mujeres = 80;
       object.hombres = 100;
-      /*api.getRangesOfAgeByCampaignAndComuna(data)*/
-      object.adolescencia = 150;
-      object.juventud = 230;
-      object.adultez = 320;
-      object.vejez = 13;
+      object.adolescencia = 50;
+      object.juventud = 20;
+      object.adultez = 10;
+      object.vejez = 30;
+      /*var data = [campaign.id, object.comuna]
+      api.getPeopleByCampaignAndComuna(data).then(response => {
+        object.mujeres = response.women;
+        object.hombres = response.men;
+      }).catch(err => console.log(err))
+
+      api.getRangesOfAgeByCampaignAndComuna(data).then(response => {
+        object.adolescencia = response.adolescencia;
+        object.juventud = response.juventud;
+        object.adultez = response.adultez;
+        object.vejez = response.vejez;
+      })*/
       this.chartData.rows.push(object);
     }
-    /*api.getNarratives(campaign.id);*/
+    api.getKeywords(campaign.id).then(response => {
+        for(var i=0; i< response.length; i++){
+          var act = { word: response[i].name, count: response[i].frequency }
+          this.wordData.rows.push(act)
+        }        
+      }).catch(err=> console.log(err))
+
+    api.getNarratives(campaign.id).then(response => {
+      for(var i= 0; i< response.length; i++){
+        var act = response[i].text
+         this.narratives.push(act)
+      }     
+    }).catch(err => console.log(err));
     this.randomNumber =
       Math.floor(Math.random() * this.narratives.length) + 1 - 1;
     this.percentage =
@@ -148,6 +169,26 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap");
+p {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 36px;
+}
+span{
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+}
 
-
+h3{
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  color: #0c186d;
+}
 </style>
