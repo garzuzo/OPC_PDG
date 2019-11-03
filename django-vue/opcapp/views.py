@@ -138,12 +138,7 @@ def neighborvereda_list(request):
         zone=request.query_params.get('zone', None)
         comunaCorregimiento=request.query_params.get('comuna_corregimiento', None)
         if city is not None and zone is not None and comunaCorregimiento is not None :
-<<<<<<< HEAD
-            cityAct=City.objects.filter(name=city).first()
-            nvList=NeighborhoodVereda.objects.filter(zone__zoneType=zone).filter(comunaCorregimiento__city__name=city,comunaCorregimiento__name=comunaCorregimiento)
-=======
             nvList=NeighborhoodVereda.objects.filter(zone_zoneType=zone).filter(comunaCorregimientocityname=city,comunaCorregimiento_name=comunaCorregimiento)
->>>>>>> d5d51ce42e17beb1b81cd1467cd2179f87bd3d45
             serializer=NeighborhoodVeredaSerializer(nvList, many=True)
             return Response(serializer.data)
 
