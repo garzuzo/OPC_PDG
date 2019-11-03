@@ -26,7 +26,7 @@ urlpatterns = [
 #GET /api/corregimientos_comunas?city=cali&zone=escogepersona
     path('api/corregimientos_comunas/', views.corregcomunas_list),
 #GET /api/veredas_neighborhoods?city=cali&zone=escogepersona
-    path('api/veredas_neighborhoods/', views.neigdhborvereda_list),
+    path('api/veredas_neighborhoods/', views.neighborvereda_list),
 #GET /api/zones
     path('api/zones/', views.zones_list),
     #4. campanas

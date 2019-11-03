@@ -130,18 +130,15 @@ def zones_list(request):
         return Response(serializer.data)
 
 
-
-
 @api_view(['GET'])
-def neigdhborvereda_list(request):
+def neighborvereda_list(request):
     if request.method == "GET":
        #if 'city' or 'zone'\ are not informed, the values ​​are None.
         city=request.query_params.get('city', None)
         zone=request.query_params.get('zone', None)
         comunaCorregimiento=request.query_params.get('comuna_corregimiento', None)
         if city is not None and zone is not None and comunaCorregimiento is not None :
-            cityAct=City.objects.filter(name=city).first()
-            nvList=NeighborhoodVereda.objects.filter(zone__zoneType=zone).filter(comunaCorregimiento__city=cityAct.id,comunaCorregimiento__name=comunaCorregimiento)
+            nvList=NeighborhoodVereda.objects.filter(zone_zoneType=zone).filter(comunaCorregimientocityname=city,comunaCorregimiento_name=comunaCorregimiento)
             serializer=NeighborhoodVeredaSerializer(nvList, many=True)
             return Response(serializer.data)
 
