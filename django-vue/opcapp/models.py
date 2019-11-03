@@ -160,11 +160,7 @@ class ActivityNarrative(models.Model):
     text=models.CharField(max_length=200)
     #created_date = models.DateTimeField(default=timezone.now)
     campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
-
-#reemplazado por models.ManyToManyField()
-#class ConceptNarrative(models.Model):
- #   activityNarrative=models.ForeignKey(ActivityNarrative, on_delete=CASCADE)
-  #  concept=models.ForeignKey(Concept, on_delete=CASCADE)
+    personCampaign=models.OneToOneField(PersonCampaign, on_delete=models.CASCADE)
 
 class Concept(models.Model):
     #id=models.CharField(max_length=30)
