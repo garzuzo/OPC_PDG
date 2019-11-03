@@ -25,6 +25,7 @@
     </v-toolbar-items>
 
     <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Log in</v-btn>
+    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Registrar</v-btn>
   </v-toolbar>
 </template>
 

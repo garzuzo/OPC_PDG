@@ -2,9 +2,10 @@
     <v-card class="mx-auto" max-width="400">
             <v-container>
               <v-col align="center">
-                <img src="https://picsum.photos/id/11/500/300" class="img" />
-                <h4>Juan Muñoz</h4>
-                <h5>Sociologo</h5>
+                <img :src="require(`@/assets/${member.img}.jpg`)" class="img" />
+                <h4>{{member.name}}</h4>
+                <h5>{{member.profession}}</h5>
+                <h5>{{member.place}}</h5>
               </v-col>
             </v-container>
           </v-card>
@@ -12,7 +13,14 @@
 </template>
 <script>
 export default {
-    
+    props:{
+      member: Object
+    },
+    data(){
+      return {
+        imgSandra:"@/assets/sandra.jpg"
+      }
+    }
 }
 </script>
 

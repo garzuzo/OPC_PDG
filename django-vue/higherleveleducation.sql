@@ -1,0 +1,1 @@
+﻿INSERT INTO opcapp_higherleveleducation (id, name) VALUES (1, 'Primaria'), (2, 'Secundaria'), (3, 'Tecnología'), (4, 'Universitaria'), (5, 'Postgrado'),(6, 'Ninguna');

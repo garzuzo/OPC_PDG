@@ -9,7 +9,7 @@
           <v-select
             :items="zones"
             item-text="zoneType"
-            item-value="zoneType"            
+            item-value="zoneType"
             outlined
             v-model="currentZone"
             :error-messages="currentZoneErrors"
@@ -26,7 +26,7 @@
           <v-select
             :items="states"
             item-text="name"
-            item-value="name"   
+            item-value="name"
             outlined
             v-model="currentState"
             :error-messages="currentStateErrors"
@@ -43,7 +43,7 @@
           <v-select
             :items="comunasCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
             v-model="currentComuna"
             :error-messages="currentComunaErrors"
@@ -60,7 +60,7 @@
           <v-select
             :items="corregimientosCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
             v-model="currentCorregimiento"
             :error-messages="currentCorregimientoErrors"
@@ -80,7 +80,7 @@
           <v-select
             :items="currentCities"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
             v-model="currentCity"
             :error-messages="currentCityErrors"
@@ -95,9 +95,9 @@
         <div class="form-group" v-if="currentZone == zones[1].zoneType & currentCity == 'Cali'">
           <label for="currentNeighborhood">Barrio*</label>
           <v-select
-            :items="neighborhoodsCali"
+            :items="currentNeighborhoodsCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
             v-model="currentNeighborhood"
             :error-messages="currentNeighborhoodErrors"
@@ -112,9 +112,9 @@
         <div class="form-group" v-if="currentZone == zones[0].zoneType & currentCity == 'Cali'">
           <label for="currentVereda">Vereda*</label>
           <v-select
-            :items="veredasCali"
+            :items="currentVeredasCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
             v-model="currentVereda"
             :error-messages="currentVeredaErrors"
@@ -144,8 +144,9 @@
           <v-select
             :items="zones"
             item-text="zoneType"
-            item-value="zoneType"   
+            item-value="zoneType"
             outlined
+            v-bind:disabled="disabled"
             v-model="originZone"
             :error-messages="originZoneErrors"
             required
@@ -163,6 +164,7 @@
             item-text="name"
             item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originState"
             :error-messages="originStateErrors"
             required
@@ -178,8 +180,9 @@
           <v-select
             :items="comunasCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originComuna"
             :error-messages="originComunaErrors"
             required
@@ -195,8 +198,9 @@
           <v-select
             :items="corregimientosCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originCorregimiento"
             :error-messages="originCorregimientoErrors"
             required
@@ -215,8 +219,9 @@
           <v-select
             :items="originCities"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originCity"
             :error-messages="originCityErrors"
             required
@@ -227,14 +232,14 @@
           ></v-select>
         </div>
 
-
         <div class="form-group" v-if="originZone == zones[1].zoneType & originCity == 'Cali'">
           <label for="originNeighborhood">Barrio*</label>
           <v-select
-            :items="neighborhoodsCali"
+            :items="originNeighborhoodsCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originNeighborhood"
             :error-messages="originNeighborhoodErrors"
             required
@@ -244,14 +249,15 @@
             @change="$v.originNeighborhood.$touch()"
           ></v-select>
         </div>
-
+        {{originNeighborhood}}
         <div class="form-group" v-if="originZone == zones[0].zoneType & originCity == 'Cali'">
           <label for="originVereda">Vereda*</label>
           <v-select
-            :items="veredasCali"
+            :items="originVeredasCali"
             item-text="name"
-            item-value="name" 
+            item-value="name"
             outlined
+            v-bind:disabled="disabled"
             v-model="originVereda"
             :error-messages="originVeredaErrors"
             required
@@ -338,9 +344,12 @@ export default {
       comunasCali: [],
       neighborhoodsCali: [],
       corregimientosCali: [],
+      origNeighborhoodsCali: [],
       veredasCali: [],
+      origVeredasCali: [],
       checkbox: false,
-      submitStatus: ""
+      submitStatus: "",
+      disabled : false
     };
   },
   created() {
@@ -348,7 +357,7 @@ export default {
       .getZones()
       .then(response => {
         this.zones = response;
-        console.log(response)
+        console.log(response);
       })
       .catch(err => console.log(err));
 
@@ -359,143 +368,198 @@ export default {
       })
       .catch(err => console.log(err));
 
-    let dataComunaNeighborhood = ["Cali", "Urbana"];
-      api.getCorregimientosComunas(dataComunaNeighborhood)
-          .then(response => {
-            this.comunasCali = response;
-          })
-          .catch(err => {
-            console.log(err);
-          });
+    let dataComuna = ["Cali", "Urbana"];
+    api
+      .getCorregimientosComunas(dataComuna)
+      .then(response => {
+        this.comunasCali = response;
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
-    let dataCorregimientoVereda = ["Cali", "Rural"];
-    api.getCorregimientosComunas(dataCorregimientoVereda)
-          .then(response => {
-            this.corregimientosCali = response;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-
-    api.getNeighborhoodsVeredas(dataComunaNeighborhood).then(response=>{
-      this.neighborhoodsCali = response
-    }).catch(err => console.log(err));
-
-    api.getNeighborhoodsVeredas(dataCorregimientoVereda).then(response=>{
-      this.veredasCali = response
-    }).catch(err => console.log(err))
+    let dataCorregimiento = ["Cali", "Rural"];
+    api
+      .getCorregimientosComunas(dataCorregimiento)
+      .then(response => {
+        this.corregimientosCali = response;
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   computed: {
     currentCities() {
-      if(this.currentState != ""){
+      if (this.currentState != "") {
         api
-        .getCities(this.currentState)
-        .then(response => {
-          this.currentCitiesComputed = response;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+          .getCities(this.currentState)
+          .then(response => {
+            this.currentCitiesComputed = response;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-      return this.currentCitiesComputed
+      return this.currentCitiesComputed;
     },
-    originCities(){
-      if(this.originState != ""){
+    originCities() {
+      if (this.originState != "") {
         api
-        .getCities(this.originState)
-        .then(response => {
-          this.originCitiesComputed = response;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+          .getCities(this.originState)
+          .then(response => {
+            this.originCitiesComputed = response;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-      return this.originCitiesComputed
+      return this.originCitiesComputed;
     },
-    currentZoneErrors(){
-      const errors = []
-        if (!this.$v.currentZone.$dirty) return errors
-        !this.$v.currentZone.required && errors.push('Zona actual es requerido.')
-        return errors
+    currentNeighborhoodsCali() {
+      if (this.currentComuna != "") {
+        let dataComuna = ["Cali", "Urbana", this.currentComuna];
+        api
+          .getNeighborhoodsVeredas(dataComuna)
+          .then(response => {
+            this.neighborhoodsCali = response;
+          })
+          .catch(err => console.log(err));
+      }
+      return this.neighborhoodsCali;
     },
-    currentStateErrors(){
-      const errors = []
-        if (!this.$v.currentState.$dirty) return errors
-        !this.$v.currentState.required && errors.push('Departamento actual es requerido.')
-        return errors
+    originNeighborhoodsCali() {
+      if (this.originComuna != "") {
+        let dataComuna = ["Cali", "Urbana", this.originComuna];
+        api
+          .getNeighborhoodsVeredas(dataComuna)
+          .then(response => {
+            this.origNeighborhoodsCali = response;
+          })
+          .catch(err => console.log(err));
+      }
+      return this.origNeighborhoodsCali;
     },
-    currentCityErrors(){
-      const errors = []
-        if (!this.$v.currentCity.$dirty) return errors
-        !this.$v.currentCity.required && errors.push('Ciudad actual es requerido.')
-        return errors
+    currentVeredasCali() {
+      if (this.currentCorregimiento != "") {
+        let dataCorregimiento = ["Cali", "Rural", this.currentCorregimiento];
+        api
+          .getNeighborhoodsVeredas(dataCorregimiento)
+          .then(response => {
+            this.veredasCali = response;
+          })
+          .catch(err => console.log(err));
+      }
+      return this.veredasCali;
     },
-    currentComunaErrors(){
-      const errors = []
-        if (!this.$v.currentComuna.$dirty) return errors
-        !this.$v.currentComuna.required && errors.push('Comuna actual es requerido.')
-        return errors
+    originVeredasCali() {
+      if (this.originCorregimiento != "") {
+        let dataCorregimiento = ["Cali", "Rural", this.originCorregimiento];
+        api
+          .getNeighborhoodsVeredas(dataCorregimiento)
+          .then(response => {
+            this.origVeredasCali = response;
+          })
+          .catch(err => console.log(err));
+      }
+      return this.origVeredasCali;
     },
-    currentNeighborhoodErrors(){
-      const errors = []
-        if (!this.$v.currentNeighborhood.$dirty) return errors
-        !this.$v.currentNeighborhood.required && errors.push('Barrio actual es requerido.')
-        return errors
+    currentZoneErrors() {
+      const errors = [];
+      if (!this.$v.currentZone.$dirty) return errors;
+      !this.$v.currentZone.required && errors.push("Zona actual es requerido.");
+      return errors;
     },
-    currentCorregimientoErrors(){
-      const errors = []
-        if (!this.$v.currentCorregimiento.$dirty) return errors
-        !this.$v.currentCorregimiento.required && errors.push('Corregimiento actual es requerido.')
-        return errors
+    currentStateErrors() {
+      const errors = [];
+      if (!this.$v.currentState.$dirty) return errors;
+      !this.$v.currentState.required &&
+        errors.push("Departamento actual es requerido.");
+      return errors;
     },
-    currentVeredaErrors(){
-      const errors = []
-        if (!this.$v.currentVereda.$dirty) return errors
-        !this.$v.currentVereda.required && errors.push('Vereda actual es requerido.')
-        return errors
+    currentCityErrors() {
+      const errors = [];
+      if (!this.$v.currentCity.$dirty) return errors;
+      !this.$v.currentCity.required &&
+        errors.push("Ciudad actual es requerido.");
+      return errors;
     },
-    originZoneErrors(){
-      const errors = []
-        if (!this.$v.originZone.$dirty) return errors
-        !this.$v.originZone.required && errors.push('Zona de origen es requerido.')
-        return errors
+    currentComunaErrors() {
+      const errors = [];
+      if (!this.$v.currentComuna.$dirty) return errors;
+      !this.$v.currentComuna.required &&
+        errors.push("Comuna actual es requerido.");
+      return errors;
     },
-    originStateErrors(){
-      const errors = []
-        if (!this.$v.originState.$dirty) return errors
-        !this.$v.originState.required && errors.push('Departamento de origen es requerido.')
-        return errors
+    currentNeighborhoodErrors() {
+      const errors = [];
+      if (!this.$v.currentNeighborhood.$dirty) return errors;
+      !this.$v.currentNeighborhood.required &&
+        errors.push("Barrio actual es requerido.");
+      return errors;
     },
-    originCityErrors(){
-      const errors = []
-        if (!this.$v.originCity.$dirty) return errors
-        !this.$v.originCity.required && errors.push('Ciudad de origen es requerido.')
-        return errors
+    currentCorregimientoErrors() {
+      const errors = [];
+      if (!this.$v.currentCorregimiento.$dirty) return errors;
+      !this.$v.currentCorregimiento.required &&
+        errors.push("Corregimiento actual es requerido.");
+      return errors;
     },
-    originComunaErrors(){
-      const errors = []
-        if (!this.$v.originComuna.$dirty) return errors
-        !this.$v.originComuna.required && errors.push('Comuna de origen es requerido.')
-        return errors
+    currentVeredaErrors() {
+      const errors = [];
+      if (!this.$v.currentVereda.$dirty) return errors;
+      !this.$v.currentVereda.required &&
+        errors.push("Vereda actual es requerido.");
+      return errors;
     },
-    originNeighborhoodErrors(){
-      const errors = []
-        if (!this.$v.originNeighborhood.$dirty) return errors
-        !this.$v.originNeighborhood.required && errors.push('Barrio de origen es requerido.')
-        return errors
+    originZoneErrors() {
+      const errors = [];
+      if (!this.$v.originZone.$dirty) return errors;
+      !this.$v.originZone.required &&
+        errors.push("Zona de origen es requerido.");
+      return errors;
     },
-    originCorregimientoErrors(){
-      const errors = []
-        if (!this.$v.originCorregimiento.$dirty) return errors
-        !this.$v.originCorregimiento.required && errors.push('Corregimiento de origen es requerido.')
-        return errors
+    originStateErrors() {
+      const errors = [];
+      if (!this.$v.originState.$dirty) return errors;
+      !this.$v.originState.required &&
+        errors.push("Departamento de origen es requerido.");
+      return errors;
     },
-    originVeredaErrors(){
-      const errors = []
-        if (!this.$v.originVereda.$dirty) return errors
-        !this.$v.originVereda.required && errors.push('Vereda de origen es requerido.')
-        return errors
+    originCityErrors() {
+      const errors = [];
+      if (!this.$v.originCity.$dirty) return errors;
+      !this.$v.originCity.required &&
+        errors.push("Ciudad de origen es requerido.");
+      return errors;
     },
+    originComunaErrors() {
+      const errors = [];
+      if (!this.$v.originComuna.$dirty) return errors;
+      !this.$v.originComuna.required &&
+        errors.push("Comuna de origen es requerido.");
+      return errors;
+    },
+    originNeighborhoodErrors() {
+      const errors = [];
+      if (!this.$v.originNeighborhood.$dirty) return errors;
+      !this.$v.originNeighborhood.required &&
+        errors.push("Barrio de origen es requerido.");
+      return errors;
+    },
+    originCorregimientoErrors() {
+      const errors = [];
+      if (!this.$v.originCorregimiento.$dirty) return errors;
+      !this.$v.originCorregimiento.required &&
+        errors.push("Corregimiento de origen es requerido.");
+      return errors;
+    },
+    originVeredaErrors() {
+      const errors = [];
+      if (!this.$v.originVereda.$dirty) return errors;
+      !this.$v.originVereda.required &&
+        errors.push("Vereda de origen es requerido.");
+      return errors;
+    }
   },
   methods: {
     check(event) {
@@ -507,6 +571,7 @@ export default {
         this.originNeighborhood = this.currentNeighborhood;
         this.originCorregimiento = this.currentCorregimiento;
         this.originVereda = this.currentVereda;
+        this.disabled = true
       } else {
         this.originZone = "";
         this.originState = "";
@@ -521,25 +586,25 @@ export default {
       this.$v.$touch();
       if (this.$v.$anyError) {
         this.submitStatus = "Error";
-      }else{
+      } else {
         let data = [
-        this.currentZone,
-        this.currentState,
-        this.currentCity,
-        this.currentComuna,
-        this.currentNeighborhood,
-        this.currentCorregimiento,
-        this.currentVereda,
-        this.originZone,
-        this.originState,
-        this.originCity,
-        this.originComuna,
-        this.originNeighborhood,
-        this.originCorregimiento,
-        this.originVereda,
-        "3"
-      ];
-      this.$emit("allToParent", data);
+          this.currentZone,
+          this.currentState,
+          this.currentCity,
+          this.currentComuna,
+          this.currentNeighborhood,
+          this.currentCorregimiento,
+          this.currentVereda,
+          this.originZone,
+          this.originState,
+          this.originCity,
+          this.originComuna,
+          this.originNeighborhood,
+          this.originCorregimiento,
+          this.originVereda,
+          "3"
+        ];
+        this.$emit("allToParent", data);
       }
     },
     emitBeforeToParent(event) {

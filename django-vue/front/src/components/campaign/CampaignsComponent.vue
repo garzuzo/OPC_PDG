@@ -3,16 +3,12 @@
     <navbar-component></navbar-component>
 
     <div class="init">
-      <v-container>
+      <v-container class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
-        <v-row>
+        <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col cols="7">
-            <br />
-            <h1>Campañas</h1>
-            <br />
-            <br />
+            <h1 style="padding-bottom:10vh;">Campañas</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas, metus ac dignissim mattis, metus risus pretium ligula, ut mattis purus eros at nisl.</p>
-            <br />
           </v-col>
         </v-row>
       </v-container>

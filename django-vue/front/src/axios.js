@@ -35,7 +35,7 @@ export default {
                     resolve(response.data);
                 })
                 .catch((err) => {
-                    reject('Error getting active campaigns', err);
+                    reject('Error getting people', err);
                 })
         });
     },
@@ -47,19 +47,30 @@ export default {
                     resolve(response.data);
                 })
                 .catch((err) => {
-                    reject('Error getting active campaigns', err);
+                    reject('Error getting ranges of age', err);
                 })
         });
     },
 
     getNarratives(idCampaign){
         return new Promise((resolve, reject) => {
-            axios.get(`/ages/?id=${idCampaign}`)
+            axios.get(`/narratives/?id=${idCampaign}`)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((err) => {
-                    reject('Error getting active campaigns', err);
+                    reject('Error getting narratives', err);
+                })
+        });
+    },
+    getKeywords(idCampaign){
+        return new Promise((resolve, reject) => {
+            axios.get(`/keywords/?id=${idCampaign}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting keywords', err);
                 })
         });
     },
@@ -155,7 +166,7 @@ export default {
     },
     getNeighborhoodsVeredas(data) {
         return new Promise((resolve, reject) => {
-            axios.get(`/veredas_neighborhoods/?city=${data[0]}&zone=${data[1]}`)
+            axios.get(`/veredas_neighborhoods/?city=${data[0]}&zone=${data[1]}&comuna_corregimiento=${data[2]}`)
                 .then((response) => {
                     resolve(response.data);
                 })

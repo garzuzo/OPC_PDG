@@ -11,53 +11,54 @@
       <v-container>
 
         <v-row justify="center"> 
-          <v-col cols="6">
+
+          <v-col cols="4">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col cols="4">
+          <v-col offset="1" cols="4">
             <h2>01 </h2>
-            <h3>Responde ¿Para tí, ¿qué es la paz? </h3>
-            <p> Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños.</p>
+            <h3>Responde ¿Para tí, qué es la paz? </h3>
+            <p> Es importante que te cuestiones qué es la paz para ti de manera que contribuyas a las mediciones de percepción de paz.</p>
           </v-col>
 
-          <v-col cols="6">
+          <v-col cols="4">
             <h2>02 </h2>
             <h3>Comparate con personas </h3>
-            <p> Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños.</p>
+            <p> Podrás compararte con las percepciones de paz de los demás participantes en diferentes enfoques como el territorio, la capacidad y el diferencial.</p>
+          </v-col>
+
+          <v-col offset="1" cols="4">
+            <img src="@/assets/steps.png" />
           </v-col>
 
           <v-col cols="4">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col cols="6">
-            <img src="@/assets/steps.png" />
-          </v-col>
-
-          <v-col cols="4">
+          <v-col offset="1" cols="4">
             <h2>03 </h2>
             <h3>Comparte a tus conocidos </h3>
-            <p> Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños.</p>
-          </v-col>
-
-          <v-col cols="6">
-            <h2>04 </h2>
-            <h3>Construye Proyectos alineados a la paz y cultura ciudadana</h3>
-            <p> Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños.</p>
+            <p> Ayudanos a que más personas contribuyan a la construcción de paz para la ciudad y región para que puedan comparse contigo y los demás.</p>
           </v-col>
 
           <v-col cols="4">
+            <h2>04 </h2>
+            <h3>Construye Proyectos alineados a la paz y cultura ciudadana</h3>
+            <p> Narrativas de Paz es un insumo importante para definir proyectos alineados a la construcción de paz y cultura ciudadana puesto que ayudará a mejor toma de decisiones públicas para la ciudad y región.</p>
+          </v-col>
+
+          <v-col offset="1" cols="4">
             <img src="@/assets/steps.png" />
           </v-col>
         </v-row>
 
         <v-container>
-      <v-row justify="center">
+      <v-row justify="end">
         <v-col cols="5">
           <v-btn
             :ripple="false"
-            class="ma-2 ml-5 btn"
+            class="mx-2 btn peace"
             color="#673AB7"
             depressed 
             rounded  
@@ -82,7 +83,7 @@ export default {
     return {
       subtitle:"Cómo funciona",
       title:"Construir paz entre todos",
-      description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas, metus ac dignissim mattis, metus risus pretium ligula, ut mattis purus eros at nisl."
+      description:"El propósito de medir las percepciones de paz de los ciudadanos es que entre todos logremos construir una definición de paz que varia según diferentes enfoques como el territorio, el tiempo, la capacidad y el diferencial."
     };
   }
 };
@@ -124,6 +125,16 @@ font-size: 18px;
 line-height: 21px;
 
 color: #000000;
+}
+
+.peace{
+  text-transform: none !important;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 </style>

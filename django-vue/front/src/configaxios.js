@@ -9,3 +9,8 @@ export default axios.create({
      //'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'
     }
 })
+
+const token = localStorage.getItem('token')
+if (token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer '+ token 
+}

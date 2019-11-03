@@ -6,6 +6,8 @@ import VueRouter from 'vue-router'
 import routes from './router/routes'
 import Vuelidate from 'vuelidate'
 import Vuetify from 'vuetify'
+import Vuex from 'vuex'
+import store from './store'
 import 'vuetify/dist/vuetify.min.css' 
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import VCharts from 'v-charts'
@@ -44,6 +46,19 @@ const router = new VueRouter({
   mode: 'history',
   routes 
 })
+
+/*router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page 
+  const publicPages = ['/login', '/register', '/construirpaz', '/sobrenosotros', '/home', '/campañas', '/visualizacampaña'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+})*/
 
 /* eslint-disable no-new */
 new Vue({

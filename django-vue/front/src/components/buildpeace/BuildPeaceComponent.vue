@@ -3,15 +3,17 @@
     <navbar-component></navbar-component>
 
     <div class="init">
-      <v-container fluid fill-height>
+      <v-container  class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
-        <v-row fill-height>
+        <v-row>
           <v-col cols="7">
             <br />
             <h1>¡Construyamos Paz!</h1>
             <br />
             <br />
-            <p>El proyecto “Narrativas de Paz” tiene como propósito realizar mediciones de la percepción de la paz para cada individuo con el fin de aportar información valiosa para las campañas en curso de proyectos alineados a la construcción de paz y cultura ciudadana.</p>
+            <p>Para el Observatorio de Paz y Cultura Ciudadana es de vital importancia conocer la percepción de paz de los ciudadanos con el fin de aportar información valiosa para las campañas en curso de proyectos alineados a la construcción de paz y cultura ciudadana.
+              ¡Ayudános a construir más paz!
+            </p>
             <br />
             <br />
           </v-col>
@@ -86,14 +88,6 @@
 
       <!-- NARRATIVE -->
       <br />
-      HERE ARE THE NEW THINGS:
-      {{age}}
-      {{gender}}
-      {{name}}
-      {{lastname}}
-      {{completeStepPersonal}}
-      {{level}}
-      {{higherEducation}}
       <v-row align="center" justify="center">
         <v-col cols="8">
           <h3>Con un texto ayudanos a responder la pregunta:</h3>
@@ -200,7 +194,22 @@
         </v-col>
         <v-col cols="2">
           <p>¿Deseas guardar tus datos para una próxima ocasión?</p>
-          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark>Crea tu cuenta</v-btn>
+
+          <v-dialog v-model="dialog" persistent max-width="400px" v-bind:scrollable="scroll">
+          <template v-slot:activator="{ on }">
+            <v-btn :ripple="false" class="ma-2 save" color="#673ab7" v-on="on" dark>Crea tu cuenta</v-btn>
+            <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
+          </template>
+          <v-card>
+            <v-toolbar dark color="#0C186D">
+              <v-btn icon dark @click="dialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+               <v-toolbar-title>Crear cuenta</v-toolbar-title>
+            </v-toolbar>
+            <register-component> </register-component>
+          </v-card>
+        </v-dialog>
         </v-col>
       </v-row>
     </v-container>
@@ -279,6 +288,8 @@ export default {
       campaign: "",
       campaigns: [],
       submitStatus: "",
+      dialog: false,
+      scroll: false, 
       //PERSONAL COMPONENT
       age: 0,
       gender: "",
@@ -467,11 +478,12 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap");
 body {
-  background-color: white;
+  background-color: #ffffff;
 }
 .init {
   background-image: url("../../assets/handpeace.png");
   background-size: cover;
+  height: 100vh;
 }
 
 h1 {
