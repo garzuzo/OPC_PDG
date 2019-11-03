@@ -16,7 +16,8 @@ Zone,
 Campaign, 
 ActivityNarrative, 
 Concept, 
-KeyConcept)
+KeyConcept,
+RoleCampaign)
 
 from opcapp.serializers import (RoleUserSerializer, 
 GenderSerializer, 
@@ -31,7 +32,8 @@ ZoneSerializer, CampaignSerializer,
 ActivityNarrativeSerializer, 
 ConceptSerializer, 
 KeyConceptSerializer,
-UserSerializer)
+UserSerializer,
+RoleCampaignSerializer)
 from rest_framework import viewsets
 
 from rest_framework import status
@@ -331,12 +333,17 @@ def save_info(request):
         email=request.data.get('email', None)
 
 
-
-       # if currentNeighborhood is not None and originNeighborhood is not None:
-
-        #elif currentVereda is not None and originVereda is not None:
-
-
+        currentLevel3={}
+        originLevel3={}
+        if currentNeighborhood is not None and originNeighborhood is not None:
+            currentLevel3=NeighborhoodVereda.objects.filter(name=currentNeighborhood, comunaCorregimiento__name=currentComuna)
+            originLevel3=NeighborhoodVereda.objects.filter(name=originNeighborhood, comunaCorregimiento__name=currentComuna)
+        elif currentVereda is not None and originVereda is not None:
+            currentLevel3=NeighborhoodVereda.objects.filter(name=currentVereda, comunaCorregimiento__name=currentCorregimiento)
+            originLevel3=NeighborhoodVereda.objects.filter(name=originVereda,comunaCorregimiento__name=originCorregimiento)
+        else :
+            currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__name=currentCity)
+            originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__name=originCity)
 
 
         if name is not None and lastname is not None:
@@ -363,8 +370,8 @@ def save_info(request):
                 'birthdate':age,        
                 'achievedLevel':education,
                 'gender':genderId,
-                'neighborhoodVeredaSource':age,
-                'neighborhoodVeredaActual':age,
+                'neighborhoodVeredaSource':originLevel3,
+                'neighborhoodVeredaActual':currentLevel3,
                 'roleUser':roleUserId,
                 'user':None
 
@@ -375,7 +382,7 @@ def save_info(request):
    # user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
             }
     
-
+            roleCampaignId=RoleCampaign.objects.filter(name="Registrado").id
 
             dataPersonCampaign={
             #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
@@ -383,19 +390,41 @@ def save_info(request):
                 'person':name, 
                 'roleCampaign':lastname, 
                 'campaign':age,
-                'achievedLevel':age,
-                'gender':age,
-                'neighborhoodVeredaSource':age,
-                'neighborhoodVeredaActual':age,
+                'achievedLevel':education,
+                'gender':genderId,
+                'neighborhoodVeredaSource':originLevel3,
+                'neighborhoodVeredaActual':currentLevel3,
             
+            }   
+            dataKeyConcept1={
+                'name':word1
+            }
+            dataKeyConcept2={
+                'name':word2
+            }
+            dataKeyConcept3={
+                'name':word3
+            }
+            dataKeyConcept4={
+                'name':word4
+            }
+
+            dataKeyConcept5={
+                'name':word5
+            }
+
                 
+            personCampaign=PersonCampaign.objects.filter()
+            activityNarrative=ActivityNarrative.objects.filter()
+            keyConcept=KeyConcept.objects.filter()
+            keyConcept.activityNarrative.add(activityNarrative)
    #             campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
   #  achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
    # gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
   #  neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
    # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
 
-            }
+            
             serializer=ComunaCorregimientoSerializer(data=data)
             if serializer.is_valid():
                 serializer.save()

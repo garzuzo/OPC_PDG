@@ -14,7 +14,11 @@ ActivityNarrative,
 Concept, 
 KeyConcept,
 Person,
-PersonCampaign
+PersonCampaign,
+RoleCampaign,
+ActivityNarrative,
+Concept,
+KeyConcept
 )
 from django.contrib.auth.models import User
 
@@ -23,8 +27,30 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-        
+class ActivityNarrativeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityNarrative
+        fields = '__all__'
 
+
+class ConceptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Concept
+        fields = '__all__'
+
+
+class KeyConceptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KeyConcept
+        fields = '__all__'
+
+
+class RoleCampaignSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoleCampaign
+        fields = '__all__'
+
+        
 class RoleUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoleUser
