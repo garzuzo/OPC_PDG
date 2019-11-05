@@ -18,9 +18,9 @@
 
     <how-it-works-component style="padding-top: 20vh; padding-bottom: 20vh;"></how-it-works-component>
 
-    <objective-component> </objective-component>
+    <objective-component > </objective-component>
      <testimonial-component style="padding-top: 20vh; padding-bottom: 20vh;"> </testimonial-component>
-     <campaign-component style="padding-top: 20vh;"> </campaign-component>
+     <campaign-component> </campaign-component>
 
 
 </div>

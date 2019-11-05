@@ -23,7 +23,7 @@
 
     <v-container>
       <!-- ACTIVE CAMPAIGN -->
-      <v-container>
+      <v-container style="padding-top: 20vh;">>
         <v-row justify="center">
           <v-col cols="5">
             <div class="form-group">
@@ -35,6 +35,7 @@
                 item-value="title"
                 outlined
                 v-model="campaign"
+                return-object
                 required
                 class="input"
                 color="#0C186D"
@@ -87,8 +88,7 @@
       </v-row>
 
       <!-- NARRATIVE -->
-      <br />
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="center" style="padding-top: 10vh;">>
         <v-col cols="8">
           <h3>Con un texto ayudanos a responder la pregunta:</h3>
           <br />
@@ -109,7 +109,7 @@
       </v-row>
 
       <!--KEYWORDS -->
-      <v-row align="center" justify="center">
+      <v-row align="center" justify="center" style="padding-top: 10vh;">
         <v-col cols="8">
           <h3>Dinos 5 palabras que para ti reflejen Qué si es paz</h3>
         </v-col>
@@ -187,19 +187,27 @@
         </v-col>
       </v-row>
 
-       <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark @click="logout">LOGOUT</v-btn>
 
-      <v-row align="center" justify="center" no-gutters>
+      <v-row align="center" justify="center">
         <v-col cols="2">
-          <p v-if="submitStatus!=''"> Revisa las advertencias. Tienes algún error en los campos</p>
-          <v-btn :ripple="false" class="ma-2 save" color="#673ab7" dark @click="saveData">Finalizar</v-btn>
+         <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+      </div>
         </v-col>
-        <v-col cols="2">
-          <p>¿Deseas guardar tus datos para una próxima ocasión?</p>
+
+        <v-col cols="5">
+          <v-checkbox
+          v-model="checkbox"
+          label="¿Deseas guardar tus datos para una próxima ocasión?"
+          @change="check($event)"
+        ></v-checkbox>
+        </v-col>
+        <v-col cols="4">
+          <v-btn v-if="checkbox==false" :ripple="false" class="ma-2 save" color="#673ab7" dark @click="saveData">Finalizar</v-btn>
 
           <v-dialog v-model="dialog" persistent max-width="400px" v-bind:scrollable="scroll">
           <template v-slot:activator="{ on }">
-            <v-btn :ripple="false" class="ma-2 save" color="#673ab7" v-on="on" dark>Crea tu cuenta</v-btn>
+            <v-btn  v-if="checkbox" :ripple="false" class="ma-2 save" color="#673ab7" v-on="on" dark>Crea tu cuenta</v-btn>
             <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
           </template>
           <v-card>
@@ -209,7 +217,7 @@
               </v-btn>
                <v-toolbar-title>Crear cuenta</v-toolbar-title>
             </v-toolbar>
-            <register-component> </register-component>
+            <register-component :dialog="dialog"> </register-component>
           </v-card>
         </v-dialog>
         </v-col>
@@ -276,7 +284,7 @@ export default {
     word3: { required, minLength: minLength(3), differents },
     word4: { required, minLength: minLength(3), differents },
     word5: { required, minLength: minLength(3), differents },
-    campaign : { required }
+    campaign : { title: {required} }
   },
   data() {
     return {
@@ -287,34 +295,35 @@ export default {
       word3: "",
       word4: "",
       word5: "",
-      campaign: "",
+      campaign: {id: 0, title:''},
       campaigns: [],
       submitStatus: "",
       dialog: false,
       scroll: false, 
+      checkbox: false,
       //PERSONAL COMPONENT
       age: 0,
-      gender: "",
+      gender: {id: 0, name:''},
       name: "",
       lastname: "",
       //EDUCATION COMPONENT
-      level: "",
-      higherEducation: "",
+      level: {id: 0, name:''},
+      higherEducation: {id: 0, name:''},
       //TERRITORY COMPONENT
-      currentZone: "",
-      currentState: "",
-      currentCity: "",
-      currentComuna: "",
-      currentNeighborhood: "",
-      currentCorregimiento: "",
-      currentVereda: "",
-      originZone: "",
-      originState: "",
-      originCity: "Cali",
-      originComuna: "",
-      originNeighborhood: "",
-      originCorregimiento: "",
-      originVereda: ""
+      currentZone: {id: 0, name:''},
+      currentState: {id: 0, name:''},
+      currentCity: {id: 0, name:''},
+      currentComuna: {id: 0, name:''},
+      currentNeighborhood: {id: 0, name:''},
+      currentCorregimiento: {id: 0, name:''},
+      currentVereda: {id: 0, name:''},
+      originZone: {id: 0, name:''},
+      originState: {id: 0, name:''},
+      originCity: {id: 0, name:''},
+      originComuna: {id: 0, name:''},
+      originNeighborhood: {id: 0, name:''},
+      originCorregimiento: {id: 0, name:''},
+      originVereda: {id: 0, name:''}
     };
   },
   created() {
@@ -383,27 +392,27 @@ export default {
       }else{
         this.submitStatus = ""
         let data = {
-        campaign : this.campaign,
+        campaign : this.campaign.id,
         age: this.age,
-        gender: this.gender,
+        gender: this.gender.id,
         name: this.name,
         lastname: this.lastname,
-        level: this.level,
-        higherEducation: this.higherEducation,
-        currentZone: this.currentZone,
-        currentState: this.currentState,
-        currentCity: this.currentCity,
-        currentComuna: this.currentComuna,
-        currentNeighborhood: this.currentNeighborhood,
-        currentCorregimiento: this.currentCorregimiento,
-        currentVereda: this.currentVereda,
-        originZone: this.originZone,
-        originState: this.originState,
-        originCity: this.originCity,
-        originComuna: this.originComuna,
-        originNeighborhood: this.originNeighborhood,
-        originCorregimiento: this.originCorregimiento,
-        originVereda: this.originVereda,
+        level: this.level.id,
+        higherEducation: this.higherEducation.id,
+        currentZone: this.currentZone.id,
+        currentState: this.currentState.id,
+        currentCity: this.currentCity.id,
+        currentComuna: this.currentComuna.id,
+        currentNeighborhood: this.currentNeighborhood.id,
+        currentCorregimiento: this.currentCorregimiento.id,
+        currentVereda: this.currentVereda.id,
+        originZone: this.originZone.id,
+        originState: this.originState.id,
+        originCity: this.originCity.id,
+        originComuna: this.originComuna.id,
+        originNeighborhood: this.originNeighborhood.id,
+        originCorregimiento: this.originCorregimiento.id,
+        originVereda: this.originVereda.id,
         narrative: this.narrative,
         word1: this.word1,
         word2: this.word2,
@@ -411,7 +420,8 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-      api.saveData(data);
+      console.log(data)
+     // api.saveData(data);
       }
       
     }
@@ -420,7 +430,7 @@ export default {
     campaignErrors() {
       const errors = [];
       if (!this.$v.campaign.$dirty) return errors;
-      !this.$v.campaign.required && errors.push("La campaña es requerida.");
+      !this.$v.campaign.title.required && errors.push("La campaña es requerida.");
       return errors;
     },
     narrativeErrors() {

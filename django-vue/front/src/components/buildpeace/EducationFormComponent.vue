@@ -10,6 +10,7 @@
           item-value="name"
           outlined
           v-model="higherEducation"
+          return-object
           required
           class="input"
           color="#0C186D"
@@ -27,19 +28,20 @@
           item-value="name"
           outlined
           v-model="level"
+          return-object
           required
           class="input"
           color="#0C186D"
           name="level"
           @change="$v.level.$touch()"
         ></v-select>
-        {{this.higherEducation}}
-        HERE GOES{{levelsEd}}
       </div>
     </v-col>
 
     <v-container>
-      <p v-if="submitStatus!=''">Revisa las advertencias. Tienes algún error en los campos</p>
+      <div v-if="submitStatus!=''" class="px-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+      </div>
       <v-row justify="space-between">
         <v-col cols="2">
           <v-btn :ripple="false" class="ma-2 next" outlined color="#673ab7" @click="emitBeforeToParent">Anterior</v-btn>
@@ -68,13 +70,13 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    higherEducation: { required },
-    level : { required }
+    higherEducation: {name: {required}},
+    level : {name: {required}}
   },
   data() {
     return {
-      higherEducation: "",
-      level: "",
+      higherEducation: { id: 0, name: '' },
+      level: { id: 0, name: '' },
       education: [],
       levels: [],
       submitStatus: ""
@@ -100,9 +102,9 @@ export default {
   },
   computed: {
     levelsEd() {
-      if(this.higherEducation != ""){
+      if(this.higherEducation.name != ""){
         api
-        .getAchievedLevel(this.higherEducation)
+        .getAchievedLevel(this.higherEducation.name)
         .then(response => {
           this.levels = response;
         })
@@ -115,13 +117,13 @@ export default {
     higherEducationErrors(){
       const errors = []
         if (!this.$v.higherEducation.$dirty) return errors
-        !this.$v.higherEducation.required && errors.push('Nivel más alto alcanzado es requerido.')
+        !this.$v.higherEducation.name.required && errors.push('Nivel más alto alcanzado es requerido.')
         return errors
     },
     levelErrors(){
       const errors = []
         if (!this.$v.level.$dirty) return errors
-        !this.$v.level.required && errors.push('Nivel alcanzado en el anterior nivel es requerido.')
+        !this.$v.level.name.required && errors.push('Nivel alcanzado en el anterior nivel es requerido.')
         return errors
     }
   },

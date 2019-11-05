@@ -83,7 +83,7 @@ export default {
         this.$store
         .dispatch("login", data)
         .then((resp) => {
-          this.$router.push("/profile")
+          this.$router.push("/perfil")
         })
         .catch(err => {
           console.log(err);

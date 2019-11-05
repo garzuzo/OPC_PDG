@@ -4,18 +4,32 @@
     <h2 align="center">Un proyecto que dá de que hablar</h2>
     <v-container>
       <v-row justify="center">
-        <v-col v-for="n in 3" :key="n" class="d-flex child-flex" cols="3">
+        <v-col v-for="n in 3" :key="n" cols="4">
           <v-card class="mx-auto" max-width="400">
-            
             <v-card-text class="headline font-weight-bold">
-              <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. </p>
+              <p
+                class="description"
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
             </v-card-text>
 
             <v-card-actions>
-              <v-row align="center" justify="end">
-                <h4>Sandra Niño - </h4>
-                <h5 class="mr-2">Antropóloga </h5>
-              </v-row>
+              <v-list-item class="grow">
+                <v-list-item-avatar color="grey darken-3">
+                  <v-img
+                    class="elevation-6"
+                    :src="require('@/assets/objective.png')"
+                  ></v-img>
+                </v-list-item-avatar>
+
+                <!--<v-list-item-content>
+                  <v-list-item-title><h4>Sandra Niño -</h4>
+                  <h5 class="mr-2">Antropóloga</h5></v-list-item-title>
+                </v-list-item-content>-->
+                <v-row align="center" justify="end">
+                  <h4>Sandra Niño -</h4>
+                  <h5 class="mr-2">Antropóloga</h5>
+                </v-row>
+              </v-list-item>
             </v-card-actions>
           </v-card>
         </v-col>

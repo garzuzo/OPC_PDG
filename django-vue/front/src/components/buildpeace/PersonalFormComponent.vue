@@ -74,6 +74,7 @@
             v-model="gender"
             :error-messages="genderErrors"
             required
+            return-object
             class="input"
             color="#0C186D"
             @change="$v.gender.$touch()"
@@ -81,9 +82,10 @@
         </div>
       </v-col>
     </v-row>
-    
     <v-container>
-      <p v-if="submitStatus!=''">Revisa las advertencias. Tienes algún error en los campos</p>
+      <div v-if="submitStatus!=''" class="px-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+      </div>
       <v-row justify="end">
         <v-col cols="2">
           <v-btn
@@ -112,6 +114,7 @@ function dateMaxValue (date) {
       return date < new Date()
 }
 
+const requiredObject = (value) => value.typeGender != ''
 export default {
   name: "PersonalForm",
   mixins: [validationMixin],
@@ -121,7 +124,7 @@ export default {
     name: { required, minLength: minLength(3) },
     lastname : {required, minLength: minLength(3)},
     age : {required, dateMaxValue},
-    gender : {required}
+    gender : {typeGender: {required}}
   },
 
   data() {
@@ -129,7 +132,7 @@ export default {
       name: "",
       lastname: "",
       age: new Date().toISOString().substr(0, 10),
-      gender: "",
+      gender: { id: 0, typeGender: '' },
       genders: [],
       menu2: false,
       submitStatus: ''
@@ -182,7 +185,7 @@ export default {
     genderErrors(){
       const errors = []
         if (!this.$v.gender.$dirty) return errors
-        !this.$v.gender.required && errors.push('Genero es requerido.')
+        !this.$v.gender.typeGender.required && errors.push('Genero es requerido.')
         return errors
     }
   }

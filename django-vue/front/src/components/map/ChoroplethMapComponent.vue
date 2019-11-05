@@ -9,7 +9,7 @@
       </l-choropleth-layer>
     </l-map>
 
-    <l-map :center="[-23.752961, -57.854357]" :zoom="6" style="height: 500px;" :options="mapOptions">
+    <l-map :center="[ -72.0000000, 4.0000000]" :zoom="6" style="height: 500px;" :options="mapOptions">
       <l-choropleth-layer :data="pyDepartmentsData" titleKey="department_name" idKey="department_id" :value="value" :extraValues="extraValues" geojsonIdKey="dpto"  :geojson="colombiaGeojson" :colorScale="colorScale">
 
        </l-choropleth-layer>
@@ -26,6 +26,7 @@ import {LMap} from 'vue2-leaflet';
 import { geojson } from '../../data/py-departments-geojson'
 import paraguayGeojson from '../../data/paraguay.json'
 import colombiaGeojson from '../../data/colombia.geo.json'
+import caliGeojson from '../../data/comunas_y_corregimientos.json'
 import { pyDepartmentsData } from '../../data/py-departments-data'
 export default {
 name: 'ChoroplethMap',
@@ -40,6 +41,7 @@ name: 'ChoroplethMap',
        pyDepartmentsData,
       paraguayGeojson,
       colombiaGeojson,
+      caliGeojson,
       colorScale: ["e7d090", "e9ae7b", "de7062"],
       value: {
         key: "amount_w",

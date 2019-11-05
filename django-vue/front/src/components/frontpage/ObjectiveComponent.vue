@@ -3,12 +3,23 @@
 <div class="objective"> 
 
 <v-container>
+
+  <v-row justify="center" style="padding-top: 20vh; padding-bottom: 20vh;">
       <v-col justify="center" cols="7">
         <h3> {{subtitle}} </h3>
         <h2>{{title}}</h2>
         <br>
         <p>{{description}} </p>
       </v-col>
+      <v-col cols="4">
+        <v-img
+            :src="require('@/assets/objective.png')"
+            aspect-ratio="1"
+            max-width="500"
+            max-height="300"
+          ></v-img>
+      </v-col>
+  </v-row>
 </v-container>
     </div> 
 
@@ -24,7 +35,7 @@ export default {
     return {
         subtitle:"Objetivo",
         title:"Construir paz entre todos",
-        description:"Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños. Estos relatos surgen de talleres que funcionan como espacios de encuentro para la construcción de una definición de paz desde un enfoque territorial. "
+        description:"Las Narrativas de Paz son relatos construidos colectivamente que tienen como objetivo la construcción de una definición de qué sí es la paz para los caleños, de esta manera la toma de decisiones públicas será más acertada según los enfoques de territorio, capacidad y diferencial."
         };
   }
 };
@@ -34,7 +45,6 @@ export default {
 
 .objective{
   background-color: #673ab7;
-  height: 500px;
 }
 
 h3{

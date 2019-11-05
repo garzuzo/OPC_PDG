@@ -69,7 +69,7 @@ export default {
       members:[
         {name:'Sandra Niño', img:'sandra', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
         {name:'Johnatan Garzón', img:'johnatan', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
-        {name:'Juan Carlos Muñoz', img:'sandra', profession: 'Profesor Ingeniería de Sistemas', place: 'Universidad Icesi'},
+        {name:'Juan Carlos Muñoz, PhD', img:'sandra', profession: 'Profesor Ingeniería de Sistemas', place: 'Universidad Icesi'},
         {name:'Mauricio Sedano', img:'sandra', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'},
       ]
     }

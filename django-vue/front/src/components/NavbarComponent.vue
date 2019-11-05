@@ -19,13 +19,13 @@
         to="/construirpaz"
       >Construir paz</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn"  to="/sobrenosotros">Sobre nosotros</v-btn>
-      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Visualiza</v-btn>
+      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/visualizacampaña">Visualiza</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campañas">Campañas</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
     </v-toolbar-items>
 
-    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Log in</v-btn>
-    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark>Registrar</v-btn>
+    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/login">Log in</v-btn>
+    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/construirpaz">Registrar</v-btn>
   </v-toolbar>
 </template>
 

@@ -2,11 +2,18 @@
 
 <div class="objective"> 
 
-  <v-row justify="center"> 
-    <v-col cols="4">
-      <img src="@/assets/person.png"/>
+<v-container>
+  <v-row justify="center" style="padding-top: 20vh; padding-bottom: 20vh;"> 
+    <v-col cols="5">
+        <v-img
+            :src="require('@/assets/person.png')"
+            aspect-ratio="1"
+            max-width="600"
+            max-height="300"
+          ></v-img>
       </v-col>
-      <v-col cols="6">
+      
+      <v-col cols="7">
         <h3> {{subtitle}} </h3>
         <h2>{{title}}</h2>
         <br>
@@ -16,7 +23,7 @@
         <v-col cols="5">
           <v-btn
             :ripple="false"
-            class="ma-2 ml-5 btn"
+            class=" btn"
             color="#ffffff"
             depressed 
             rounded  
@@ -27,7 +34,7 @@
       </v-row>
       </v-col>
   </v-row>
-
+</v-container>
   
     </div> 
 
@@ -43,7 +50,7 @@ export default {
     return {
         subtitle:"Campañas",
         title:"Narrativas que buscan construir Paz",
-        description:"Las Narrativas de Paz son relatos construidos colectivamente para definir lo que sí es la paz para los caleños. Estos relatos surgen de talleres que funcionan como espacios de encuentro para la construcción de una definición de paz desde un enfoque territorial. "
+        description:"Las campañas son realizadas por diferentes personas de la ciudad-región que desean contribuir a las mediciones de la percepción de paz de los ciudadanos con el fin de tener una definición de qué si es paz y les ayude en los proyectos de cultura ciudadana que se lleven a cabo."
         };
   }
 };
@@ -53,7 +60,6 @@ export default {
 
 .objective{
   background-color: #673ab7;
-  height: 500px;
 }
 
 h3{
@@ -84,5 +90,15 @@ font-size: 18px;
 line-height: 21px;
 
 color:#ffffff;
+}
+
+.btn{
+  text-transform: none !important;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 </style>

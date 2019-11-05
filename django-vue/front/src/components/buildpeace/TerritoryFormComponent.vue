@@ -12,12 +12,13 @@
             item-value="zoneType"
             outlined
             v-model="currentZone"
+            return-object
             :error-messages="currentZoneErrors"
             required
             class="input"
             color="#0C186D"
             name="currentZone"
-            @change="$v.currentZone.$touch()"
+            @input="$v.currentZone.$touch()"
           ></v-select>
         </div>
 
@@ -29,16 +30,17 @@
             item-value="name"
             outlined
             v-model="currentState"
+            return-object
             :error-messages="currentStateErrors"
             required
             class="input"
             color="#0C186D"
             name="currentState"
-            @change="$v.currentState.$touch()"
+            @input="$v.currentState.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="currentZone == zones[1].zoneType & currentCity == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
           <label for="currentComuna">Comuna*</label>
           <v-select
             :items="comunasCali"
@@ -46,16 +48,17 @@
             item-value="name"
             outlined
             v-model="currentComuna"
+            return-object
             :error-messages="currentComunaErrors"
             required
             class="input"
             color="#0C186D"
             name="currentComuna"
-            @change="$v.currentComuna.$touch()"
+            @input="$v.currentComuna.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="currentZone == zones[0].zoneType & currentCity == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
           <label for="currentCorregimiento">Corregimiento*</label>
           <v-select
             :items="corregimientosCali"
@@ -63,12 +66,13 @@
             item-value="name"
             outlined
             v-model="currentCorregimiento"
+            return-object
             :error-messages="currentCorregimientoErrors"
             required
             class="input"
             color="#0C186D"
             name="currentCorregimiento"
-            @change="$v.currentCorregimiento.$touch()"
+            @input="$v.currentCorregimiento.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -83,16 +87,17 @@
             item-value="name"
             outlined
             v-model="currentCity"
+            return-object
             :error-messages="currentCityErrors"
             required
             class="input"
             color="#0C186D"
             name="currentCity"
-            @change="$v.currentCity.$touch()"
+            @input="$v.currentCity.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="currentZone == zones[1].zoneType & currentCity == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
           <label for="currentNeighborhood">Barrio*</label>
           <v-select
             :items="currentNeighborhoodsCali"
@@ -100,16 +105,17 @@
             item-value="name"
             outlined
             v-model="currentNeighborhood"
+            return-object
             :error-messages="currentNeighborhoodErrors"
             required
             class="input"
             color="#0C186D"
             name="currentNeighborhood"
-            @change="$v.currentNeighborhood.$touch()"
+            @input="$v.currentNeighborhood.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="currentZone == zones[0].zoneType & currentCity == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
           <label for="currentVereda">Vereda*</label>
           <v-select
             :items="currentVeredasCali"
@@ -117,12 +123,13 @@
             item-value="name"
             outlined
             v-model="currentVereda"
+            return-object
             :error-messages="currentVeredaErrors"
             required
             class="input"
             color="#0C186D"
             name="currentVereda"
-            @change="$v.currentVereda.$touch()"
+            @input="$v.currentVereda.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -148,12 +155,13 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originZone"
+            return-object
             :error-messages="originZoneErrors"
             required
             class="input"
             color="#0C186D"
             name="originZone"
-            @change="$v.originZone.$touch()"
+            @input="$v.originZone.$touch()"
           ></v-select>
         </div>
 
@@ -166,16 +174,17 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originState"
+            return-object
             :error-messages="originStateErrors"
             required
             class="input"
             color="#0C186D"
             name="originState"
-            @change="$v.originState.$touch()"
+            @input="$v.originState.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="originZone == zones[1].zoneType & originCity == 'Cali'">
+        <div class="form-group" v-if="originZone.zoneType == zones[1].zoneType & originCity.name == 'Cali'">
           <label for="originComuna">Comuna*</label>
           <v-select
             :items="comunasCali"
@@ -184,16 +193,17 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originComuna"
+            return-object
             :error-messages="originComunaErrors"
             required
             class="input"
             color="#0C186D"
             name="originComuna"
-            @change="$v.originComuna.$touch()"
+            @input="$v.originComuna.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="originZone == zones[0].zoneType & originCity == 'Cali'">
+        <div class="form-group" v-if="originZone.zoneType == zones[0].zoneType & originCity.name == 'Cali'">
           <label for="originCorregimiento">Corregimiento*</label>
           <v-select
             :items="corregimientosCali"
@@ -202,12 +212,13 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originCorregimiento"
+            return-object
             :error-messages="originCorregimientoErrors"
             required
             class="input"
             color="#0C186D"
             name="originCorregimiento"
-            @change="$v.originCorregimiento.$touch()"
+            @input="$v.originCorregimiento.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -223,16 +234,17 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originCity"
+            return-object
             :error-messages="originCityErrors"
             required
             class="input"
             color="#0C186D"
             name="originCity"
-            @change="$v.originCity.$touch()"
+            @input="$v.originCity.$touch()"
           ></v-select>
         </div>
 
-        <div class="form-group" v-if="originZone == zones[1].zoneType & originCity == 'Cali'">
+        <div class="form-group" v-if="originZone.zoneType == zones[1].zoneType & originCity.name == 'Cali'">
           <label for="originNeighborhood">Barrio*</label>
           <v-select
             :items="originNeighborhoodsCali"
@@ -241,16 +253,17 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originNeighborhood"
+            return-object
             :error-messages="originNeighborhoodErrors"
             required
             class="input"
             color="#0C186D"
             name="originNeighborhood"
-            @change="$v.originNeighborhood.$touch()"
+            @input="$v.originNeighborhood.$touch()"
           ></v-select>
         </div>
-        {{originNeighborhood}}
-        <div class="form-group" v-if="originZone == zones[0].zoneType & originCity == 'Cali'">
+        
+        <div class="form-group" v-if="originZone.zoneType == zones[0].zoneType & originCity.name == 'Cali'">
           <label for="originVereda">Vereda*</label>
           <v-select
             :items="originVeredasCali"
@@ -259,19 +272,22 @@
             outlined
             v-bind:disabled="disabled"
             v-model="originVereda"
+            return-object
             :error-messages="originVeredaErrors"
             required
             class="input"
             color="#0C186D"
             name="originVereda"
-            @change="$v.originVereda.$touch()"
+            @input="$v.originVereda.$touch()"
           ></v-select>
         </div>
       </v-col>
     </v-row>
 
     <v-container>
-      <p v-if="submitStatus!=''">Revisa las advertencias. Tienes algún error en los campos</p>
+      <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+      </div>
       <v-row justify="space-between">
         <v-col cols="2">
           <v-btn
@@ -306,37 +322,37 @@ export default {
   mixins: [validationMixin],
 
   validations: {
-    currentZone: { required },
-    currentState: { required },
-    currentCity: { required },
-    currentComuna: { required },
-    currentNeighborhood: { required },
-    currentCorregimiento: { required },
-    currentVereda: { required },
-    originZone: { required },
-    originState: { required },
-    originCity: { required },
-    originComuna: { required },
-    originNeighborhood: { required },
-    originCorregimiento: { required },
-    originVereda: { required }
+    currentZone: {zoneType: {required}},
+    currentState: {name: {required}},
+    currentCity: {name: {required}},
+    currentComuna: {name: {required}},
+    currentNeighborhood: {name: {required}},
+    currentCorregimiento: {name: {required}},
+    currentVereda: {name: {required}},
+    originZone: {zoneType: {required}},
+    originState: {name: {required}},
+    originCity: {name: {required}},
+    originComuna: {name: {required}},
+    originNeighborhood: {name: {required}},
+    originCorregimiento: {name: {required}},
+    originVereda: {name: {required}}
   },
   data() {
     return {
-      currentZone: "",
-      currentState: "",
-      currentCity: "",
-      currentComuna: "",
-      currentNeighborhood: "",
-      currentCorregimiento: "",
-      currentVereda: "",
-      originZone: "",
-      originState: "",
-      originCity: "",
-      originComuna: "",
-      originNeighborhood: "",
-      originCorregimiento: "",
-      originVereda: "",
+      currentZone: { id: 0, zoneType: '' },
+      currentState: { id: 0, name: '' },
+      currentCity: { id: 0, name: '' },
+      currentComuna: { id: 0, name: '' },
+      currentNeighborhood: { id: 0, name: '' },
+      currentCorregimiento: { id: 0, name: '' },
+      currentVereda: { id: 0, name: '' },
+      originZone: { id: 0, zoneType: '' },
+      originState: { id: 0, name: '' },
+      originCity: { id: 0, name: '' },
+      originComuna: { id: 0, name: '' },
+      originNeighborhood: { id: 0, name: '' },
+      originCorregimiento: { id: 0, name: '' },
+      originVereda: { id: 0, name: '' },
       zones: [],
       currentCitiesComputed: [],
       originCitiesComputed: [],
@@ -390,9 +406,9 @@ export default {
   },
   computed: {
     currentCities() {
-      if (this.currentState != "") {
+      if (this.currentState.name != "") {
         api
-          .getCities(this.currentState)
+          .getCities(this.currentState.name)
           .then(response => {
             this.currentCitiesComputed = response;
           })
@@ -403,9 +419,9 @@ export default {
       return this.currentCitiesComputed;
     },
     originCities() {
-      if (this.originState != "") {
+      if (this.originState.name != "") {
         api
-          .getCities(this.originState)
+          .getCities(this.originState.name)
           .then(response => {
             this.originCitiesComputed = response;
           })
@@ -416,8 +432,8 @@ export default {
       return this.originCitiesComputed;
     },
     currentNeighborhoodsCali() {
-      if (this.currentComuna != "") {
-        let dataComuna = ["Cali", "Urbana", this.currentComuna];
+      if (this.currentComuna.name != "") {
+        let dataComuna = ["Cali", "Urbana", this.currentComuna.name];
         api
           .getNeighborhoodsVeredas(dataComuna)
           .then(response => {
@@ -428,8 +444,8 @@ export default {
       return this.neighborhoodsCali;
     },
     originNeighborhoodsCali() {
-      if (this.originComuna != "") {
-        let dataComuna = ["Cali", "Urbana", this.originComuna];
+      if (this.originComuna.name != "") {
+        let dataComuna = ["Cali", "Urbana", this.originComuna.name];
         api
           .getNeighborhoodsVeredas(dataComuna)
           .then(response => {
@@ -440,8 +456,8 @@ export default {
       return this.origNeighborhoodsCali;
     },
     currentVeredasCali() {
-      if (this.currentCorregimiento != "") {
-        let dataCorregimiento = ["Cali", "Rural", this.currentCorregimiento];
+      if (this.currentCorregimiento.name != "") {
+        let dataCorregimiento = ["Cali", "Rural", this.currentCorregimiento.name];
         api
           .getNeighborhoodsVeredas(dataCorregimiento)
           .then(response => {
@@ -452,8 +468,8 @@ export default {
       return this.veredasCali;
     },
     originVeredasCali() {
-      if (this.originCorregimiento != "") {
-        let dataCorregimiento = ["Cali", "Rural", this.originCorregimiento];
+      if (this.originCorregimiento.name != "") {
+        let dataCorregimiento = ["Cali", "Rural", this.originCorregimiento.name];
         api
           .getNeighborhoodsVeredas(dataCorregimiento)
           .then(response => {
@@ -466,98 +482,106 @@ export default {
     currentZoneErrors() {
       const errors = [];
       if (!this.$v.currentZone.$dirty) return errors;
-      !this.$v.currentZone.required && errors.push("Zona actual es requerido.");
+      !this.$v.currentZone.zoneType.required && errors.push("Zona actual es requerido.");
       return errors;
     },
     currentStateErrors() {
       const errors = [];
       if (!this.$v.currentState.$dirty) return errors;
-      !this.$v.currentState.required &&
+      !this.$v.currentState.name.required &&
         errors.push("Departamento actual es requerido.");
       return errors;
     },
     currentCityErrors() {
       const errors = [];
       if (!this.$v.currentCity.$dirty) return errors;
-      !this.$v.currentCity.required &&
+      !this.$v.currentCity.name.required &&
         errors.push("Ciudad actual es requerido.");
       return errors;
     },
     currentComunaErrors() {
       const errors = [];
       if (!this.$v.currentComuna.$dirty) return errors;
-      !this.$v.currentComuna.required &&
+        !this.$v.currentComuna.name.required &&
         errors.push("Comuna actual es requerido.");
+      
       return errors;
     },
     currentNeighborhoodErrors() {
       const errors = [];
       if (!this.$v.currentNeighborhood.$dirty) return errors;
-      !this.$v.currentNeighborhood.required &&
+      !this.$v.currentNeighborhood.name.required &&
         errors.push("Barrio actual es requerido.");
+  
       return errors;
     },
     currentCorregimientoErrors() {
       const errors = [];
       if (!this.$v.currentCorregimiento.$dirty) return errors;
-      !this.$v.currentCorregimiento.required &&
+      !this.$v.currentCorregimiento.name.required &&
         errors.push("Corregimiento actual es requerido.");
       return errors;
     },
     currentVeredaErrors() {
       const errors = [];
       if (!this.$v.currentVereda.$dirty) return errors;
-      !this.$v.currentVereda.required &&
+      !this.$v.currentVereda.name.required &&
         errors.push("Vereda actual es requerido.");
+         
       return errors;
     },
     originZoneErrors() {
       const errors = [];
       if (!this.$v.originZone.$dirty) return errors;
-      !this.$v.originZone.required &&
+      !this.$v.originZone.zoneType.required &&
         errors.push("Zona de origen es requerido.");
       return errors;
     },
     originStateErrors() {
       const errors = [];
       if (!this.$v.originState.$dirty) return errors;
-      !this.$v.originState.required &&
+      !this.$v.originState.name.required &&
         errors.push("Departamento de origen es requerido.");
       return errors;
     },
     originCityErrors() {
       const errors = [];
       if (!this.$v.originCity.$dirty) return errors;
-      !this.$v.originCity.required &&
+      !this.$v.originCity.name.required &&
         errors.push("Ciudad de origen es requerido.");
       return errors;
     },
     originComunaErrors() {
       const errors = [];
       if (!this.$v.originComuna.$dirty) return errors;
-      !this.$v.originComuna.required &&
+      !this.$v.originComuna.name.required &&
         errors.push("Comuna de origen es requerido.");
+       
       return errors;
     },
     originNeighborhoodErrors() {
       const errors = [];
       if (!this.$v.originNeighborhood.$dirty) return errors;
-      !this.$v.originNeighborhood.required &&
+      !this.$v.originNeighborhood.name.required &&
         errors.push("Barrio de origen es requerido.");
+
+      
       return errors;
     },
     originCorregimientoErrors() {
       const errors = [];
       if (!this.$v.originCorregimiento.$dirty) return errors;
-      !this.$v.originCorregimiento.required &&
+      !this.$v.originCorregimiento.name.required &&
         errors.push("Corregimiento de origen es requerido.");
+  
       return errors;
     },
     originVeredaErrors() {
       const errors = [];
       if (!this.$v.originVereda.$dirty) return errors;
-      !this.$v.originVereda.required &&
+      !this.$v.originVereda.name.required &&
         errors.push("Vereda de origen es requerido.");
+        
       return errors;
     }
   },
@@ -572,21 +596,13 @@ export default {
         this.originCorregimiento = this.currentCorregimiento;
         this.originVereda = this.currentVereda;
         this.disabled = true
-      } else {
-        this.originZone = "";
-        this.originState = "";
-        this.originCity = "";
-        this.originComuna = "";
-        this.originNeighborhood = "";
-        this.originCorregimiento = "";
-        this.originVereda = "";
-      }
+      } 
     },
     emitAllToParent(event) {
       this.$v.$touch();
-      if (this.$v.$anyError) {
-        this.submitStatus = "Error";
-      } else {
+      //if (this.$v.$anyError) {
+        //this.submitStatus = "Error";
+      //} else {
         let data = [
           this.currentZone,
           this.currentState,
@@ -605,7 +621,7 @@ export default {
           "3"
         ];
         this.$emit("allToParent", data);
-      }
+      //}
     },
     emitBeforeToParent(event) {
       this.$emit("before", 1);

@@ -70,7 +70,10 @@ export default {
   validations: {
     email: { required, email },
     password: { required, minLength: minLength(6), upperCase, number },
-    passwordConfirmation: { required} //sameAsPassword: sameAs('password') }
+    passwordConfirmation: { required, sameAsPassword: sameAs('password') }
+  },
+  props:{
+    dialog: Boolean
   },
   data() {
     return {
@@ -126,9 +129,8 @@ export default {
         errors.push("Contraseña debe tener un número.");
       // !this.$v.password.specialCharacter && errors.push('Contraseña debe tener un caracter especial.')
       return errors;
-    }
-  },
-  passwordConfirmationErrors() {
+    },
+    passwordConfirmationErrors() {
     const errors = [];
     if (!this.$v.passwordConfirmation.$dirty) return errors;
     !this.$v.passwordConfirmation.required &&
@@ -140,9 +142,10 @@ export default {
       errors.push("Contraseña debe tener una letra mayuscula.");
     !this.$v.passwordConfirmed.number &&
       errors.push("Contraseña debe tener un número.");*/
-    //!this.$v.passwordConfirmation.sameAsPassword && errors.push('Esta contraseña no coincide con la anterior.')
+    !this.$v.passwordConfirmation.sameAsPassword && errors.push('Esta contraseña no coincide con la anterior.')
     // !this.$v.password.specialCharacter && errors.push('Contraseña debe tener un caracter especial.')
     return errors;
+  }
   }
 };
 </script>
