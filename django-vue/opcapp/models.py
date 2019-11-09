@@ -115,8 +115,6 @@ class NeighborhoodVereda(models.Model):
 
 class Person(models.Model):
    # id=models.CharField(max_length=30)
-    name=models.CharField(max_length=50)
-    lastname=models.CharField(max_length=50)
     birthdate=models.DateField()
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)

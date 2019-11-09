@@ -3,21 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 
-from opcapp.models import (RoleUser, 
-Gender, 
-HigherLevelEducation, 
-AchievedLevel, 
-State, 
-Country, 
-City, 
-ComunaCorregimiento, 
-NeighborhoodVereda, 
-Zone, 
-Campaign, 
-ActivityNarrative, 
-Concept, 
-KeyConcept,
-RoleCampaign)
+from opcapp.models import *
 
 from opcapp.serializers import (RoleUserSerializer, 
 GenderSerializer, 
@@ -33,7 +19,11 @@ ActivityNarrativeSerializer,
 ConceptSerializer, 
 KeyConceptSerializer,
 UserSerializer,
-RoleCampaignSerializer)
+RoleCampaignSerializer,
+PersonSerializer,
+PersonCampaignSerializer)
+
+
 from rest_framework import viewsets
 
 from rest_framework import status
@@ -148,7 +138,8 @@ def neighborvereda_list(request):
 @api_view(['GET'])
 def acampaigns_list(request):
     if request.method == "GET":
-        campList=Campaign.objects.filter(isActive=True)
+
+        campList=Campaign.objects.filter(startDate__lte=date.now(),endDate__gte=date.now())
         serializer=CampaignSerializer(campList, many=True)
         return Response(serializer.data)
 
@@ -156,7 +147,7 @@ def acampaigns_list(request):
 @api_view(['GET'])
 def notacampaigns_list(request):
     if request.method == "GET":
-        campList=Campaign.objects.filter(isActive=False)
+        campList=Campaign.objects.filter(endDate__lt=date.now())
         serializer=CampaignSerializer(campList, many=True)
         return Response(serializer.data)
 
@@ -168,7 +159,7 @@ def fivekeywords_list(request):
         id=request.query_params.get('id', None)
 
         if id is not None:
-            conceptsCampaignList=KeyConcept.objects.filter(activityNarrative__campaign_id=id).order_by('frequency').reverse()[:5]
+            conceptsCampaignList=KeyConcept.objects.filter(activityNarrative__campaign__id=id).order_by('frequency').reverse()[:5]
            
             serializer=KeyConceptSerializer(conceptsCampaignList, many=True)
             return Response(serializer.data)
@@ -295,18 +286,310 @@ def create_user(request):
 
 
 
+@api_view(['POST'])
+def save_info_zone(request):
+    name=request.data.get('name', None)
+    data={"id":100,"name":None}
+    serializer=CountrySerializer(data=data)
+   
+    data.update({'name':name})
+
+    if serializer.is_valid():
+        serializer.save()
+        idCountry=serializer.data
+        
+
+        print(idCountry)
+
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def save_campaign(request):
+    startDate=request.data.get('start_date',None)
+    endDate=request.data.get('end_date',None)
+    description=request.data.get('description',None)
+    title=request.data.get('title',None)
+    narrativesGoal=request.data.get('narratives_goal',None)
+    accumulatedNarratives=request.data.get('accumulated_narratives',None)
+    isActive=request.data.get('is_active',None)
+
+    validDate=True if endDate>date.now() else False
+
+    if validDate and startDate is not None and endDate is not None and description is not None and title is not None and narrativesGoal is not None and accumulatedNarratives is not None and isActive is not None:
+        
+        data={
+            "startDate":startDate,
+            "endDate":endDate,
+            "description":description,
+            "title":title,
+            "narrativesGoal":narrativesGoal,
+            "accumulatedNarratives":accumulatedNarratives,
+            "isActive":isActive
+        }
+        
+        campaignSerializer=CampaignSerializer(data=data)
+
+        if campaignSerializer.is_valid():
+            campaignSerializer.save()
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def city_person(request):
+    if request.method == "GET":
+
+        person=Person.objects.get(user=request.user.id)
+        neighVer=NeighborhoodVereda.objects.get(id=person.neighborhoodVeredaActual)
+        comunaCorr=ComunaCorregimiento.objects.get(id=neighVer.comunaCorregimiento)
+        city=City.objects.get(id=comunaCorr.city)
+
+        data = {
+                "city_name": city.name
+            }
+            
+        return JsonResponse(data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def campaigns_person(request):
+    if request.method == "GET":
+
+        person=Person.objects.get(user=request.user.id)
+        numPersonCampaign=PersonCampaign.objects.filter(person=person.id).len()
+
+        data = {
+                "campaings_person": numPersonCampaign
+            }
+            
+        return JsonResponse(data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def campaigns_created_person(request):
+    if request.method == "GET":
+
+        person=Person.objects.get(user=request.user.id)
+        numPersonCampaignCreated=PersonCampaign.objects.filter(person=person.id,roleCampaign="Proyectista").len()
+
+        data = {
+                "campaings_created_person": numPersonCampaignCreated
+            }
+            
+        return JsonResponse(data)
+
+#test PUT
+@api_view(['PUT'])
+#@permission_classes([IsAuthenticated])
+def t_change_zone(request):
+    id=request.data.get('id')
+    name=request.data.get('name')
+    zone=Zone.objects.get(id=id)
+    zone.zoneType=name
+    zone.save()
+    serializer=ZoneSerializer(zone)
+    return Response(serializer.data)
+
+
+@api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
+def person_data(request):
+    if request.method == "GET":
+
+        person=Person.objects.get(user=request.user.id)
+
+        data = {
+            'phoneNumber':person.phoneNumber,
+            'achievedLevel':person.achievedLevel,
+            'birthdate':person.birthdate,
+            'neighborhoodVeredaActual':person.neighborhoodVeredaActual,
+            'neighborhoodVeredaSource':person.neighborhoodVeredaSource,
+            }
+            
+        return JsonResponse(data)
+
+    elif request.method =="PUT":
+        phoneNumber=request.data.get('phoneNumber')
+        achievedLevel=request.data.get('achievedLevel')
+        birthdate=request.data.get('birthdate')
+        neighborhoodVeredaActual=request.data.get('neighborhoodVeredaActual')
+        neighborhoodVeredaSource=request.data.get('neighborhoodVeredaSource')
+           
+        person=Person.objects.get(user=request.user.id)
+        person.phoneNumber=phoneNumber
+        person.achievedLevel=achievedLevel
+        person.birthdate=birthdate
+        person.neighborhoodVeredaActual=neighborhoodVeredaActual
+        person.neighborhoodVeredaSource=neighborhoodVeredaSource
+        person.save()
+        serializer=PersonSerializer(person)
+        return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def save_info_registered_user(request):
+    if request.method == "POST":
+        narrative=request.data.get('narrative', None)
+        word1=request.data.get('word1', None)
+        word2=request.data.get('word2', None)
+        word3=request.data.get('word3', None)
+        word4=request.data.get('word4', None)
+        word5=request.data.get('word5', None)
+        campaign =request.data.get('campaign', None)
+
+        idUser=request.user.id
+        person=Person.objects.get(user=idUser)
+        roleUserId=RoleCampaign.objects.filter(name="Registrado").id
+        dataPersonCampaign={
+            'person':person.id, 
+            'roleCampaign':roleUserId, 
+            'campaign':campaign,
+            'achievedLevel':person.achievedLevel,
+            'gender':person.gender,
+            'neighborhoodVeredaSource':person.neighborhoodVeredaSource,
+            'neighborhoodVeredaActual':person.neighborhoodVeredaActual,
+            
+        }
+
+   
+
+        serializerPersonCampaign=PersonCampaignSerializer(data=dataPersonCampaign)
+        if serializerPersonCampaign.is_valid():
+            serializerPersonCampaign.save()
+
+        idPersonCampaign=serializerPersonCampaign.data['id']
+
+        dataActivityNarrative={
+            "text":narrative,
+            "campaign":campaign,
+            "personCampaign":idPersonCampaign
+        }
+
+        serializerActivityNarrative = ActivityNarrativeSerializer(data=dataActivityNarrative)
+        if serializerActivityNarrative.is_valid():
+            serializerActivityNarrative.save()
+
+            actualCampaign=Campaign.objects.filter(id=campaign)
+            accNarratives=actualCampaign.accumulatedNarratives+1
+            actualCampaign.update(accumulatedNarratives=accNarratives)
+
+        idActivityNarrative=serializerActivityNarrative.data['id']
+
+
+
+        kcw1=KeyConcept.objects.filter(name=word1)
+
+        if kcw1.exists():
+            totalFreq=kcw1.frequency+1
+            kcw1.update(frequency=totalFreq)
+            idKeyConcept1=kcw1.id
+        else:
+            dataKeyConcept1={
+            'name':word1,
+            'frequency':1,
+            'activityNarrative':idActivityNarrative
+        }
+
+            serializerdataKeyConcept1=KeyConceptSerializer(data=dataKeyConcept1)
+            if serializerdataKeyConcept1.is_valid():
+                serializerdataKeyConcept1.save()
+                idKeyConcept1=serializerdataKeyConcept1.data['id']
+
+
+
+        kcw2=KeyConcept.objects.filter(name=word2)
+
+        if kcw2.exists():
+            totalFreq=kcw2.frequency+1
+            kcw2.update(frequency=totalFreq)
+            idKeyConcept2=kcw2.id
+        else:
+            dataKeyConcept2={
+            'name':word2,
+            'frequency':1,
+            'activityNarrative':idActivityNarrative
+        }
+
+
+            serializerdataKeyConcept2=KeyConceptSerializer(data=dataKeyConcept2)
+            if serializerdataKeyConcept2.is_valid():
+                serializerdataKeyConcept2.save()
+                idKeyConcept2=serializerdataKeyConcept2.data['id']
+
+
+
+        kcw3=KeyConcept.objects.filter(name=word3)
+
+        if kcw3.exists():
+            totalFreq=kcw3.frequency+1
+            kcw3.update(frequency=totalFreq)
+            idKeyConcept3=kcw3.id
+        else:
+            dataKeyConcept3={
+            'name':word3,
+            'frequency':1,
+            'activityNarrative':idActivityNarrative
+        }
+
+            serializerdataKeyConcept3=KeyConceptSerializer(data=dataKeyConcept3)
+            if serializerdataKeyConcept3.is_valid():
+                serializerdataKeyConcept3.save()
+                idKeyConcept3=serializerdataKeyConcept3.data['id']
+
+
+        kcw4=KeyConcept.objects.filter(name=word4)
+
+        if kcw4.exists():
+            totalFreq=kcw4.frequency+1
+            kcw4.update(frequency=totalFreq)
+            idKeyConcept4=kcw4.id
+        else:
+            dataKeyConcept4={
+            'name':word4,
+            'frequency':1,
+            'activityNarrative':idActivityNarrative
+        }
+
+            serializerdataKeyConcept4=KeyConceptSerializer(data=dataKeyConcept4)
+            if serializerdataKeyConcept4.is_valid():
+                serializerdataKeyConcept4.save()
+                idKeyConcept1=serializerdataKeyConcept4.data['id']
+
+
+        kcw5=KeyConcept.objects.filter(name=word1)
+
+        if kcw5.exists():
+            totalFreq=kcw5.frequency+1
+            kcw1.update(frequency=totalFreq)
+            idKeyConcept5=kcw5.id
+        else:
+            dataKeyConcept5={
+            'name':word5,
+            'frequency':1,
+            'activityNarrative':idActivityNarrative
+        }
+
+            serializerdataKeyConcept5=KeyConceptSerializer(data=dataKeyConcept5)
+            if serializerdataKeyConcept5.is_valid():
+                serializerdataKeyConcept5.save()
+                idKeyConcept5=serializerdataKeyConcept5.data['id']
+
+
 
 @api_view(['POST'])
 def save_info(request):
     if request.method == "POST":
        # email=request.data.get('email', None)
        # password=request.data.get('password', None)
-
-        campaign =request.data.get('campaign', None)
         age=request.data.get('age', None)
+        campaign =request.data.get('campaign', None)
         gender=request.data.get('gender', None)
-        name=request.data.get('name', None)
-        lastname=request.data.get('lastname', None)
         level=request.data.get('level', None)
         higherEducation=request.data.get('higherEducation', None)
         currentZone=request.data.get('currentZone', None)
@@ -331,105 +614,226 @@ def save_info(request):
         word5=request.data.get('word5', None)
 
         email=request.data.get('email', None)
+        password=request.data.get('password', None)
 
-
-        currentLevel3={}
-        originLevel3={}
-        if currentNeighborhood is not None and originNeighborhood is not None:
-            currentLevel3=NeighborhoodVereda.objects.filter(name=currentNeighborhood, comunaCorregimiento__name=currentComuna)
-            originLevel3=NeighborhoodVereda.objects.filter(name=originNeighborhood, comunaCorregimiento__name=currentComuna)
-        elif currentVereda is not None and originVereda is not None:
-            currentLevel3=NeighborhoodVereda.objects.filter(name=currentVereda, comunaCorregimiento__name=currentCorregimiento)
-            originLevel3=NeighborhoodVereda.objects.filter(name=originVereda,comunaCorregimiento__name=originCorregimiento)
-        else :
-            currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__name=currentCity)
-            originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__name=originCity)
-
-
-        if name is not None and lastname is not None:
-
+        currentLevel3=0
+        originLevel3=0
+        if currentNeighborhood != 0 and currentVereda  == 0:
+            currentLevel3=currentNeighborhood
             
 
-            education=AchievedLevel.objects.filter(higherLevelEducation_name=higherEducation,name=level).id
-            genderId=Gender.objects.filter(typeGender=gender).id
+        elif currentNeighborhood == 0 and currentVereda  != 0:
+            currentLevel3=currentVereda
+
+        if originNeighborhood != 0 and originVereda == 0:
+            originLevel3=originNeighborhood
+
+        elif originNeighborhood == 0 and originVereda != 0:
+            originLevel3=originVereda
+
+
+        if currentNeighborhood == 0 and currentVereda == 0 :
+            currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=currentCity )
+
+
+        if currentNeighborhood == 0 and currentVereda == 0 :
+            originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=originCity)
+
+
+
+
+
+
+        if campaign is not None and age is not None: #and so on...
+            dataUser={
+                'username':email,
+                'email':email,
+                'password':password,
+                'isActive': False
+            }
+            userSerializer=UserSerializer(data=dataUser)
+            if userSerializer.is_valid():
+                userSerializer.save()
+                idUser=userSerializer.data['id']
+
+                
+        if level is not None and originLevel3 is not None:
+
+
+
+
+
+
+
+            #debe existir registrado en la db
             roleUserId=RoleUser.objects.filter(name="Registrado").id
 
-            CityCurrentId=City.objects.filter(name=currentCity, state__name=currentState)#, state__country__name=currentCountry)
-            CityOriginId=City.objects.filter(name=originCity, state__name=originState)
-
-           # currentVeredaId=
-           # originVeredaId=
-            #originNeighborhoodId=
-            #currentNeighborhoodId=
-
-           # neighborhoodVeredaSource=NeighborhoodVereda.objects.filter(name=)
-            #neighborhoodVeredaActual=
             dataPerson={
-                'name':name, 
-                'lastname':lastname, 
                 'birthdate':age,        
-                'achievedLevel':education,
-                'gender':genderId,
+                'achievedLevel':level,
+                'gender':gender,
                 'neighborhoodVeredaSource':originLevel3,
                 'neighborhoodVeredaActual':currentLevel3,
                 'roleUser':roleUserId,
                 'user':None
 
-    #achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
-   # gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
-    #neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
-   # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
-   # user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
             }
-    
-            roleCampaignId=RoleCampaign.objects.filter(name="Registrado").id
 
+            
+            #Si se va a crear una cuenta actualizo el dict para luego guardar el objeto
+            if idUser is not None:
+                dataPerson.update({'user':idUser})
+
+            serializerPerson=PersonSerializer(data=dataPerson)
+            if serializerPerson.is_valid():
+                serializerPerson.save()
+                
+           #debe existir Invitado en la db
+            roleCampaignId=RoleCampaign.objects.filter(name="Invitado").id
+
+
+
+            idPerson=serializerPerson.data['id']
             dataPersonCampaign={
             #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
              #   roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
-                'person':name, 
-                'roleCampaign':lastname, 
-                'campaign':age,
-                'achievedLevel':education,
-                'gender':genderId,
+                'person':idPerson, 
+                'roleCampaign':roleCampaignId, 
+                'campaign':campaign,
+                'achievedLevel':level,
+                'gender':gender,
                 'neighborhoodVeredaSource':originLevel3,
                 'neighborhoodVeredaActual':currentLevel3,
             
-            }   
-            dataKeyConcept1={
-                'name':word1
-            }
-            dataKeyConcept2={
-                'name':word2
-            }
-            dataKeyConcept3={
-                'name':word3
-            }
-            dataKeyConcept4={
-                'name':word4
             }
 
-            dataKeyConcept5={
-                'name':word5
+
+
+            serializerPersonCampaign=PersonCampaignSerializer(data=dataPersonCampaign)
+            if serializerPersonCampaign.is_valid():
+                serializerPersonCampaign.save()
+
+            idPersonCampaign=serializerPersonCampaign.data['id']
+
+            dataActivityNarrative={
+                "text":narrative,
+                "campaign":campaign,
+                "personCampaign":idPersonCampaign
             }
 
-                
-            personCampaign=PersonCampaign.objects.filter()
-            activityNarrative=ActivityNarrative.objects.filter()
-            keyConcept=KeyConcept.objects.filter()
-            keyConcept.activityNarrative.add(activityNarrative)
-   #             campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
-  #  achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
-   # gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
-  #  neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
-   # neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
+            serializerActivityNarrative = ActivityNarrativeSerializer(data=dataActivityNarrative)
+            if serializerActivityNarrative.is_valid():
+                serializerActivityNarrative.save()
 
-            
-            serializer=ComunaCorregimientoSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                actualCampaign=Campaign.objects.filter(id=campaign)
+                accNarratives=actualCampaign.accumulatedNarratives+1
+                actualCampaign.update(accumulatedNarratives=accNarratives)
+
+            idActivityNarrative=serializerActivityNarrative.data['id']
+
+
+
+            kcw1=KeyConcept.objects.filter(name=word1)
+
+            if kcw1.exists():
+                totalFreq=kcw1.frequency+1
+                kcw1.update(frequency=totalFreq)
+                idKeyConcept1=kcw1.id
+            else:
+                dataKeyConcept1={
+                'name':word1,
+                'frequency':1,
+                'activityNarrative':idActivityNarrative
+            }
+
+                serializerdataKeyConcept1=KeyConceptSerializer(data=dataKeyConcept1)
+                if serializerdataKeyConcept1.is_valid():
+                    serializerdataKeyConcept1.save()
+                    idKeyConcept1=serializerdataKeyConcept1.data['id']
+
+
+
+            kcw2=KeyConcept.objects.filter(name=word2)
+
+            if kcw2.exists():
+                totalFreq=kcw2.frequency+1
+                kcw2.update(frequency=totalFreq)
+                idKeyConcept2=kcw2.id
+            else:
+                dataKeyConcept2={
+                'name':word2,
+                'frequency':1,
+                'activityNarrative':idActivityNarrative
+            }
+
+
+                serializerdataKeyConcept2=KeyConceptSerializer(data=dataKeyConcept2)
+                if serializerdataKeyConcept2.is_valid():
+                    serializerdataKeyConcept2.save()
+                    idKeyConcept2=serializerdataKeyConcept2.data['id']
+
+
+
+            kcw3=KeyConcept.objects.filter(name=word3)
+
+            if kcw3.exists():
+                totalFreq=kcw3.frequency+1
+                kcw3.update(frequency=totalFreq)
+                idKeyConcept3=kcw3.id
+            else:
+                dataKeyConcept3={
+                'name':word3,
+                'frequency':1,
+                'activityNarrative':idActivityNarrative
+            }
+
+                serializerdataKeyConcept3=KeyConceptSerializer(data=dataKeyConcept3)
+                if serializerdataKeyConcept3.is_valid():
+                    serializerdataKeyConcept3.save()
+                    idKeyConcept3=serializerdataKeyConcept3.data['id']
+
+
+            kcw4=KeyConcept.objects.filter(name=word4)
+
+            if kcw4.exists():
+                totalFreq=kcw4.frequency+1
+                kcw4.update(frequency=totalFreq)
+                idKeyConcept4=kcw4.id
+            else:
+                dataKeyConcept4={
+                'name':word4,
+                'frequency':1,
+                'activityNarrative':idActivityNarrative
+            }
+
+                serializerdataKeyConcept4=KeyConceptSerializer(data=dataKeyConcept4)
+                if serializerdataKeyConcept4.is_valid():
+                    serializerdataKeyConcept4.save()
+                    idKeyConcept1=serializerdataKeyConcept4.data['id']
+
+
+            kcw5=KeyConcept.objects.filter(name=word1)
+
+            if kcw5.exists():
+                totalFreq=kcw5.frequency+1
+                kcw1.update(frequency=totalFreq)
+                idKeyConcept5=kcw5.id
+            else:
+                dataKeyConcept5={
+                'name':word5,
+                'frequency':1,
+                'activityNarrative':idActivityNarrative
+            }
+
+                serializerdataKeyConcept5=KeyConceptSerializer(data=dataKeyConcept5)
+                if serializerdataKeyConcept5.is_valid():
+                    serializerdataKeyConcept5.save()
+                    idKeyConcept5=serializerdataKeyConcept5.data['id']
+
+
+            if serializerdataKeyConcept5.is_valid():
+                return Response( status=status.HTTP_201_CREATED)
+            return Response( status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])

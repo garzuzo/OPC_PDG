@@ -44,6 +44,16 @@ urlpatterns = [
     path('api/saveall/', views.save_info),
     path('api/validuser/', views.valid_user),
     path('api/register/', views.register),
+    path('api/save_info_zone/', views.save_info_zone),
+    path('api/campaign/', views.save_campaign),
+    path('api/save_info_ruser/', views.save_info_registered_user),
+    path('api/change_zone/', views.t_change_zone),
+    #profile
+    path('api/person_data/', views.person_data),
+    path('api/campaigns_created_person/', views.campaigns_created_person),
+    path('api/campaigns_person/', views.campaigns_person),
+    path('api/city_person/', views.city_person),
+    
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

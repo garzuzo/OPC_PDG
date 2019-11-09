@@ -27,6 +27,18 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class PersonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
+class PersonCampaignSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonCampaign
+        fields = '__all__'
+
+
 class ActivityNarrativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityNarrative
