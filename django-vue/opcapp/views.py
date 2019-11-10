@@ -139,7 +139,7 @@ def neighborvereda_list(request):
 def acampaigns_list(request):
     if request.method == "GET":
 
-        campList=Campaign.objects.filter(startDate__lte=date.now(),endDate__gte=date.now())
+        campList=Campaign.objects.filter(startDate__lte=date.today(),endDate__gte=date.today())
         serializer=CampaignSerializer(campList, many=True)
         return Response(serializer.data)
 
@@ -147,7 +147,7 @@ def acampaigns_list(request):
 @api_view(['GET'])
 def notacampaigns_list(request):
     if request.method == "GET":
-        campList=Campaign.objects.filter(endDate__lt=date.now())
+        campList=Campaign.objects.filter(endDate__lt=date.today())
         serializer=CampaignSerializer(campList, many=True)
         return Response(serializer.data)
 
@@ -315,7 +315,7 @@ def save_campaign(request):
     accumulatedNarratives=request.data.get('accumulated_narratives',None)
     isActive=request.data.get('is_active',None)
 
-    validDate=True if endDate>date.now() else False
+    validDate=True if endDate>date.today() else False
 
     if validDate and startDate is not None and endDate is not None and description is not None and title is not None and narrativesGoal is not None and accumulatedNarratives is not None and isActive is not None:
         
@@ -403,7 +403,7 @@ def person_data(request):
         person=Person.objects.get(user=request.user.id)
 
         data = {
-            'phoneNumber':person.phoneNumber,
+            #'phoneNumber':person.phoneNumber,
             'achievedLevel':person.achievedLevel,
             'birthdate':person.birthdate,
             'neighborhoodVeredaActual':person.neighborhoodVeredaActual,
@@ -413,14 +413,14 @@ def person_data(request):
         return JsonResponse(data)
 
     elif request.method =="PUT":
-        phoneNumber=request.data.get('phoneNumber')
+       # phoneNumber=request.data.get('phoneNumber')
         achievedLevel=request.data.get('achievedLevel')
         birthdate=request.data.get('birthdate')
         neighborhoodVeredaActual=request.data.get('neighborhoodVeredaActual')
         neighborhoodVeredaSource=request.data.get('neighborhoodVeredaSource')
            
         person=Person.objects.get(user=request.user.id)
-        person.phoneNumber=phoneNumber
+        #person.phoneNumber=phoneNumber
         person.achievedLevel=achievedLevel
         person.birthdate=birthdate
         person.neighborhoodVeredaActual=neighborhoodVeredaActual
@@ -445,7 +445,7 @@ def save_info_registered_user(request):
 
         idUser=request.user.id
         person=Person.objects.get(user=idUser)
-        roleUserId=RoleCampaign.objects.filter(name="Registrado").id
+        roleUserId=RoleCampaign.objects.filter(name="Invitado").id
         dataPersonCampaign={
             'person':person.id, 
             'roleCampaign':roleUserId, 
@@ -656,7 +656,7 @@ def save_info(request):
                 userSerializer.save()
                 idUser=userSerializer.data['id']
 
-                
+
         if level is not None and originLevel3 is not None:
 
 

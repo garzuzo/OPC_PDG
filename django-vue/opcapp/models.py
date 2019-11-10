@@ -122,7 +122,7 @@ class Person(models.Model):
     neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
     neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
     user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    phoneNumber=models.CharField(max_length=30,blank=True)
+    #phoneNumber=models.CharField(max_length=30,blank=True)
     roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
 
 
