@@ -266,7 +266,7 @@ def narratives_campaign_list(request):
         id=request.query_params.get('id', None)
         if id is not None:
 
-            narrativesList=ActivityNarrative.objects.filter(Campaign__id=id)
+            narrativesList=ActivityNarrative.objects.filter(campaign__id=id)
             serializer=ActivityNarrativeSerializer(narrativesList, many=True)
             return Response(serializer.data)
 
