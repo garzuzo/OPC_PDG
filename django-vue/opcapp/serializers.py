@@ -1,25 +1,5 @@
 from rest_framework import serializers
-from opcapp.models import (RoleUser, 
-Gender,
-HigherLevelEducation, 
-AchievedLevel,
-Country, 
-State, 
-City, 
-ComunaCorregimiento, 
-NeighborhoodVereda, 
-Zone, 
-Campaign, 
-ActivityNarrative, 
-Concept, 
-KeyConcept,
-Person,
-PersonCampaign,
-RoleCampaign,
-ActivityNarrative,
-Concept,
-KeyConcept
-)
+from opcapp.models import *
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
