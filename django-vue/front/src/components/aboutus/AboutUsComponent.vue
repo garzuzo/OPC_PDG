@@ -8,7 +8,7 @@
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col cols="7">
             <h1 style="padding-bottom:10vh;">Sobre nosotros</h1>
-            <p>El Observatorio de Paz y Cultura Ciudadana (OPC) tiene como objetivo realizar mediciones de la percepción de Paz bajo el mandato ciudad-región de Cali y alrededores, por ende han surgido los Talleres de Narrativas de Paz.</p>
+            <p>El Observatorio de Paz y Convivencia (OPC) tiene entre sus objetivos definir un marco de medición de Paz y cultura ciudadana en perspectiva de ciudad-región con los enfoques de territorio, diferencial, desarrollo de capacidades y tiempo, por esta razón ha surgido el método y los talleres de Narrativas de Paz.</p>
           </v-col>
         </v-row>
       </v-container>
@@ -20,7 +20,7 @@
           <h3>Problema</h3>
           <p
             class="paragraph"
-          >El Observatorio de Paz y Cultura Ciudadana no ha tenido la capacidad, con el taller actual de Narrativas de Paz, de mejorar la representatividad y la cobertura en las zonas de interés del mandato ciudad-región para poder analizar los datos de paz desde diferentes enfoques (tiempo, territorio,capacidades y diferencial)</p>
+          >El Observatorio de Paz y Convivencia ha logrado una cobertura en las zonas de interés de la perspectiva ciudad-región, sin embargo se desea mejorar la representatividad y la cobertura en dicha perspectiva para poder analizar los datos de paz que proveen los ciudadanos desde diferentes enfoques (territorio, diferencial, desarrollo de capacidades y tiempo)</p>
         </v-col>
 
         <v-col cols="6">
@@ -47,7 +47,7 @@
           <h3>Solución</h3>
           <p
             class="paragraph"
-          >La plataforma digital “Narrativas de Paz” permitirá hacer, primero, la recolección de datos de percepción de paz para conocer datos específicos de la persona y un espacio para construir una narrativa respondiendo “Para ti, ¿Qué si es Paz?”. Posteriormente, se haría un análisis de datos enfocado a la minería de texto y, por último, una retribución inmediata al ciudadano a través de visualizaciones de datos.</p>
+          >La plataforma digital “Narrativas de Paz” permitirá ampliar el rango de cobertura del método de narrativas de Paz y proyectar el método para realizar talleres virtuales, por tanto su efecto es recolectar datos de narrativas, generar datos de percepción de paz y facilitar su comparación entre personas bajo los diferentes enfoques. El enfoque analítico de la solución incluye ciencia de datos, minería de texto e inteligencia artificial.</p>
         </v-col>
       </v-row>
 

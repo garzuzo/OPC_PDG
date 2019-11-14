@@ -35,8 +35,7 @@ export default {
     return {
         subtitle:"Objetivo",
         title:"Construir paz entre todos",
-        description:"Las Narrativas de Paz son relatos construidos colectivamente que tienen como objetivo la construcción de una definición de qué sí es la paz para los caleños, de esta manera la toma de decisiones públicas será más acertada según los enfoques de territorio, capacidad y diferencial."
-        };
+        description:"Las Narrativas de Paz son relatos construidos colectivamente que tienen como objetivo la construcción de deficiones de paz desde Cali a partir de la pregunta 'Para ti, ¿Qué sí es paz?'. De esta manera, contribuye a la toma de decisiones públicas efectivas a partir de los enfoques de territorio, diferencial, desarrollo de capacidades y tiempo, facilita datos abiertos y colaboraciones abiertas en materia de construcción de paz y cultura ciudadana. "     };
   }
 };
 </script>

@@ -2,7 +2,13 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="5">
+        <v-col cols="7">
+            <choropleth-map-report-component :campaign="campaign"></choropleth-map-report-component>
+        </v-col>
+
+      <v-col cols="5">
+        <v-row>
+        <v-col cols="12">
           <p>
             <span>Descripción:</span>
             {{campaign.description}}
@@ -32,11 +38,13 @@
             "{{narratives[randomNumber]}}"
           </p>
         </v-col>
-        <v-divider vertical cols="1"> </v-divider>       
-        <v-col cols="6">
+        <v-divider> </v-divider>       
+        <v-col cols="12">
           <h3>Los conceptos de percepción de paz más relevantes identificados en esta campaña son:</h3>
           <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud>
         </v-col>
+      </v-row>
+      </v-col>
       </v-row>
       <v-divider> </v-divider>
       <!-- <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud> -->
@@ -98,18 +106,9 @@ export default {
       },
       wordData: {
         columns: ["word", "count"],
-        rows: [
-          { word: "tranquilidad", count: 2199 },
-          { word: "familia", count: 1288 },
-          { word: "amor", count: 14000 },
-          { word: "cultura", count: 10000 },
-          { word: "paz", count: 10388 }
-        ]
+        rows: []
       },
-      narratives: [
-        "Para mi la paz es sentir que el río está limpio",
-        "Para mi la paz es que la gente no tire basuras al río"
-      ],
+      narratives: [],
       randomNumber: 0,
       percentage: 0.0
     };
@@ -131,7 +130,7 @@ export default {
       object.juventud = 20;
       object.adultez = 10;
       object.vejez = 30;
-      /*var data = [campaign.id, object.comuna]
+      var data = [this.campaign.id, object.comuna]
       api.getPeopleByCampaignAndComuna(data).then(response => {
         object.mujeres = response.women;
         object.hombres = response.men;
@@ -142,17 +141,18 @@ export default {
         object.juventud = response.juventud;
         object.adultez = response.adultez;
         object.vejez = response.vejez;
-      })*/
+      })
       this.chartData.rows.push(object);
     }
-    api.getKeywords(campaign.id).then(response => {
+    //console.log(campaign.id)
+    api.getKeywords(this.campaign.id).then(response => {
         for(var i=0; i< response.length; i++){
           var act = { word: response[i].name, count: response[i].frequency }
           this.wordData.rows.push(act)
         }        
       }).catch(err=> console.log(err))
 
-    api.getNarratives(campaign.id).then(response => {
+    api.getNarratives(this.campaign.id).then(response => {
       for(var i= 0; i< response.length; i++){
         var act = response[i].text
          this.narratives.push(act)
@@ -160,8 +160,8 @@ export default {
     }).catch(err => console.log(err));
     this.randomNumber =
       Math.floor(Math.random() * this.narratives.length) + 1 - 1;
-    this.percentage =
-      (campaign.accumulatedNarratives / campaign.narrativesGoal) * 100;
+    const number = (this.campaign.accumulatedNarratives / this.campaign.narrativesGoal) * 100;
+    this.percentage = Math.round(number * 100) / 100
   }
 };
 </script>

@@ -1,8 +1,18 @@
 <template>
-  <v-row justify="center">
-    <v-col cols="12">
-      <v-form class="form pa-5">
-        <div class="form-group">
+    <v-container>
+        <v-row>
+        <v-col cols="5">
+          <v-checkbox
+          v-model="checkbox"
+          label="¿Deseas guardar tus datos para una próxima ocasión?"
+          @change="check($event)"
+        ></v-checkbox>
+        </v-col>
+        </v-row>
+
+        <v-row v-if="checkbox">
+            <v-col cols="4">
+                <div class="form-group">
           <label for="email">Correo electrónico*</label>
           <v-text-field
             v-model="email"
@@ -16,8 +26,9 @@
             @input="$v.email.$touch()"
           ></v-text-field>
         </div>
-
-        <div class="form-group">
+            </v-col>
+            <v-col cols="4">
+                <div class="form-group">
           <label for="password">Contraseña*</label>
           <v-text-field
             v-model="password"
@@ -33,8 +44,9 @@
             @input="$v.password.$touch()"
           ></v-text-field>
         </div>
-
-        <div class="form-group">
+            </v-col>
+            <v-col cols="4">
+                <div class="form-group">
           <label for="passwordConfirmation">Confirmar contraseña*</label>
           <v-text-field
             v-model="passwordConfirmation"
@@ -49,15 +61,28 @@
             @input="$v.passwordConfirmation.$touch()"
           ></v-text-field>
         </div>
-        
-        <v-btn :ripple="false" class="ma-5 login" tile color="#673AB7" dark @click="register">Guardar</v-btn>
-      </v-form>
-    </v-col>
-  </v-row>
+            </v-col>
+        </v-row>
+        <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+      </div>
+
+        <v-row justify="end">
+            <v-col cols="2">
+          <v-btn
+            :ripple="false"
+            class="ma-2 next"
+            outlined
+            color="#673ab7"
+            @click="emitAllToParent"
+          >Finalizar</v-btn>
+        </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, requiredIf, email, minLength, sameAs } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { helpers } from "vuelidate/lib/validators";
 
@@ -65,48 +90,51 @@ const upperCase = helpers.regex("upperCase", /[A-Z]/);
 const number = helpers.regex("number", /[0-9]/);
 
 export default {
-  mixins: [validationMixin],
+     mixins: [validationMixin],
 
   validations: {
-    email: { required, email },
-    password: { required, minLength: minLength(6), upperCase, number },
-    passwordConfirmation: { required, sameAsPassword: sameAs('password') }
+    email: { required: requiredIf(function () {
+        return this.checkbox
+      }), email },
+    password: { required: requiredIf(function () {
+        return this.checkbox
+      }), minLength: minLength(6), upperCase, number },
+    passwordConfirmation: { required: requiredIf(function () {
+        return this.checkbox
+      }), sameAsPassword: sameAs('password') }
   },
-  data() {
-    return {
-      email: "",
-      password: "",
-      passwordConfirmation: ""
-    };
-  },
-  methods: {
-    register() {
-      this.$v.$touch();
-      if (this.$v.$anyError) {
-        this.submitStatus = "Error";
-        console.log("Errorrrr")
-      } else {
-        console.log("Entreeee")
-        this.submitStatus = "";
-        let data = {
-          username: this.email,
-          password: this.password,
-          dialog : false
-        };
-        this.$emit("allToParent", data);
-        /*this.$store
-        .dispatch("register", data)
-        .then(() => {
-          console.log("Registerrr")
-          this.$router.push("/login")
-        })
-        .catch(err => {
-          console.log(err);
-        });*/
-      }
+    data(){
+        return{
+            email: "",
+            password: "",
+            passwordConfirmation: "",
+            submitStatus:"",
+            dialog:false,
+            checkbox:false,
+            scroll:false
+        }
+    },
+    methods:{
+        emitAllToParent(event){
+            let data=[]
+        this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+      }else{
+          this.submitStatus = ""
+          if(this.checkbox){
+              //register
+               data=["register",this.email, this.password];
+               this.$emit("allToParent", data);
+          }else{
+              //save data without register
+             data= ["save"]
+            this.$emit("allToParent", data);
+          }        
+      } 
     }
-  },
-  computed: {
+    },
+    computed: {
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
@@ -135,35 +163,50 @@ export default {
     !this.$v.passwordConfirmation.sameAsPassword && errors.push('Esta contraseña debe coincidir con la anterior.')
     return errors;
   }
-  }
-};
+}
+}
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap");
-.col-form {
-  background: #e1e1e9;
-  height: 100vh;
+
+.input {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 36px;
 }
 
-.form {
-  background: #ffffff;
+label {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
 }
 
-.login {
-  border-radius: 5px;
-  text-transform: none !important;
-  text-decoration: none !important;
+.next {
+  text-transform: none;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: normal !important;
+}
+
+.save {
+  text-transform: none;
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-}
-
-h3 {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  color: #0c186d;
+  font-size: 16px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 </style>

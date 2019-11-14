@@ -179,10 +179,10 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/saveall/`, data)
                 .then((response) => {
-                    resolve(response.data);
+                    resolve(response);
                 })
                 .catch((err) => {
-                    reject('Error getting the achieved level', err);
+                    reject(err);
             })
         });
     }

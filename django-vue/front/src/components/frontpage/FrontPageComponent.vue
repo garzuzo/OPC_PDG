@@ -9,7 +9,7 @@
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col cols="7">
             <h1 style="padding-bottom:10vh;">Narrativas de Paz</h1>
-            <p style="padding-bottom:5vh;">El Observatorio de Paz y Cultura Ciudadana (OPC) de la Secretaría de Paz y Cultura Ciudadana de la Alcaldía de Santiago de Cali tiene como objetivo realizar mediciones de la percepción de la paz bajo el mandato ciudad-región. </p>
+            <p style="padding-bottom:5vh;">El Observatorio de Paz y Convivencia (OPC) de la Secretaría de Paz y Cultura Ciudadana de la Alcaldía de Santiago de Cali tiene como objetivo realizar mediciones de la percepción de la paz bajo el mandato ciudad-región. </p>
             <v-btn :ripple="false" depressed rounded class="mx-2 pa-5 btn peace" color="#673AB7" dark to="/construirpaz">Quiero construir paz</v-btn>
           </v-col>
         </v-row>

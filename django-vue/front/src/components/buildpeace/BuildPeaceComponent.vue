@@ -5,17 +5,12 @@
     <div class="init">
       <v-container  class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
-        <v-row>
+        <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col cols="7">
-            <br />
-            <h1>¡Construyamos Paz!</h1>
-            <br />
-            <br />
-            <p>Para el Observatorio de Paz y Cultura Ciudadana es de vital importancia conocer la percepción de paz de los ciudadanos con el fin de aportar información valiosa para las campañas en curso de proyectos alineados a la construcción de paz y cultura ciudadana.
+            <h1 style="padding-bottom:10vh;">¡Construyamos Paz!</h1>
+            <p>Para el Observatorio de Paz y Convivencia es de vital importancia comprender tu percepción de paz con el fin de aportar información valiosa para las campañas en curso de proyectos alineados a la construcción de paz y cultura ciudadana.
               ¡Ayudános a construir más paz!
             </p>
-            <br />
-            <br />
           </v-col>
         </v-row>
       </v-container>
@@ -23,7 +18,7 @@
 
     <v-container>
       <!-- ACTIVE CAMPAIGN -->
-      <v-container style="padding-top: 20vh;">>
+      <v-container style="padding-top: 20vh;">
         <v-row justify="center">
           <v-col cols="5">
             <div class="form-group">
@@ -48,145 +43,62 @@
       </v-container>
       <!-- STEPPER -->
       <v-row align="center" justify="center">
-        <v-col cols="8" md="7">
+        <v-col cols="10" md="8">
           <v-stepper v-model="e1">
             <!--TABS -->
             <v-stepper-header>
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 1" step="1">Personal</v-stepper-step>
+              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 1" step="1">Narrativa</v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 2" step="2">Personal</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 2" step="2">Territorio</v-stepper-step>
+              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 3" step="3">Territorio</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 3" step="3">Educación</v-stepper-step>
+              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 4" step="4">Educación</v-stepper-step>
+              <v-divider></v-divider>
+
+              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 5" step="5">Finalizar</v-stepper-step>
             </v-stepper-header>
 
             <!-- ITEMS INSIDE EACH TAB-->
             <v-stepper-items>
+
               <v-stepper-content step="1">
-                <personal-form-component v-on:allToParent="allFromPersonalChildClick"></personal-form-component>
+                <narrative-form-component v-on:allToParent="allFromNarrativeChildClick"></narrative-form-component>
               </v-stepper-content>
 
               <v-stepper-content step="2">
+                <personal-form-component v-on:allToParent="allFromPersonalChildClick"  v-on:before="beforePersonal"></personal-form-component>
+              </v-stepper-content>
+
+              <v-stepper-content step="3">
                 <territory-form-component
                   v-on:allToParent="allFromTerritoryChildClick"
                   v-on:before="beforeTerritory"
                 ></territory-form-component>
               </v-stepper-content>
 
-              <v-stepper-content step="3">
+              <v-stepper-content step="4">
                 <education-form-component
                   v-on:allToParent="allFromEducationChildClick"
                   v-on:before="beforeEducation"
                 ></education-form-component>
               </v-stepper-content>
+
+              <v-stepper-content step="5">
+                <save-info-component
+                  v-on:allToParent="allFromFinishChildClick"
+                  v-on:before="beforeEducation"
+                ></save-info-component>
+              </v-stepper-content>
+
             </v-stepper-items>
           </v-stepper>
         </v-col>
       </v-row>
-
-      <!-- NARRATIVE -->
-      <v-row align="center" justify="center" style="padding-top: 10vh;">>
-        <v-col cols="8">
-          <h3>Con un texto ayudanos a responder la pregunta:</h3>
-          <br />
-          <div id="text" class="form-group">
-            <label for="narrative">Para ti, ¿Qué si es paz?</label>
-            <v-textarea
-              v-model="narrative"
-              :error-messages="narrativeErrors"
-              outlined
-              name="narrative"
-              counter="500"
-              color="#0C186D"
-              class="input"
-              @input="$v.narrative.$touch()"
-            ></v-textarea>
-          </div>
-        </v-col>
-      </v-row>
-
-      <!--KEYWORDS -->
-      <v-row align="center" justify="center" style="padding-top: 10vh;">
-        <v-col cols="8">
-          <h3>Dinos 5 palabras que para ti reflejen Qué si es paz</h3>
-        </v-col>
-      </v-row>
-
-      <v-row align="center" justify="space-between">
-        <v-col cols="2">
-          <v-text-field
-            v-model="word1"
-            :error-messages="word1Errors"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="word1"
-            class="input"
-            @input="$v.word1.$touch()"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="2">
-          <v-text-field
-            v-model="word2"
-            :error-messages="word2Errors"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="word2"
-            class="input"
-            @input="$v.word2.$touch()"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="2">
-          <v-text-field
-            v-model="word3"
-            :error-messages="word3Errors"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="word3"
-            class="input"
-            @input="$v.word3.$touch()"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="2">
-          <v-text-field
-            v-model="word4"
-            :error-messages="word4Errors"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="word4"
-            class="input"
-            @input="$v.word4.$touch()"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="2">
-          <v-text-field
-            v-model="word5"
-            :error-messages="word5Errors"
-            outlined
-            color="#0C186D"
-            height="16"
-            required
-            name="word5"
-            class="input"
-            @input="$v.word5.$touch()"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-
 
       <v-row align="center" justify="center">
         <v-col cols="2">
@@ -194,96 +106,24 @@
           Revisa las advertencias. Tienes algún error en los campos
       </div>
         </v-col>
-
-        <v-col cols="5">
-          <v-checkbox
-          v-model="checkbox"
-          label="¿Deseas guardar tus datos para una próxima ocasión?"
-          @change="check($event)"
-        ></v-checkbox>
-        </v-col>
-        <v-col cols="4">
-          <v-btn v-if="checkbox==false" :ripple="false" class="ma-2 save" color="#673ab7" dark @click="saveData">Finalizar</v-btn>
-
-          <v-dialog v-model="dialog" persistent max-width="400px" v-bind:scrollable="scroll">
-          <template v-slot:activator="{ on }">
-            <v-btn  v-if="checkbox" :ripple="false" class="ma-2 save" color="#673ab7" v-on="on" dark>Crea tu cuenta</v-btn>
-            <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
-          </template>
-          <v-card>
-            <v-toolbar dark color="#0C186D">
-              <v-btn icon dark @click="dialog = false">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-               <v-toolbar-title>Crear cuenta</v-toolbar-title>
-            </v-toolbar>
-            <register-component :dialog="dialog"> </register-component>
-          </v-card>
-        </v-dialog>
-        </v-col>
       </v-row>
+
+      {{username}} {{password}}
     </v-container>
   </div>
 </template>
 
 <script>
 import api from "../../axios.js";
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 
-function differents(word) {
-  if (word == this.word1) {
-    return (
-      word != this.word2 &&
-      word != this.word3 &&
-      word != this.word4 &&
-      word != this.word5
-    );
-  }
-  if (word == this.word2) {
-    return (
-      word != this.word1 &&
-      word != this.word3 &&
-      word != this.word4 &&
-      word != this.word5
-    );
-  }
-  if (word == this.word3) {
-    return (
-      word != this.word1 &&
-      word != this.word2 &&
-      word != this.word4 &&
-      word != this.word5
-    );
-  }
-  if (word == this.word4) {
-    return (
-      word != this.word1 &&
-      word != this.word2 &&
-      word != this.word3 &&
-      word != this.word5
-    );
-  }
-  if (word == this.word5) {
-    return (
-      word != this.word1 &&
-      word != this.word2 &&
-      word != this.word3 &&
-      word != this.word4
-    );
-  }
-}
+
 export default {
   name: "BuildPeace",
   mixins: [validationMixin],
 
   validations: {
-    narrative: { required, minLength: minLength(3), maxLength: maxLength(500) },
-    word1: { required, minLength: minLength(3), differents },
-    word2: { required, minLength: minLength(3), differents },
-    word3: { required, minLength: minLength(3), differents },
-    word4: { required, minLength: minLength(3), differents },
-    word5: { required, minLength: minLength(3), differents },
     campaign : { title: {required} }
   },
   data() {
@@ -304,8 +144,6 @@ export default {
       //PERSONAL COMPONENT
       age: 0,
       gender: {id: 0, name:''},
-      name: "",
-      lastname: "",
       //EDUCATION COMPONENT
       level: {id: 0, name:''},
       higherEducation: {id: 0, name:''},
@@ -323,7 +161,10 @@ export default {
       originComuna: {id: 0, name:''},
       originNeighborhood: {id: 0, name:''},
       originCorregimiento: {id: 0, name:''},
-      originVereda: {id: 0, name:''}
+      originVereda: {id: 0, name:''},
+      //USER
+      username:"",
+      password:""
     };
   },
   created() {
@@ -336,19 +177,39 @@ export default {
   },
   methods: {
     //PROPS FROM CHILDREN
+    //Narrative
+    allFromNarrativeChildClick(value) {
+      this.narrative = value[0],
+      this.word1 = value[1],
+      this.word2 = value[2],
+      this.word3 = value[3],
+      this.word4 = value[4],
+      this.word5 = value[5]
+      this.e1 = parseInt(value[6]);
+    },
     //Personal
     allFromPersonalChildClick(value) {
       this.age = value[0];
       this.gender = value[1];
-      this.name = value[2];
-      this.lastname = value[3];
-      this.e1 = parseInt(value[4]);
+      this.e1 = parseInt(value[2]);
+    },
+    beforePersonal(value) {
+      this.e1 = value;
     },
     //Education
     allFromEducationChildClick(value) {
       this.higherEducation = value[0];
       this.level = value[1];
+      this.e1 = parseInt(value[2]);
+      //this.saveData();
     },
+    /*allFromEducationRegister(){
+      this.higherEducation = value[0];
+      this.level = value[1];
+      this.username = value[2];
+      this.password = value[3];
+      this.saveDataRegister();
+    },*/
     beforeEducation(value) {
       this.e1 = value;
     },
@@ -383,7 +244,16 @@ export default {
           console.log(err);
         });
     },
-
+    //Finish
+    allFromFinishChildClick(value){
+      if(value[0]=="register"){
+        this.username = value[1];
+        this.password = value[2];
+        this.saveDataRegister();
+      }else{
+        this.saveData()
+      }
+    },
     //REAL HANDLE OF METHODS
     saveData() {
       this.$v.$touch()
@@ -391,12 +261,11 @@ export default {
         this.submitStatus = "Error"
       }else{
         this.submitStatus = ""
+        console.log("HERE I AMMMMMM")
         let data = {
         campaign : this.campaign.id,
         age: this.age,
         gender: this.gender.id,
-        name: this.name,
-        lastname: this.lastname,
         level: this.level.id,
         higherEducation: this.higherEducation.id,
         currentZone: this.currentZone.id,
@@ -421,9 +290,49 @@ export default {
         word5: this.word5
       };
       console.log(data)
-     // api.saveData(data);
+      api.saveData(data).then((resp)=>{this.$router.push("/visualizacampaña")}).catch(err=> {console.log(err)});
       }
       
+    },
+    saveDataRegister(){
+      this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+      }else{
+        this.submitStatus = ""
+        console.log("HERE I AMMMMMM REGISTER")
+        let data = {
+        username : this.username,
+        password : this.password,
+        campaign : this.campaign.id,
+        age: this.age,
+        gender: this.gender.id,
+        level: this.level.id,
+        higherEducation: this.higherEducation.id,
+        currentZone: this.currentZone.id,
+        currentState: this.currentState.id,
+        currentCity: this.currentCity.id,
+        currentComuna: this.currentComuna.id,
+        currentNeighborhood: this.currentNeighborhood.id,
+        currentCorregimiento: this.currentCorregimiento.id,
+        currentVereda: this.currentVereda.id,
+        originZone: this.originZone.id,
+        originState: this.originState.id,
+        originCity: this.originCity.id,
+        originComuna: this.originComuna.id,
+        originNeighborhood: this.originNeighborhood.id,
+        originCorregimiento: this.originCorregimiento.id,
+        originVereda: this.originVereda.id,
+        narrative: this.narrative,
+        word1: this.word1,
+        word2: this.word2,
+        word3: this.word3,
+        word4: this.word4,
+        word5: this.word5
+      };
+      console.log(data)
+      api.saveData(data).then((resp)=>{this.$router.push("/login")}).catch(err=> {console.log(err)});
+      }
     }
   },
   computed: {
@@ -431,66 +340,6 @@ export default {
       const errors = [];
       if (!this.$v.campaign.$dirty) return errors;
       !this.$v.campaign.title.required && errors.push("La campaña es requerida.");
-      return errors;
-    },
-    narrativeErrors() {
-      const errors = [];
-      if (!this.$v.narrative.$dirty) return errors;
-      !this.$v.narrative.minLength &&
-        errors.push("La narrative debe tener mínimo 3 caracteres");
-      !this.$v.narrative.required && errors.push("La narrativa es requerida.");
-      !this.$v.narrative.maxLength &&
-        errors.push("La narrativa debe tener máximo 500 caracteres.");
-      return errors;
-    },
-    word1Errors() {
-      const errors = [];
-      if (!this.$v.word1.$dirty) return errors;
-      !this.$v.word1.minLength &&
-        errors.push("La palabra debe tener mínimo 3 caracteres");
-      !this.$v.word1.required && errors.push("La palabra es requerida.");
-      !this.$v.word1.differents &&
-        errors.push("La palabra debe ser diferente a las demás.");
-      return errors;
-    },
-    word2Errors() {
-      const errors = [];
-      if (!this.$v.word2.$dirty) return errors;
-      !this.$v.word2.minLength &&
-        errors.push("La palabra debe tener mínimo 3 caracteres");
-      !this.$v.word2.required && errors.push("La palabra es requerida.");
-      !this.$v.word2.differents &&
-        errors.push("La palabra debe ser diferente a las demás.");
-      return errors;
-    },
-    word3Errors() {
-      const errors = [];
-      if (!this.$v.word3.$dirty) return errors;
-      !this.$v.word3.minLength &&
-        errors.push("La palabra debe tener mínimo 3 caracteres");
-      !this.$v.word3.required && errors.push("La palabra es requerida.");
-      !this.$v.word3.differents &&
-        errors.push("La palabra debe ser diferente a las demás.");
-      return errors;
-    },
-    word4Errors() {
-      const errors = [];
-      if (!this.$v.word4.$dirty) return errors;
-      !this.$v.word4.minLength &&
-        errors.push("La palabra debe tener mínimo 3 caracteres");
-      !this.$v.word4.required && errors.push("La palabra es requerida.");
-      !this.$v.word4.differents &&
-        errors.push("La palabra debe ser diferente a las demás.");
-      return errors;
-    },
-    word5Errors() {
-      const errors = [];
-      if (!this.$v.word5.$dirty) return errors;
-      !this.$v.word5.minLength &&
-        errors.push("La palabra debe tener mínimo 3 caracteres");
-      !this.$v.word5.required && errors.push("La palabra es requerida.");
-      !this.$v.word5.differents &&
-        errors.push("La palabra debe ser diferente a las demás.");
       return errors;
     }
   }

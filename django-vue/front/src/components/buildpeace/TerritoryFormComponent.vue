@@ -1,9 +1,11 @@
 <template>
   <div>
+     <h3>Territorio donde vives</h3>
     <v-row justify="space-around">
       <!--FIRST COLUMN-->
+      
       <v-col cols="5">
-        <h3>Territorio donde vives</h3>
+       
         <div class="form-group">
           <label for="currentZone">Zona*</label>
           <v-select
@@ -18,7 +20,7 @@
             class="input"
             color="#0C186D"
             name="currentZone"
-            @input="$v.currentZone.$touch()"
+            @change="$v.currentZone.$touch()"
           ></v-select>
         </div>
 
@@ -36,7 +38,7 @@
             class="input"
             color="#0C186D"
             name="currentState"
-            @input="$v.currentState.$touch()"
+            @change="$v.currentState.$touch()"
           ></v-select>
         </div>
 
@@ -54,7 +56,7 @@
             class="input"
             color="#0C186D"
             name="currentComuna"
-            @input="$v.currentComuna.$touch()"
+            @change="$v.currentComuna.$touch()"
           ></v-select>
         </div>
 
@@ -72,7 +74,7 @@
             class="input"
             color="#0C186D"
             name="currentCorregimiento"
-            @input="$v.currentCorregimiento.$touch()"
+            @change="$v.currentCorregimiento.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -80,7 +82,7 @@
       <!--SECOND COLUMN -->
       <v-col align-self="end" cols="5">
         <div class="form-group">
-          <label for="currentCity">Ciudad*</label>
+          <label for="currentCity">Municipio*</label>
           <v-select
             :items="currentCities"
             item-text="name"
@@ -93,7 +95,7 @@
             class="input"
             color="#0C186D"
             name="currentCity"
-            @input="$v.currentCity.$touch()"
+            @change="$v.currentCity.$touch()"
           ></v-select>
         </div>
 
@@ -111,7 +113,7 @@
             class="input"
             color="#0C186D"
             name="currentNeighborhood"
-            @input="$v.currentNeighborhood.$touch()"
+            @change="$v.currentNeighborhood.$touch()"
           ></v-select>
         </div>
 
@@ -129,23 +131,26 @@
             class="input"
             color="#0C186D"
             name="currentVereda"
-            @input="$v.currentVereda.$touch()"
+            @change="$v.currentVereda.$touch()"
           ></v-select>
         </div>
       </v-col>
     </v-row>
-
-    <!--ORIGIN TERRITORY -->
-    <v-row justify="space-around">
-      <!--FIRST COLUMN-->
-      <v-col cols="5">
+    <v-divider> </v-divider>
+    <v-row justify="center">
+      <v-col cols="8">
         <h3>Territorio de origen</h3>
         <v-checkbox
           v-model="checkbox"
           label="¿Tu territorio de origen es igual al territorio donde vives?"
           @change="check($event)"
         ></v-checkbox>
-
+      </v-col>
+    </v-row>
+    <!--ORIGIN TERRITORY -->
+    <v-row justify="space-around">
+      <!--FIRST COLUMN-->
+      <v-col cols="5">
         <div class="form-group">
           <label for="originZone">Zona*</label>
           <v-select
@@ -161,7 +166,7 @@
             class="input"
             color="#0C186D"
             name="originZone"
-            @input="$v.originZone.$touch()"
+            @change="$v.originZone.$touch()"
           ></v-select>
         </div>
 
@@ -180,7 +185,7 @@
             class="input"
             color="#0C186D"
             name="originState"
-            @input="$v.originState.$touch()"
+            @change="$v.originState.$touch()"
           ></v-select>
         </div>
 
@@ -199,7 +204,7 @@
             class="input"
             color="#0C186D"
             name="originComuna"
-            @input="$v.originComuna.$touch()"
+            @change="$v.originComuna.$touch()"
           ></v-select>
         </div>
 
@@ -218,7 +223,7 @@
             class="input"
             color="#0C186D"
             name="originCorregimiento"
-            @input="$v.originCorregimiento.$touch()"
+            @change="$v.originCorregimiento.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -226,7 +231,7 @@
       <!--SECOND COLUMN -->
       <v-col align-self="end" cols="5">
         <div class="form-group">
-          <label for="originCity">Ciudad*</label>
+          <label for="originCity">Municipio*</label>
           <v-select
             :items="originCities"
             item-text="name"
@@ -240,7 +245,7 @@
             class="input"
             color="#0C186D"
             name="originCity"
-            @input="$v.originCity.$touch()"
+            @change="$v.originCity.$touch()"
           ></v-select>
         </div>
 
@@ -259,7 +264,7 @@
             class="input"
             color="#0C186D"
             name="originNeighborhood"
-            @input="$v.originNeighborhood.$touch()"
+            @change="$v.originNeighborhood.$touch()"
           ></v-select>
         </div>
         
@@ -278,7 +283,7 @@
             class="input"
             color="#0C186D"
             name="originVereda"
-            @input="$v.originVereda.$touch()"
+            @change="$v.originVereda.$touch()"
           ></v-select>
         </div>
       </v-col>
@@ -314,28 +319,61 @@
 
 <script>
 import api from "../../axios.js";
-import { required } from "vuelidate/lib/validators";
+import { required, requiredIf} from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 
 export default {
   name: "PersonalForm",
   mixins: [validationMixin],
 
+  
   validations: {
     currentZone: {zoneType: {required}},
     currentState: {name: {required}},
     currentCity: {name: {required}},
-    currentComuna: {name: {required}},
-    currentNeighborhood: {name: {required}},
-    currentCorregimiento: {name: {required}},
-    currentVereda: {name: {required}},
+    currentComuna: {name: {
+      required: requiredIf(function () {
+        return this.currentZone.zoneType=="Urbana" && this.currentCity.name == "Cali"
+      })
+    }},
+    currentNeighborhood: {name: {
+      required: requiredIf(function () {
+        return this.currentZone.zoneType=="Urbana" && this.currentCity.name == "Cali"
+      })
+    }},
+    currentCorregimiento: {name: {
+      required: requiredIf(function () {
+        return this.currentZone.zoneType=="Rural" && this.currentCity.name == "Cali"
+      })
+    }},
+    currentVereda: {name: {
+      required: requiredIf(function () {
+        return this.currentZone.zoneType=="Rural" && this.currentCity.name == "Cali"
+      })
+    }},
     originZone: {zoneType: {required}},
     originState: {name: {required}},
     originCity: {name: {required}},
-    originComuna: {name: {required}},
-    originNeighborhood: {name: {required}},
-    originCorregimiento: {name: {required}},
-    originVereda: {name: {required}}
+    originComuna: {name: {
+      required: requiredIf(function () {
+        return this.originZone.zoneType=="Urbana" && this.originCity.name == "Cali"
+      })
+    }},
+    originNeighborhood: {name: {
+      required: requiredIf(function () {
+        return this.originZone.zoneType=="Urbana" && this.originCity.name == "Cali"
+      })
+    }},
+    originCorregimiento: {name: {
+      required: requiredIf(function () {
+        return this.originZone.zoneType=="Rural" && this.originCity.name == "Cali"
+      })
+    }},
+    originVereda: {name: {
+      required: requiredIf(function () {
+        return this.originZone.zoneType=="Rural" && this.originCity.name == "Cali"
+      })
+    }}
   },
   data() {
     return {
@@ -596,13 +634,16 @@ export default {
         this.originCorregimiento = this.currentCorregimiento;
         this.originVereda = this.currentVereda;
         this.disabled = true
+      }else{
+        this.disabled = false
       } 
     },
     emitAllToParent(event) {
       this.$v.$touch();
-      //if (this.$v.$anyError) {
-        //this.submitStatus = "Error";
-      //} else {
+      if (this.$v.$anyError) {
+        this.submitStatus = "Error";
+      } else {
+        this.submitStatus = "";
         let data = [
           this.currentZone,
           this.currentState,
@@ -618,13 +659,13 @@ export default {
           this.originNeighborhood,
           this.originCorregimiento,
           this.originVereda,
-          "3"
+          "4"
         ];
         this.$emit("allToParent", data);
-      //}
+      }
     },
     emitBeforeToParent(event) {
-      this.$emit("before", 1);
+      this.$emit("before", 2);
     }
   }
 };

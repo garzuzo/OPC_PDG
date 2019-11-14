@@ -45,7 +45,8 @@
       <v-row justify="space-between">
         <v-col cols="2">
           <v-btn :ripple="false" class="ma-2 next" outlined color="#673ab7" @click="emitBeforeToParent">Anterior</v-btn>
-        </v-col>
+        </v-col>        
+
         <v-col cols="2">
           <v-btn
             :ripple="false"
@@ -53,7 +54,7 @@
             outlined
             color="#673ab7"
             @click="emitAllToParent"
-          >Finalizar</v-btn>
+          >Siguiente</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -79,7 +80,7 @@ export default {
       level: { id: 0, name: '' },
       education: [],
       levels: [],
-      submitStatus: ""
+      submitStatus: "",
     };
   },
   created() {
@@ -91,14 +92,6 @@ export default {
       .catch(err => {
         console.log(err);
       });
-
-    /*api.getAchievedLevel(this.higherEducation).then(response => {
-      console.log("ESTA ES PRIMARIA")
-      console.log(response)
-      this.levels = response.data
-    }).catch(err => {
-      console.log(err)
-    })*/
   },
   computed: {
     levelsEd() {
@@ -133,13 +126,26 @@ export default {
       if(this.$v.$anyError){
         this.submitStatus = "Error"
       }else{
-        let data = [this.higherEducation, this.level, "done"];
+        let data = [this.higherEducation, this.level, "5"];
         this.submitStatus = ""
         this.$emit("allToParent", data);
       } 
     },
+    allFromRegister(value){
+      this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+      }else{
+        console.log(value.username)
+        console.log(value.password)
+        this.dialog = value.dialog
+        let data = [this.higherEducation, this.level, value.username, value.password, "done"];
+        this.submitStatus = ""
+        this.$emit("allToParentFromRegister", data);
+      } 
+    },
     emitBeforeToParent(event){
-      this.$emit("before", 2)
+      this.$emit("before", 3)
     }
   }
 };
@@ -174,5 +180,17 @@ label {
   align-items: center;
   text-align: center;
   letter-spacing: normal !important;
+}
+
+.save {
+  text-transform: none;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 33px;
+  display: flex;
+  align-items: center;
+  text-align: center;
 }
 </style>
