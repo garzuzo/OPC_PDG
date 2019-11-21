@@ -41,6 +41,34 @@ from django.contrib.auth.models import User
 
 from datetime import date
 
+
+
+#Analitica
+
+#Tener en cuenta rutas:
+#os.getcwd()+'/../modelo_entrenado.pkl'
+#os.getcwd()+'/../data/df_limpieza.xlsx'
+from opcapp.analitica import clean_text,obtain_topics
+
+
+@api_view(['GET'])
+def predictTopic(request):
+ 
+    text=request.query_params.get("text",None)
+
+    data_list=clean_text(text)
+    topics_list=obtain_topics(data_list)
+
+    
+    data={
+        "topics":topics_list
+    }
+    return JsonResponse(data)
+
+    
+
+
+
 @api_view(['GET','POST','PUT'])
 def roleuser_list(request, pk):
 

@@ -53,7 +53,7 @@ urlpatterns = [
     path('api/campaigns_created_person/', views.campaigns_created_person),
     path('api/campaigns_person/', views.campaigns_person),
     path('api/city_person/', views.city_person),
-    
+    path('api/predict/',views.predictTopic),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
