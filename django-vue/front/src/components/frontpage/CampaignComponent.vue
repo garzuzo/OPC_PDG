@@ -49,8 +49,8 @@ export default {
   data() {
     return {
         subtitle:"Campañas",
-        title:"Narrativas que buscan construir Paz",
-        description:"Las campañas son realizadas por diferentes personas de la ciudad-región que desean contribuir a las mediciones de la percepción de paz de los ciudadanos con el fin de tener una definición de qué si es paz y les ayude en los proyectos de cultura ciudadana que se lleven a cabo."
+        title:"Narrativas que buscan construir definiciones de Paz",
+        description:"Las campañas son narradas  por una diversidad de personas en los territorios denominados de la ciudad-región que desean contribuir a las mediciones de la percepción de paz de los ciudadanos con el fin de tener definiciones de qué si es paz y les ayude en los proyectos de cultura ciudadana que se lleven a cabo."
         };
   }
 };

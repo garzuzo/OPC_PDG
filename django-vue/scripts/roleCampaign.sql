@@ -1,0 +1,1 @@
+INSERT INTO opcapp_rolecampaign (id, "name") VALUES (1, 'Invitado');

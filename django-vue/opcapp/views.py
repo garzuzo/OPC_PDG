@@ -200,8 +200,8 @@ def womenmen_campaign_list(request):
         comuna=request.query_params.get('comuna', None)
         if id is not None and comuna is not None:
   
-            numMasculino=PersonCampaign.objects.filter(campaign=id, gender__typeGender='Masculino').filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            numFemenino=PersonCampaign.objects.filter(campaign=id, gender__typeGender='Femenino').filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
+            numMasculino=PersonCampaign.objects.filter(campaign=id, gender__typeGender='Masculino').filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            numFemenino=PersonCampaign.objects.filter(campaign=id, gender__typeGender='Femenino').filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
             
             data = {
                 "men": numMasculino,
@@ -238,12 +238,12 @@ def age_range_campaign_list(request):
             vejez=calculate_mindate(60)
           
 
-            primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=primeraInfanciaMin, birthdate__lte=primeraInfanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            infanciaList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=infanciaMin, birthdate__lte=infanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            adolescenciaList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=adolescenciaMin, birthdate__lte=adolescenciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            juventudList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=juventudMin, birthdate__lte=juventudMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            adultezList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=adultezMin, birthdate__lte=adultezMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
-            vejezList=PersonCampaign.objects.filter(campaign=id, birthdate__gte=vejez).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
+            primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=primeraInfanciaMin, person__birthdate__lte=primeraInfanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            infanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=infanciaMin, person__birthdate__lte=infanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            adolescenciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=adolescenciaMin, person__birthdate__lte=adolescenciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            juventudList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=juventudMin, person__birthdate__lte=juventudMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            adultezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=adultezMin, person__birthdate__lte=adultezMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
+            vejezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__gte=vejez).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
 
             
 
@@ -278,7 +278,7 @@ def population_comunas_list(request):
         comuna=request.query_params.get('comuna', None)
         if id is not None and comuna is not None:
            
-            numPeople=PersonCampaign.objects.filter(campaign=id).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).len()
+            numPeople=PersonCampaign.objects.filter(campaign=id).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__name=comuna).count()
            
             data = {
                 "frequency": numPeople
@@ -387,7 +387,7 @@ def campaigns_person(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        numPersonCampaign=PersonCampaign.objects.filter(person=person.id).len()
+        numPersonCampaign=PersonCampaign.objects.filter(person=person.id).count()
 
         data = {
                 "campaings_person": numPersonCampaign
@@ -402,7 +402,7 @@ def campaigns_created_person(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        numPersonCampaignCreated=PersonCampaign.objects.filter(person=person.id,roleCampaign="Proyectista").len()
+        numPersonCampaignCreated=PersonCampaign.objects.filter(person=person.id,roleCampaign="Proyectista").count()
 
         data = {
                 "campaings_created_person": numPersonCampaignCreated
@@ -647,11 +647,11 @@ def save_info(request):
 
 
         if currentNeighborhood == 0 and currentVereda == 0 :
-            currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=currentCity ).first()
+            currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=currentCity ).first().id
 
 
-        if currentNeighborhood == 0 and currentVereda == 0 :
-            originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=originCity).first()
+        if originNeighborhood == 0 and originVereda == 0 :
+            originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=originCity).first().id
 
 
        # print(currentLevel3)

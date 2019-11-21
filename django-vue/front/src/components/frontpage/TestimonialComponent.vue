@@ -26,8 +26,8 @@
                   <h5 class="mr-2">Antropóloga</h5></v-list-item-title>
                 </v-list-item-content>-->
                 <v-row align="center" justify="end">
-                  <h4>Sandra Niño -</h4>
-                  <h5 class="mr-2">Antropóloga</h5>
+                  <h4>22 años -</h4>
+                  <h5 class="mr-2">Cali, Comuna 19</h5>
                 </v-row>
               </v-list-item>
             </v-card-actions>
