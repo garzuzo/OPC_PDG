@@ -43,18 +43,7 @@ from datetime import date
 
 
 
-#Ages
-primeraInfanciaMin=calculate_mindate(0)
-primeraInfanciaMax=calculate_mindate(5)
-infanciaMin=calculate_mindate(6)
-infanciaMax=calculate_mindate(11)
-adolescenciaMin=calculate_mindate(12)
-adolescenciaMax=calculate_mindate(18)
-juventudMin=calculate_mindate(19)
-juventudMax=calculate_mindate(26)
-adultezMin=calculate_mindate(27)
-adultezMax=calculate_mindate(59)
-vejez=calculate_mindate(60)
+
           
 
 
@@ -235,7 +224,18 @@ def age_range_campaign_list(request):
         id=request.query_params.get('id', None)
         comuna=request.query_params.get('comuna', None)
         if id is not None and comuna is not None:
-
+            #Ages
+            primeraInfanciaMin=calculate_mindate(0)
+            primeraInfanciaMax=calculate_mindate(5)
+            infanciaMin=calculate_mindate(6)
+            infanciaMax=calculate_mindate(11)
+            adolescenciaMin=calculate_mindate(12)
+            adolescenciaMax=calculate_mindate(18)
+            juventudMin=calculate_mindate(19)
+            juventudMax=calculate_mindate(26)
+            adultezMin=calculate_mindate(27)
+            adultezMax=calculate_mindate(59)
+            vejez=calculate_mindate(60)
             primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
             infanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
             adolescenciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax).filter(neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
