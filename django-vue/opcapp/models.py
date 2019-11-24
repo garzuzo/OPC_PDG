@@ -17,8 +17,9 @@ EDUCATION_LEVELS= (
 )
 
 GENDER_LIST= (
-    ('Masculino', 'Masculino'),
-    ('Femenino','Femenino')
+    ('Femenino', 'Femenino'),
+    ('Masculino','Masculino'),
+    ('Intersexual','Intersexual'),
 
 )
 
@@ -28,14 +29,10 @@ ZONE_LIST= (
 
 )
 
-
 class HigherLevelEducation(models.Model):
     name=models.CharField(max_length=30, choices=EDUCATION_LEVELS)
     def __str__(self):
         return self.name
-#class HigherLevelEducationAchievedLevel(models.Model):
-#    higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
- #   achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
 
 class AchievedLevel(models.Model):
     name=models.CharField(max_length=30)
@@ -48,12 +45,6 @@ class RoleUser(models.Model):
     def __str__(self):
         return self.name
 
-
-#class User(models.Model):
-#    email=models.CharField(max_length=30, primary_key=True)
- #   password=models.CharField(max_length=30)
-#    phoneNumber=models.CharField(max_length=30)
- #   roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
 
 
 
@@ -114,26 +105,22 @@ class NeighborhoodVereda(models.Model):
 
 
 class Person(models.Model):
-   # id=models.CharField(max_length=30)
     birthdate=models.DateField()
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
-    #higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
     neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritorysource', blank= True)
     neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personterritoryactual', blank= True)
     user=models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    #phoneNumber=models.CharField(max_length=30,blank=True)
     roleUser=models.ForeignKey(RoleUser, on_delete=models.CASCADE)
 
 
 
 
 class Campaign(models.Model):
-    #campain_id=models.CharField(max_length=30)
     startDate=models.DateField()
     endDate=models.DateField()
     description=models.CharField(max_length=200)
-    title=models.CharField(max_length=30)
+    title=models.CharField(max_length=70)
     narrativesGoal=models.IntegerField()
     accumulatedNarratives=models.IntegerField()
     isActive=models.BooleanField(default=False)
@@ -147,11 +134,16 @@ class PersonCampaign(models.Model):
     campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)
-    #higherLevelEducation=models.ForeignKey(HigherLevelEducation, on_delete=models.CASCADE)
     neighborhoodVeredaSource=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritorysource')
     neighborhoodVeredaActual=models.ForeignKey(NeighborhoodVereda, on_delete=models.CASCADE,related_name='personcampaignterritoryactual')
 
 
+
+class Topic(models.Model):
+    concepts=models.CharField(max_length=600)
+    
+    def __str__(self):
+        return self.id
 
 
 class ActivityNarrative(models.Model):
@@ -159,20 +151,11 @@ class ActivityNarrative(models.Model):
     #created_date = models.DateTimeField(default=timezone.now)
     campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
     personCampaign=models.OneToOneField(PersonCampaign, on_delete=models.CASCADE)
+    topicPrimary=models.ForeignKey(Topic, on_delete=models.CASCADE,related_name='narrativetopicprimary')
+    topicSecondary=models.ForeignKey(Topic, on_delete=models.CASCADE,related_name='narrativetopicsecondary')
 
-class Concept(models.Model):
-    #id=models.CharField(max_length=30)
-    name=models.CharField(max_length=30)
-    frequency=models.IntegerField()
-    activityNarrative=models.ManyToManyField(ActivityNarrative)
-    def __str__(self):
-        return self.name
-#class KeyConceptNarrative(models.Model):
- #   activityNarrative=models.ForeignKey(ActivityNarrative, on_delete=CASCADE)
-  #  keyConcept=models.ForeignKey(KeyConcept, on_delete=CASCADE)
 
 class KeyConcept(models.Model):
-    #id=models.CharField(max_length=30)
     name=models.CharField(max_length=30)
     frequency=models.IntegerField()
     activityNarrative=models.ManyToManyField(ActivityNarrative)

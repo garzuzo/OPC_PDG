@@ -34,7 +34,7 @@ def show_topics(vectorizer, lda_model, n_words):
 
 
 def topic_keywords(vectorizer, lda_model ):
-    topic_keywords = show_topics(vectorizer=vectorizer, lda_model=lda_model, n_words=30)        
+    topic_keywords = show_topics(vectorizer=vectorizer, lda_model=lda_model, n_words=20)        
 
     # Topic - Keywords Dataframe
     df_topic_keywords = pd.DataFrame(topic_keywords)
@@ -127,8 +127,8 @@ def obtain_topics(data_list):
     #obtengo las palabras mas representativas de los dos topicos
     topic1 = df_topic_keywords.iloc[firstTopic, :].values.tolist()
     topic2 = df_topic_keywords.iloc[secondTopic, :].values.tolist()
-    topic1String="El tópico primario es topic "+str(firstTopic)+":"+ ', '.join(topic1)
-    topic2String="El tópico secundario es topic "+str(secondTopic)+":"+ ', '.join(topic2)
+    topic1String=', '.join(topic1)
+    topic2String=', '.join(topic2)
     topic_list=[]
     topic_list.append(topic1String)
     topic_list.append(topic2String)

@@ -25,9 +25,9 @@ class ActivityNarrativeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ConceptSerializer(serializers.ModelSerializer):
+class TopicSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Concept
+        model = Topic
         fields = '__all__'
 
 
@@ -100,7 +100,6 @@ class ZoneSerializer(serializers.ModelSerializer):
         model = Zone
         fields = ['id', 'zoneType']
 
-ActivityNarrative
 class NeighborhoodVeredaSerializer(serializers.ModelSerializer):
     class Meta:
         model = NeighborhoodVereda
@@ -112,22 +111,6 @@ class CampaignSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = ['id', 'startDate', 'endDate', 'description', 'title', 'narrativesGoal', 'accumulatedNarratives', 'isActive']
 
-
-class ConceptSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Concept
-        fields = '__all__'
-
-class ActivityNarrativeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ActivityNarrative
-        fields = '__all__'
-
-
-class KeyConceptSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KeyConcept
-        fields = '__all__'
 
 
 class PersonSerializer(serializers.ModelSerializer):

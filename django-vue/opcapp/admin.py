@@ -14,7 +14,7 @@ NeighborhoodVereda,
 Campaign,
 PersonCampaign,
 ActivityNarrative,
-Concept,
+Topic,
 KeyConcept,
 Group,
 Participant)
@@ -35,7 +35,7 @@ admin.site.register(NeighborhoodVereda)
 admin.site.register(Campaign)
 admin.site.register(PersonCampaign)
 admin.site.register(ActivityNarrative)
-admin.site.register(Concept)
+admin.site.register(Topic)
 admin.site.register(KeyConcept)
 admin.site.register(Group)
 admin.site.register(Participant)

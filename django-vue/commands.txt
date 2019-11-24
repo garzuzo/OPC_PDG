@@ -1,9 +1,9 @@
-CREATE DATABASE opc_db;
-CREATE USER opc_user WITH PASSWORD 'opc_passwd';
-ALTER ROLE opc_user SET client_encoding TO 'utf8';
-ALTER ROLE opc_user SET default_transaction_isolation TO 'read committed';
-ALTER ROLE opc_user SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE opc_db TO opc_user;
+CREATE DATABASE OPC_TEST;
+CREATE USER U_OPC WITH PASSWORD 'opc_passwd';
+ALTER ROLE U_OPC SET client_encoding TO 'utf8';
+ALTER ROLE U_OPC SET default_transaction_isolation TO 'read committed';
+ALTER ROLE U_OPC SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE OPC_TEST TO U_OPC;
 
 
 
@@ -47,13 +47,15 @@ docs:
     
     
     
+python3 manage.py createsuperuser --username opc_admin --email garzuxo@gmail.com
+    
 New migration:
 
 sudo su - postgres
 psql
-drop database opc_db;
-CREATE DATABASE opc_db;
-GRANT ALL PRIVILEGES ON DATABASE opc_db TO opc_user;
+drop database OPC_TEST;
+CREATE DATABASE OPC_TEST;
+GRANT ALL PRIVILEGES ON DATABASE OPC_TEST TO U_OPC;
 exit
 python manage.py makemigrations
 python manage.py migrate
@@ -61,3 +63,35 @@ python manage.py migrate
 
 Notes:
     Remove migrations without delete __init__.py
+    
+    
+    
+    
+    
+many to many
+https://docs.djangoproject.com/en/2.2/topics/db/examples/many_to_many/
+    
+    
+    
+
+    
+Limiting Access to Logged-in Users
+
+Of course, the reason we’re going through all this trouble is so we can limit access to parts of our site.
+
+The simple, raw way to limit access to pages is to check request.user.is_authenticated() and redirect to a login page:
+
+from django.http import HttpResponseRedirect
+
+def my_view(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/accounts/login/?next=%s' % request.path)
+        
+        
+        
+        
+As a shortcut, you can use the convenient login_required decorator:
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
