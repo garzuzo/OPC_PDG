@@ -41,6 +41,7 @@ urlpatterns = [
     path('api/comunacorr/', views.create_comunacorr),
     path('api/population_comunas/', views.population_comunas_list),
     path('api/narratives/', views.narratives_campaign_list),
+    path('api/educations/', views.education_campaign_list),
     path('api/saveall/', views.save_info),
     path('api/validuser/', views.valid_user),
     path('api/register/', views.register),
