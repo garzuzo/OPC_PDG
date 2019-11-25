@@ -39,7 +39,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 
-from datetime import date
+from datetime import date,datetime
 
 
 
@@ -469,7 +469,7 @@ def save_info_zone(request):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST','PUT'])
 def save_campaign(request):
     startDate=request.data.get('start_date',None)
     endDate=request.data.get('end_date',None)
@@ -479,27 +479,48 @@ def save_campaign(request):
     accumulatedNarratives=request.data.get('accumulated_narratives',None)
     isActive=request.data.get('is_active',None)
 
-    validDate=True if endDate>date.today() else False
+    #Tengo que formatearlo para comparar las fechas
+    endDateFormatted=datetime.strptime(endDate, '%Y-%m-%d').date()
 
-    if validDate and startDate is not None and endDate is not None and description is not None and title is not None and narrativesGoal is not None and accumulatedNarratives is not None and isActive is not None:
-        
-        data={
-            "startDate":startDate,
-            "endDate":endDate,
-            "description":description,
-            "title":title,
-            "narrativesGoal":narrativesGoal,
-            "accumulatedNarratives":accumulatedNarratives,
-            "isActive":isActive
-        }
-        
-        campaignSerializer=CampaignSerializer(data=data)
+    validDate=True if endDateFormatted>date.today() else False
 
-        if campaignSerializer.is_valid():
-            campaignSerializer.save()
-            return Response(campaignSerializer.data, status=status.HTTP_200_OK)
+    #id de la campaign para el put
+    id=request.data.get('id',None)
+
+    if validDate and startDate is not None and endDate is not None and description is not None and title is not None and narrativesGoal is not None and isActive is not None:
+        
+        if request.method == "POST"  and accumulatedNarratives is not None:
+
+            data={
+                "startDate":startDate,
+                "endDate":endDate,
+                "description":description,
+                "title":title,
+                "narrativesGoal":narrativesGoal,
+                "accumulatedNarratives":accumulatedNarratives,
+                "isActive":isActive
+            }
+            
+            campaignSerializer=CampaignSerializer(data=data)
+
+            if campaignSerializer.is_valid():
+                campaignSerializer.save()
+                return Response(campaignSerializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response( status=status.HTTP_400_BAD_REQUEST)
+
+        elif request.method =="PUT" and id is not None:
+
+
+            campaign=Campaign.objects.filter(id=id)
+            if campaign:
+                campaign.update(startDate=startDate,endDate=endDate, description=description, title=title,narrativesGoal=narrativesGoal,isActive=isActive)
+                serializer=CampaignSerializer(campaign.first())
+                return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response( status=status.HTTP_404_NOT_FOUND)
         else:
-            return Response( status=status.HTTP_400_BAD_REQUEST)
+            return Response( status=status.HTTP_404_NOT_FOUND)
     else:
         return Response( status=status.HTTP_400_BAD_REQUEST)
     
