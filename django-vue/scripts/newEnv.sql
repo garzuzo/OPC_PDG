@@ -18,11 +18,11 @@ INSERT INTO opcapp_zone (id, "zoneType") VALUES (1, 'Rural'), (2, 'Urbana');
 
 
 --rolecampaign
-INSERT INTO opcapp_rolecampaign (id, "name") VALUES (1, 'Invitado'),(2, 'Proyectista');
+--INSERT INTO opcapp_rolecampaign (id, "name") VALUES (1, 'Invitado'),(2, 'Proyectista');
 
 
 --roleuser
-INSERT INTO opcapp_roleuser (id, "name") VALUES (1, 'Registrado');
+INSERT INTO opcapp_roleuser (id, "name") VALUES (1, 'Registrado'),(2, 'Proyectista');
 
 -- nivel educativo mas alto alcanzado
 INSERT INTO opcapp_higherleveleducation (id, name) VALUES (1, 'Primaria'), (2, 'Secundaria'), (3, 'Tecnología'), (4, 'Universitaria'), (5, 'Postgrado'),(6, 'Ninguna');
@@ -3882,8 +3882,8 @@ VALUES
 
 --Campaigns de prueba
 
-INSERT INTO opcapp_campaign (id, "startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive") VALUES (3, '2019-11-21', '2019-12-28', 'Paro en Colombia', 'Paz en diferentes ciudades del pais', 3500, 0, TRUE);
-INSERT INTO opcapp_campaign (id, "startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive") VALUES (4, '2019-11-10', '2019-12-25', 'Campañas en las diferentes comunas de Cali', 'Paz en mi linda Cali', 200, 0, FALSE);
+INSERT INTO opcapp_campaign ("startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive", "person_id") VALUES ( '2019-11-21', '2019-12-28', 'Paro en Colombia', 'Paz en diferentes ciudades del pais', 3500, 0, TRUE,1);
+INSERT INTO opcapp_campaign ("startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive", "person_id") VALUES ( '2019-11-10', '2019-12-25', 'Campañas en las diferentes comunas de Cali', 'Paz en mi linda Cali', 200, 0, FALSE,1);
 
 
 

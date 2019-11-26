@@ -19,7 +19,7 @@ ActivityNarrativeSerializer,
 TopicSerializer, 
 KeyConceptSerializer,
 UserSerializer,
-RoleCampaignSerializer,
+#RoleCampaignSerializer,
 PersonSerializer,
 PersonCampaignSerializer)
 
@@ -470,6 +470,7 @@ def save_info_zone(request):
 
 
 @api_view(['POST','PUT'])
+@permission_classes([IsAuthenticated])
 def save_campaign(request):
     startDate=request.data.get('start_date',None)
     endDate=request.data.get('end_date',None)
@@ -490,15 +491,19 @@ def save_campaign(request):
     if validDate and startDate is not None and endDate is not None and description is not None and title is not None and narrativesGoal is not None and isActive is not None:
         
         if request.method == "POST"  and accumulatedNarratives is not None:
-
+            
+            person=Person.objects.get(user=request.user.id)
+            print(person.id)
             data={
+                "person":person.id,
                 "startDate":startDate,
                 "endDate":endDate,
                 "description":description,
                 "title":title,
                 "narrativesGoal":narrativesGoal,
                 "accumulatedNarratives":accumulatedNarratives,
-                "isActive":isActive
+                "isActive":isActive,
+                
             }
             
             campaignSerializer=CampaignSerializer(data=data)
@@ -511,8 +516,8 @@ def save_campaign(request):
 
         elif request.method =="PUT" and id is not None:
 
-
-            campaign=Campaign.objects.filter(id=id)
+            person=Person.objects.get(user=request.user.id)
+            campaign=Campaign.objects.filter(id=id, person=person.id)
             if campaign:
                 campaign.update(startDate=startDate,endDate=endDate, description=description, title=title,narrativesGoal=narrativesGoal,isActive=isActive)
                 serializer=CampaignSerializer(campaign.first())
@@ -550,16 +555,17 @@ def campaigns_person(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-       # personCampaignList=PersonCampaign.objects.filter(person__id=person.id)
+
         personCampaignList=PersonCampaign.objects.values_list('campaign', flat=True).filter(person__id=person.id)
+        print(personCampaignList)
         campaignList=None
         for i in personCampaignList:
             if campaignList is None:
                 campaignList=Campaign.objects.filter(id=i)
             else:
-                campaignList.union(Campaign.objects.filter(id=i))
+                campaignList=campaignList.union(Campaign.objects.filter(id=i))
 
-
+        #campaignList=Campaign.objects.filter(person=person.id)
         serializer=CampaignSerializer(campaignList, many=True)
        
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -573,16 +579,9 @@ def campaigns_created_person(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        personCampaignCreatedList=PersonCampaign.objects.values_list('campaign', flat=True).filter(person__id=person.id,roleCampaign__name="Proyectista")
-        campaignList=None
-        for i in personCampaignCreatedList:
-            if campaignList is None:
-                campaignList=Campaign.objects.filter(id=i)
-            else:
-                campaignList.union(Campaign.objects.filter(id=i))
-
-
+        campaignList=Campaign.objects.filter(person=person.id)
         serializer=CampaignSerializer(campaignList, many=True)
+
        
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
@@ -608,13 +607,15 @@ def person_data(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        achievedLevel=str(person.achievedLevel.id)+"."+ person.achievedLevel.name
+        achievedLevel=person.achievedLevel.name+"/"+ person.achievedLevel.higherLevelEducation.name
+        neighborhoodVeredaActual=person.neighborhoodVeredaActual.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
+        neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
         data = {
             #'phoneNumber':person.phoneNumber,
             'achievedLevel':achievedLevel,
             'birthdate':person.birthdate,
-            'neighborhoodVeredaActual':person.neighborhoodVeredaActual.name,
-            'neighborhoodVeredaSource':person.neighborhoodVeredaSource.name,
+            'neighborhoodVeredaActual':neighborhoodVeredaActual,
+            'neighborhoodVeredaSource':neighborhoodVeredaSource
             }
             
         return JsonResponse(data,status=status.HTTP_200_OK)
@@ -658,13 +659,13 @@ def save_info_registered_user(request):
         if narrative is not None and word1 is not None and word2 is not None and word3 is not None and word4 is not None and word5 is not None and campaign is not None: 
             idUser=request.user.id
             person=Person.objects.get(user=idUser)
-            roleUserId=RoleCampaign.objects.get(name="Invitado").id
+            #roleUserId=RoleCampaign.objects.get(name="Invitado").id
         
             dataPersonCampaign={
                 #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
                 #   roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
                     'person':person.id, 
-                    'roleCampaign':roleUserId, 
+                    #'roleCampaign':roleUserId, 
                     'campaign':campaign,
                     'achievedLevel':person.achievedLevel.id,
                     'gender':person.gender.id,
@@ -897,7 +898,7 @@ def save_info(request):
                     personAct= serializerPerson.save()
                     
             #debe existir Invitado en la db
-                roleCampaignId=RoleCampaign.objects.filter(name="Invitado").first().id
+             #   roleCampaignId=RoleCampaign.objects.filter(name="Invitado").first().id
 
             # print(serializerPerson.data)
 
@@ -907,7 +908,7 @@ def save_info(request):
                 #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
                 #   roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
                     'person':idPerson, 
-                    'roleCampaign':roleCampaignId, 
+                  #  'roleCampaign':roleCampaignId, 
                     'campaign':campaign,
                     'achievedLevel':level,
                     'gender':gender,
@@ -1098,49 +1099,6 @@ def create_comunacorr(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
   
-class HigherLevelEducationViewSet(viewsets.ModelViewSet):
-    queryset = HigherLevelEducation.objects.all()
-    serializer_class = HigherLevelEducationSerializer
-
-
-class RoleUserViewSet(viewsets.ModelViewSet):
-    queryset = RoleUser.objects.all()
-    serializer_class = RoleUserSerializer
-
-
-class GenderViewSet(viewsets.ModelViewSet):
-    queryset = Gender.objects.all()
-    serializer_class = GenderSerializer
-
-def users(request):
-
-    if request.method=='GET':
-        listUsers = RoleUser.objects.all()
-        data = {"ListaUsuarios": "listUsers"}
-        response = JsonResponse(data)
-        return response
-    elif request.method=='POST':
-        roleAct=RoleUser(name="Proyectista")
-        roleAct.save()
-        return HttpResponse("Added successfully")
-
-
-
-
-def public(request):
-    return HttpResponse("You don't need to be authenticated to see this")
-
-
-@api_view(['GET'])
-def private(request):
-    return HttpResponse("You should not see this message if not authenticated!")
-
-
-@api_view(['GET'])
-def narratives(request):
-    return HttpResponse("You should not see this message if not authenticated!")
-
-
 
 
 

@@ -56,10 +56,10 @@ class Gender(models.Model):
 
 
 
-class RoleCampaign(models.Model):
-    name=models.CharField(max_length=30)
-    def __str__(self):
-        return self.name
+#class RoleCampaign(models.Model):
+ #   name=models.CharField(max_length=30)
+ #   def __str__(self):
+ #       return self.name
 
 
 
@@ -124,13 +124,14 @@ class Campaign(models.Model):
     narrativesGoal=models.IntegerField()
     accumulatedNarratives=models.IntegerField()
     isActive=models.BooleanField(default=False)
+    person=models.ForeignKey(Person, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 
 
 class PersonCampaign(models.Model):
     person=models.ForeignKey(Person, on_delete=models.CASCADE)
-    roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
+   # roleCampaign=models.ForeignKey(RoleCampaign, on_delete=models.CASCADE)
     campaign=models.ForeignKey(Campaign, on_delete=models.CASCADE)
     achievedLevel=models.ForeignKey(AchievedLevel, on_delete=models.CASCADE)
     gender=models.ForeignKey(Gender, on_delete=models.CASCADE)

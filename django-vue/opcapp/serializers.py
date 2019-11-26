@@ -37,10 +37,10 @@ class KeyConceptSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class RoleCampaignSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RoleCampaign
-        fields = '__all__'
+#class RoleCampaignSerializer(serializers.ModelSerializer):
+ #   class Meta:
+ #       model = RoleCampaign
+ #       fields = '__all__'
 
         
 class RoleUserSerializer(serializers.ModelSerializer):
@@ -109,7 +109,7 @@ class NeighborhoodVeredaSerializer(serializers.ModelSerializer):
 class CampaignSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
-        fields = ['id', 'startDate', 'endDate', 'description', 'title', 'narrativesGoal', 'accumulatedNarratives', 'isActive']
+        fields = '__all__'
 
 
 

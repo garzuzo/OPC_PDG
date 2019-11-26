@@ -8,16 +8,11 @@ from rest_framework_simplejwt.views import (
 
 )
 
-router = routers.DefaultRouter()
-router.register(r'roleusers',views.RoleUserViewSet)
-router.register(r'gender', views.GenderViewSet)
-router.register(r'levelseducation', views.HigherLevelEducationViewSet)
 #router.register(r'states', views.states_list)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
    # path('', views.index, name='index'),
-    path('api/', include(router.urls)),
     path('api/levelineducation/', views.leveleducation_list),
 #GET /api/states?country=colombia
     path('api/states/', views.states_list),
