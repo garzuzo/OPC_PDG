@@ -4,7 +4,7 @@ HigherLevelEducation,
 AchievedLevel,
 RoleUser,
 Gender,
-RoleCampaign,
+#RoleCampaign,
 Zone,
 Country,
 State,
@@ -25,7 +25,7 @@ admin.site.register(HigherLevelEducation)
 admin.site.register(AchievedLevel)
 admin.site.register(RoleUser)
 admin.site.register(Gender)
-admin.site.register(RoleCampaign)
+#admin.site.register(RoleCampaign)
 admin.site.register(Zone)
 admin.site.register(Country)
 admin.site.register(State)
