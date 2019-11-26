@@ -424,6 +424,18 @@ def population_comunas_list(request):
         else :
             return Response( status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET'])
+def narratives_list(request):
+    if request.method == "GET":
+
+        narrativesList=ActivityNarrative.objects.all()
+        serializer=ActivityNarrativeSerializer(narrativesList, many=True)
+        return Response(serializer.data)
+    else :
+        return Response( status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(['GET'])
 def narratives_campaign_list(request):
     if request.method == "GET":
@@ -433,7 +445,8 @@ def narratives_campaign_list(request):
             narrativesList=ActivityNarrative.objects.filter(campaign__id=id)
             serializer=ActivityNarrativeSerializer(narrativesList, many=True)
             return Response(serializer.data)
-
+        else :
+            return Response( status=status.HTTP_404_NOT_FOUND)
 
 #--------------------------------------------REMOVE-----------------------------
 @api_view(['POST'])
@@ -1101,5 +1114,53 @@ def create_comunacorr(request):
   
 
 
+@api_view(['GET'])
+def topic_list(request):
 
+    if request.method=="GET":
+        topics=Topic.objects.all()
+
+        serializer=TopicSerializer(topics, many=True)
+         
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def role_user(request):
+
+    if request.method=="GET":
+
+        person=Person.objects.filter(id=request.user.id).first()
+
+        data={
+            "role_user":person.roleUser.id
+        }
+
+        return JsonResponse(data)
+
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+        
+@api_view(['GET'])
+def obtain_percentage(request):
+    if request.method=="GET":
+        person_campaign_list=PersonCampaign.objects.all()
+
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def obtain_opendata(request):
+    if request.method=="GET":
+
+        person_campaign_list=PersonCampaign.objects.all()
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
