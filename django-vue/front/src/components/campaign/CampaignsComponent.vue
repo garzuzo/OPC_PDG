@@ -15,14 +15,14 @@
     </div>
 
     <v-container>
-      <h3>Campañas Activas</h3>
+      <h3 style="padding-top: 20vh;">Campañas Activas</h3>
       <v-row justify="center">
         <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" cols="5">
           <campaign-item-component color="#FFFFFF" :campaign="campaign"></campaign-item-component>
         </v-col>
       </v-row>
 
-      <h3>Campañas Finalizadas</h3>
+      <h3 style="padding-top: 20vh;">Campañas Finalizadas</h3>
       <v-col cols="5">
         <form class="form-inline">
         <div class="form-group div-filter">
