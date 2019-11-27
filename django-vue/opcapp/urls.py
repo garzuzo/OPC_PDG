@@ -13,6 +13,10 @@ from rest_framework_simplejwt.views import (
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
    # path('', views.index, name='index'),
+
+    path('api/gender/', views.gender),
+    path('api/levelseducation/', views.levelseducation),
+
     path('api/levelineducation/', views.leveleducation_list),
 #GET /api/states?country=colombia
     path('api/states/', views.states_list),
@@ -44,6 +48,8 @@ urlpatterns = [
     path('api/save_info_ruser/', views.save_info_registered_user),
     path('api/change_zone/', views.t_change_zone),
     #profile
+   
+    path('api/acampaigns_person_list/', views.acampaigns_person_list),
     path('api/person_data/', views.person_data),
     path('api/campaigns_created_person/', views.campaigns_created_person),
     path('api/campaigns_person/', views.campaigns_person),

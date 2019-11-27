@@ -103,6 +103,25 @@ def roleuser_list(request, pk):
 
 
 @api_view(['GET'])
+def gender(request):
+    if request.method == "GET":
+        genderList=Gender.objects.all()
+        serializer=GenderSerializer(genderList, many=True)
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def levelseducation(request):
+    if request.method == "GET":
+        hlEducationList=HigherLevelEducation.objects.filter()
+        serializer=HigherLevelEducationSerializer(hlEducationList, many=True)
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
 def leveleducation_list(request):
     if request.method == "GET":
         name=request.query_params.get('name', None)
@@ -110,6 +129,11 @@ def leveleducation_list(request):
             levelsEducationList=AchievedLevel.objects.filter(higherLevelEducation__name=name)
             serializer=AchievedLevelSerializer(levelsEducationList, many=True)
             return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -123,6 +147,13 @@ def states_list(request):
             statesList=State.objects.filter(country__name=country)
             serializer=StateSerializer(statesList, many=True)
             return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 
 @api_view(['GET'])
 def cities_list(request):
@@ -622,13 +653,13 @@ def person_data(request):
         person=Person.objects.get(user=request.user.id)
         achievedLevel=person.achievedLevel.name+"/"+ person.achievedLevel.higherLevelEducation.name
         neighborhoodVeredaActual=person.neighborhoodVeredaActual.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
-        neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
+        #neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
         data = {
             #'phoneNumber':person.phoneNumber,
             'achievedLevel':achievedLevel,
-            #'birthdate':person.birthdate,
+            'zoneActual':person.neighborhoodVeredaActual.zone.name,
             'neighborhoodVeredaActual':neighborhoodVeredaActual,
-            'neighborhoodVeredaSource':neighborhoodVeredaSource
+          #  'neighborhoodVeredaSource':neighborhoodVeredaSource
             }
             
         return JsonResponse(data,status=status.HTTP_200_OK)
@@ -638,17 +669,17 @@ def person_data(request):
         achievedLevel=request.data.get('achievedLevel')
         #birthdate=request.data.get('birthdate')
         neighborhoodVeredaActual=request.data.get('neighborhoodVeredaActual')
-        neighborhoodVeredaSource=request.data.get('neighborhoodVeredaSource')
-           
+       # neighborhoodVeredaSource=request.data.get('neighborhoodVeredaSource')
+
         person=Person.objects.filter(user__id=request.user.id)
         #person.phoneNumber=phoneNumber
 
         al=AchievedLevel.objects.get(id=achievedLevel)
         nvActual=NeighborhoodVereda.objects.get(id=neighborhoodVeredaActual)
-        nvSource=NeighborhoodVereda.objects.get(id=neighborhoodVeredaSource)
+       # nvSource=NeighborhoodVereda.objects.get(id=neighborhoodVeredaSource)
 
 
-        person.update(achievedLevel=al,neighborhoodVeredaActual=nvActual,neighborhoodVeredaSource=nvSource)
+        person.update(achievedLevel=al,neighborhoodVeredaActual=nvActual)#,neighborhoodVeredaSource=nvSource)
         serializer=PersonSerializer(person.first())
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
@@ -1148,6 +1179,24 @@ def role_user(request):
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def acampaigns_person_list(request):
+    if request.method == "GET":
+        person=Person.objects.filter(id=request.user.id).first()
+        campList=Campaign.objects.filter(startDate__lte=date.today(),endDate__gte=date.today(),isActive=True)
+
+        person=Person.objects.get(user=request.user.id)
+
+        personCampaignList=PersonCampaign.objects.values_list('campaign', flat=True).filter(person__id=person.id)
+        print(personCampaignList)
+ 
+        for i in personCampaignList:
+            campList=campList.objects.exclude(id=i)
+
+        serializer=CampaignSerializer(campList, many=True)
+
+        return Response(serializer.data)
 
         
 @api_view(['GET'])
