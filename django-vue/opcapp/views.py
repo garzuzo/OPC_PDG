@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
-
+import json
 from opcapp.models import *
 
 from opcapp.serializers import (RoleUserSerializer, 
@@ -657,7 +657,7 @@ def person_data(request):
         data = {
             #'phoneNumber':person.phoneNumber,
             'achievedLevel':achievedLevel,
-            'zoneActual':person.neighborhoodVeredaActual.zone.name,
+            'zoneActual':person.neighborhoodVeredaActual.zone.zoneType,
             'neighborhoodVeredaActual':neighborhoodVeredaActual,
           #  'neighborhoodVeredaSource':neighborhoodVeredaSource
             }
@@ -1212,7 +1212,7 @@ def obtain_percentage(request):
         topicSecondary=request.query_params.get('topic_secondary', None)
        # personCampaignList=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento__lte=22)
         typeFilter=request.query_params.get('typeFilter',None)
-        listPerComuna=[]
+        
 
         idList=[]
         if typeFilter is 'comuna':
@@ -1223,7 +1223,7 @@ def obtain_percentage(request):
         elif typeFilter is 'state':
             idList=State.objects.values_list('id', flat=True)
 
-
+        dictWithFilters={}
         for i in idList:
             if (typeFilter is 'comuna') or (typeFilter is 'corregimiento'):
                 personCampaignAct=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento=i)
@@ -1250,6 +1250,10 @@ def obtain_percentage(request):
             if topicSecondary is not None:
                 personCampaignAct=personCampaignAct.objects.filter(activityNarrative__topicSecondary=topicSecondary)
 
+            dictWithFilters[i]=personCampaignAct.count()
+
+        data=json.dumps(dictWithFilters)
+        return JsonResponse(data)
 
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
