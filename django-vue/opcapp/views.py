@@ -651,15 +651,22 @@ def person_data(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        achievedLevel=person.achievedLevel.name+"/"+ person.achievedLevel.higherLevelEducation.name
-        neighborhoodVeredaActual=person.neighborhoodVeredaActual.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
+        achievedLevel=person.achievedLevel.id+"/"+person.achievedLevel.name 
+        higherEd=person.achievedLevel.higherLevelEducation.id+"/"+ person.achievedLevel.higherLevelEducation.name
+        neighborhoodVereda=person.neighborhoodVeredaActual.id+"/"+person.neighborhoodVeredaActual.name
+        comunaCorregimiento=person.neighborhoodVeredaActual.comunaCorregimiento.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name
+        city=person.neighborhoodVeredaActual.comunaCorregimiento.city.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name
+        state=person.neighborhoodVeredaActual.comunaCorregimiento.city.state.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
         #neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
         data = {
             #'phoneNumber':person.phoneNumber,
             'achievedLevel':achievedLevel,
+            'higherEd':achievedLevel,
             'zoneActual':person.neighborhoodVeredaActual.zone.zoneType,
-            'neighborhoodVeredaActual':neighborhoodVeredaActual,
-          #  'neighborhoodVeredaSource':neighborhoodVeredaSource
+            'neighborhoodVeredaActual':neighborhoodVereda,
+            'comunaCorregimiento':comunaCorregimiento,
+            'city':city,
+            'state':state
             }
             
         return JsonResponse(data,status=status.HTTP_200_OK)
@@ -1262,11 +1269,11 @@ def obtain_percentage(request):
             
             #Por si es un filtro en una campaña
             if idCampaign is not None:
-                personCampaignAct=personCampaignAct.objects.filter(campaign=idCampaign)
+                personCampaignAct=personCampaignAct.filter(campaign=idCampaign)
 
             #Las 3 posibles de siempre
             if gender is not None:
-                personCampaignAct=personCampaignAct.objects.filter(gender=gender)
+                personCampaignAct=personCampaignAct.filter(gender=gender)
 
             if age is not None:
 
@@ -1275,7 +1282,7 @@ def obtain_percentage(request):
                     primeraInfanciaMin=calculate_mindate(0)
                     primeraInfanciaMax=calculate_mindate(5)
 
-                    personCampaignAct=personCampaignAct.objects.filter(birthdate__lte=primeraInfanciaMin,birthdate__gte=primeraInfanciaMax)
+                    personCampaignAct=personCampaignAct.filter(birthdate__lte=primeraInfanciaMin,birthdate__gte=primeraInfanciaMax)
                 elif age is "infancia":
                     infanciaMin=calculate_mindate(6)
                     infanciaMax=calculate_mindate(11)
@@ -1296,13 +1303,13 @@ def obtain_percentage(request):
 
 
             if achievedLevel is not None:
-                personCampaignAct=personCampaignAct.objects.filter(achievedLevel__higherLevelEducation__name=education)
+                personCampaignAct=personCampaignAct.filter(achievedLevel__higherLevelEducation__name=education)
 
             #Por si es un filtro en la visualiza general
             if topicPrimary is not None:
-                personCampaignAct=personCampaignAct.objects.filter(activityNarrative__topicPrimary=topicPrimary)
+                personCampaignAct=personCampaignAct.filter(activityNarrative__topicPrimary=topicPrimary)
             if topicSecondary is not None:
-                personCampaignAct=personCampaignAct.objects.filter(activityNarrative__topicSecondary=topicSecondary)
+                personCampaignAct=personCampaignAct.filter(activityNarrative__topicSecondary=topicSecondary)
 
             dictWithFilters[i]=personCampaignAct.count()
 
