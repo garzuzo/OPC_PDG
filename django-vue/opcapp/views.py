@@ -679,10 +679,10 @@ def person_data(request):
 
         person.update(achievedLevel=al)
 
-        if neighborhoodVeredaActual is not None:
+        if neighborhoodVeredaActual!=0:
             nvActual=NeighborhoodVereda.objects.get(id=neighborhoodVeredaActual)
             person.update(neighborhoodVeredaActual=nvActual)
-        if cityActual is not None :
+        elif cityActual !=0 :
 
             nvActualOutsideCali=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=cityActual).first()
             person.update(neighborhoodVeredaActual=nvActualOutsideCali)
