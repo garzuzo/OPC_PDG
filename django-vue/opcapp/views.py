@@ -658,11 +658,12 @@ def person_data(request):
         city=str(person.neighborhoodVeredaActual.comunaCorregimiento.city.id)+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name
         state=str(person.neighborhoodVeredaActual.comunaCorregimiento.city.state.id)+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
         #neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
+        zoneActual=str(person.neighborhoodVeredaActual.zone.id)+"/"+person.neighborhoodVeredaActual.zone.zoneType
         data = {
             #'phoneNumber':person.phoneNumber,
             'achievedLevel':achievedLevel,
-            'higherEd':achievedLevel,
-            'zoneActual':person.neighborhoodVeredaActual.zone.zoneType,
+            'higherEd':higherEd,
+            'zoneActual':zoneActual,
             'neighborhoodVeredaActual':neighborhoodVereda,
             'comunaCorregimiento':comunaCorregimiento,
             'city':city,
