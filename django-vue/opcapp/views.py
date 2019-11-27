@@ -666,20 +666,28 @@ def person_data(request):
 
     elif request.method =="PUT":
        # phoneNumber=request.data.get('phoneNumber')
-        achievedLevel=request.data.get('achievedLevel')
+        achievedLevel=request.data.get('achievedLevel', None)
         #birthdate=request.data.get('birthdate')
-        neighborhoodVeredaActual=request.data.get('neighborhoodVeredaActual')
+        neighborhoodVeredaActual=request.data.get('neighborhoodVeredaActual', None)
+        cityActual=request.data.get('cityActual',None)
        # neighborhoodVeredaSource=request.data.get('neighborhoodVeredaSource')
 
         person=Person.objects.filter(user__id=request.user.id)
         #person.phoneNumber=phoneNumber
 
         al=AchievedLevel.objects.get(id=achievedLevel)
-        nvActual=NeighborhoodVereda.objects.get(id=neighborhoodVeredaActual)
-       # nvSource=NeighborhoodVereda.objects.get(id=neighborhoodVeredaSource)
+
+        person.update(achievedLevel=al)
+
+        if neighborhoodVeredaActual is not None:
+            nvActual=NeighborhoodVereda.objects.get(id=neighborhoodVeredaActual)
+            person.update(neighborhoodVeredaActual=nvActual)
+        if cityActual is not None :
+
+            nvActualOutsideCali=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=cityActual).first()
+            person.update(neighborhoodVeredaActual=nvActualOutsideCali)
 
 
-        person.update(achievedLevel=al,neighborhoodVeredaActual=nvActual)#,neighborhoodVeredaSource=nvSource)
         serializer=PersonSerializer(person.first())
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
@@ -1192,7 +1200,7 @@ def acampaigns_person_list(request):
         print(personCampaignList)
  
         for i in personCampaignList:
-            campList=campList.objects.exclude(id=i)
+            campList=campList.exclude(id=i)
 
         serializer=CampaignSerializer(campList, many=True)
 
@@ -1213,6 +1221,26 @@ def obtain_percentage(request):
        # personCampaignList=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento__lte=22)
         typeFilter=request.query_params.get('typeFilter',None)
         
+        if age is not None:
+
+            if age is "primera Infancia":
+                primeraInfanciaMin=calculate_mindate(0)
+                primeraInfanciaMax=calculate_mindate(5)
+            elif age is "infancia":
+                infanciaMin=calculate_mindate(6)
+                infanciaMax=calculate_mindate(11)
+            elif age is "adolescencia":
+                adolescenciaMin=calculate_mindate(12)
+                adolescenciaMax=calculate_mindate(18)
+            elif age is "juventud":
+                juventudMin=calculate_mindate(19)
+                juventudMax=calculate_mindate(26)
+            elif age is "adultez":
+                adultezMin=calculate_mindate(27)
+                adultezMax=calculate_mindate(59)
+            elif age is "adultez":
+                vejez=calculate_mindate(60)
+
 
         idList=[]
         if typeFilter is 'comuna':
@@ -1239,8 +1267,34 @@ def obtain_percentage(request):
             #Las 3 posibles de siempre
             if gender is not None:
                 personCampaignAct=personCampaignAct.objects.filter(gender=gender)
+
             if age is not None:
-                personCampaignAct=personCampaignAct.objects.filter(gender=age)
+
+
+                if age is "primera Infancia":
+                    primeraInfanciaMin=calculate_mindate(0)
+                    primeraInfanciaMax=calculate_mindate(5)
+
+                    personCampaignAct=personCampaignAct.objects.filter(birthdate__lte=primeraInfanciaMin,birthdate__gte=primeraInfanciaMax)
+                elif age is "infancia":
+                    infanciaMin=calculate_mindate(6)
+                    infanciaMax=calculate_mindate(11)
+                elif age is "adolescencia":
+                    adolescenciaMin=calculate_mindate(12)
+                    adolescenciaMax=calculate_mindate(18)
+                elif age is "juventud":
+                    juventudMin=calculate_mindate(19)
+                    juventudMax=calculate_mindate(26)
+                elif age is "adultez":
+                    adultezMin=calculate_mindate(27)
+                    adultezMax=calculate_mindate(59)
+                elif age is "adultez":
+                    vejez=calculate_mindate(60)
+
+
+
+
+
             if achievedLevel is not None:
                 personCampaignAct=personCampaignAct.objects.filter(achievedLevel__higherLevelEducation__name=education)
 
