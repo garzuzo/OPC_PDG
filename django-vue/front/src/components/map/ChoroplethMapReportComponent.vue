@@ -1,6 +1,8 @@
 <template>
   <div style="height: 100%; width: 100%">
+    
     <div class="info" style="height: 15%">
+      CAMPAIGN {{campaign.id}}
       <span>Center: {{ center }}</span>
       <span>Zoom: {{ zoom }}</span>
       <span>Bounds: {{ bounds }}</span>
@@ -28,7 +30,9 @@ import {LMap, LTileLayer, LGeoJson} from 'vue2-leaflet';
 import axios from 'axios'
 import comunas from '../../data/comunas.js';
 import api from "../../axios.js";
-import PopupContent from "./PopUpComponent";
+import PopupContent from "./PopUpComponent.vue";
+import Vue from 'vue'
+
 export default {
   components:{
 'l-map':LMap,
@@ -39,6 +43,7 @@ export default {
     campaign: Object
   },
   data () {
+    var self= this
     return {
       url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
       zoom: 10,
@@ -48,7 +53,13 @@ export default {
         geojson: comunas,
         options: {
         style: function(feature) {
-          if (feature.properties.comuna_corregimiento > 11) {
+          var fillColor,
+          comuna_corregimiento = feature.properties.comuna_corregimiento;
+      if ( comuna_corregimiento < 23 ) {fillColor = "#006837"}
+      else {fillColor = "#31a354"}  // no data
+      return { color: "#999", weight: 2, fillColor: fillColor, fillOpacity: .6 };
+
+          /*if (feature.properties.comuna_corregimiento > 11) {
             return {
               weight: 4,
               color: '#00FF00'
@@ -58,20 +69,25 @@ export default {
               weight: 4,
               color: '#FF0000'
             }
-          }
+          }*/
 
         },
-        onEachFeature: function onEachFeature(feature, layer) {
+        onEachFeature: function(feature, layer) {
+          
           // does this feature have a property named popupContent?
-          /*let PopupCont = Vue.extend(PopupContent);
+          let PopupCont = Vue.extend(PopupContent);
+          var campaignPopup = self.campaign
           let popup = new PopupCont({
           propsData: {
-              campaign: this.campaign,
-              comuna: feature.properties.nombre
+              campaign: campaignPopup,
+              name: feature.properties.nombre,
+              id: feature.properties.comuna_corregimiento
             }
           });
-          layer.bindPopup(popup.$mount().$el);*/
-          layer.bindPopup(feature.properties.nombre);
+          //layer.bindPopup( "<p> hola bb</p>");
+          layer.bindPopup(popup.$mount().$el, {minWidth:250, maxHeight: 350})
+          //layer.bindPopup(popup)*/
+          //layer.bindPopup(feature.properties.nombre);
         }
       }
       }

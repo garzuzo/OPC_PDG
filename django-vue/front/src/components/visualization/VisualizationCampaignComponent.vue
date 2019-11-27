@@ -3,14 +3,15 @@
         <v-container>
         <v-row>
             <!--MAP -->
-            <v-col cols="6">
+           <!-- <v-col cols="6">
                 <choropleth-map-component></choropleth-map-component>
-            </v-col>
+            </v-col>-->
 
             <!--VISUALIZATION-->
             <v-col cols="6">
                 <h3>En la campaña {{campaign}}, para ti la paz está asociada a los siguientes conceptos:</h3>
-                <ve-wordcloud :data="wordData" :textStyle="textStyle" :events="chartEvents"></ve-wordcloud>
+                <ve-wordcloud :data="wordData" :tooltip-visible="tooltip"	:textStyle="textStyle" :events="chartEvents"></ve-wordcloud>
+                <ve-wordcloud :data="wordData" :tooltip-visible="tooltip" :textStyle="textStyle" :events="chartEvents"></ve-wordcloud>
                 <h3>Escoge una de tus palabras:  {{name.toUpperCase()}}</h3>
             </v-col> 
         </v-row>
@@ -24,12 +25,14 @@
 
                     <v-col cols="4">
                         <h3>Edad</h3>
-                        <ve-bar :data="ageData"></ve-bar>
+                        <ve-pie id="pie" :data="pieData" :settings="pieSettings"></ve-pie>
+                        <!--<ve-bar :data="ageData"></ve-bar>-->
                     </v-col>
 
                     <v-col cols="4">
                         <h3>Educación</h3>
-                        <ve-bar :data="educationData"></ve-bar>
+                        <ve-pie id="pie" :data="pieData" :settings="pieSettings"></ve-pie>
+                        <!--<ve-bar :data="educationData"></ve-bar>-->
                     </v-col> 
                 </v-row>
         
@@ -67,6 +70,7 @@ export default {
         }
       }
     return {
+      tooltip: false,
       ageData: {
         columns: ['range','frequency'],
         rows: [

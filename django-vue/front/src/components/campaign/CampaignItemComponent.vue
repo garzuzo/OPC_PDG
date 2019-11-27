@@ -27,10 +27,31 @@
         <!--<v-btn icon class="mr-2">
           <v-icon color="#000000">fas fa-search</v-icon>
         </v-btn>-->
+        <v-dialog v-model="dialogEdit" width="400px" >
+          <template v-slot:activator="{ on }">
+             <v-btn icon v-if="edit" class="mr-2" v-on="on">
+              <v-icon color="#000000">mdi-pencil</v-icon>
+            </v-btn>
+            <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
+          </template>
+          <v-card>
+            <v-toolbar dark color="#0C186D">
+              <v-btn icon dark @click="dialogEdit = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Editar campaña</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+            <create-campaign-component :edit="edit" :campaign="campaign"> </create-campaign-component>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
+       
 
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
           <template v-slot:activator="{ on }">
-            <v-btn icon class="mr-2" v-on="on">
+            <v-btn v-if="!edit" icon class="mr-2" v-on="on">
               <v-icon color="#000000">fas fa-search</v-icon>
             </v-btn>
             <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
@@ -55,11 +76,13 @@
 export default {
   props: {
     color: String,
-    campaign: Object
+    campaign: Object,
+    edit: Boolean
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      dialogEdit: false
     };
   }
 };

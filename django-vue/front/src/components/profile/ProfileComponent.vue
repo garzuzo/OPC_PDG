@@ -4,9 +4,7 @@
 
     <div class="init" style="padding-top: 10vh; padding-bottom: 10vh;">
       <h3 align="center">Tu perfil</h3>
-      <div class="profile">
-         <img src="@/assets/profile.png" />
-        <h3 align="center">Johnatan Garzón</h3>
+      <v-row justify="center">
         <v-dialog v-model="dialogEdit" fullscreen hide-overlay transition="dialog-bottom-transition">
           <template v-slot:activator="{ on }">
             <v-btn :ripple="false" v-on="on" rounded class="ma-2 ma-5 edit" color="#ffffff">Editar información</v-btn>
@@ -23,23 +21,52 @@
           </v-card>
         </v-dialog>
         
-      </div>
+      </v-row>
 
     <v-container>
       <v-row style="padding-top: 5vh;" justify="center">
         <v-col cols="3">
-          <p>Estoy en <span>Cali</span></p>
+          <p>Estoy en <span>{{city}}</span></p>
         </v-col>
 
         <v-col cols="3">
-           <p>He realizado <span>2 narrativas</span></p>
+           <p>He realizado <span>{{narratives}} narrativas</span></p>
         </v-col>
 
-        <v-col cols="3">
-           <p>He creado <span>0 campañas</span></p>
-           <v-dialog v-model="dialogCampaign" persistent max-width="400px" v-bind:scrollable="scroll">
+        <v-col v-if="roleUser==2" cols="3">
+           <p>He creado <span>{{campaigns}} campañas</span></p>           
+        </v-col>
+      </v-row>
+    </v-container>
+    </div>
+
+    <v-container style="padding-top: 10vh;"> 
+      <h2>Has participado en las siguientes campañas:</h2>
+
+      <v-row justify="space-around"> 
+        <v-col cols="4">
+            <h2 class="ml-3"> Activas </h2>
+            <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
+                <campaign-item-component color="#FFFFFF" :edit="false" :campaign="campaign"></campaign-item-component>
+            </v-col>
+        </v-col>
+
+        <v-col cols="4">
+            <h2 class="ml-3">Finalizadas </h2>
+            <v-col v-for="campaign in notActiveCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
+                <campaign-item-component color="#E1E1E9" :edit="false" :campaign="campaign"></campaign-item-component>
+            </v-col>
+        </v-col>   
+
+        <v-col v-if="roleUser==2" cols="4">
+            <h2 class="ml-3"> Creadas </h2>
+            <v-col v-for="campaign in createdCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
+                <campaign-item-component color="#E6CEFF" :edit="true" :campaign="campaign"></campaign-item-component>
+            </v-col>
+
+            <v-dialog v-model="dialogCampaign" persistent width="400px">
           <template v-slot:activator="{ on }">
-            <v-btn :ripple="false" v-on="on" rounded class="edit" color="#ffffff">Crear campaña</v-btn>
+            <v-btn v-if="roleUser==2" :ripple="false" v-on="on" rounded class="edit" dark color="#673ab7">Crear campaña</v-btn>
             <!--<v-btn color="primary" dark v-on="on">Open Dialog</v-btn>-->
           </template>
           <v-card>
@@ -49,37 +76,23 @@
               </v-btn>
                <v-toolbar-title>Crear campaña</v-toolbar-title>
             </v-toolbar>
+            <v-card-text>
             <create-campaign-component> </create-campaign-component>
+            </v-card-text>
           </v-card>
         </v-dialog>
-
-           
-        </v-col>
-      </v-row>
-    </v-container>
-    </div>
-
-    <v-row justify="space-around"> 
-        <v-col cols="5">
-            <h2 align="center">Campañas activas </h2>
-            <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
-                <campaign-item-component color="#FFFFFF" :campaign="campaign"></campaign-item-component>
-            </v-col>
-        </v-col>
-
-        <v-col cols="5">
-            <h2 align="center">Campañas pasadas </h2>
-            <v-col v-for="campaign in notActiveCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
-                <campaign-item-component color="#E1E1E9" :campaign="campaign"></campaign-item-component>
-            </v-col>
         </v-col>   
     </v-row>    
 
-    <v-row justify="center">
+    </v-container>
+    
+    
+
+    <!--<v-row justify="center">
       <v-col cols="5">
       <v-btn :ripple="false" rounded class="edit" dark color="#673ab7" @click="logout">Logout</v-btn>
       </v-col>
-    </v-row>
+    </v-row>-->
   </div>
 </template>
 
@@ -90,45 +103,98 @@ export default {
     return {
       activeCampaigns: [],
       notActiveCampaigns: [],
+      userCampaigns: [],
       dialogEdit: false,
       dialogCampaign: false,
+      city: '',
+      narratives: 0, 
+      campaigns: 0,
+      roleUser: 0,
       profile: {
-        age: "03-03-1997",
-        gender: "Masculino",
-        name: "Johnatan",
-        lastname: "Garzón",
-        level: "En curso",
-        higherEducation: "Universitaria",
-        currentZone: "Urbana",
-        currentState: "Valle del Cauca",
-        currentCity: "Cali",
-        currentComuna: "Comuna 5",
-        currentNeighborhood: "Barrio Lomitas",
-        currentCorregimiento: "Corregimiento Pance",
-        currentVereda: "Pance (Cabecera)",
-        originZone: "Urbana",
-        originState: "Valle del Cauca",
-        originCity: "Cali",
-        originComuna: "Comuna 5",
-        originNeighborhood: "Barrio Lomitas",
-        originCorregimiento: "Corregimiento Pance",
-        originVereda: "Pance (Cabecera)"
+        gender: {id:0, typeGender: ""},
+        level: {id:0, name: ""},
+        higherEducation: {id:0, name: ""},
+        currentZone: {id:0, zoneType: ""},
+        currentState: {id:0, name: ""},
+        currentCity: {id:0, name: ""},
+        currentComuna: {id:0, name: ""},
+        currentNeighborhood: {id:0, name: ""},
+        currentCorregimiento: {id:0, name: ""},
+        currentVereda: {id:0, name: ""}
       }
     };
   },
   created() {
-    api
-      .getActiveCampaigns()
-      .then(response => {
-        this.activeCampaigns = response;
-      })
-      .catch(err => console.log(err));
+    var activeCampaigns = []
+    var notActiveCampaigns = []
+    api.getProfileCampaigns().then(response => {
+
+        this.narratives = response.length
+        for(var i=0; i<response.length; i++){
+            var act= response[i]
+            if(act.isActive){
+              activeCampaigns.push(act)
+            }else{
+              notActiveCampaigns.push(act)
+            }
+        }
+        this.activeCampaigns = activeCampaigns
+        this.notActiveCampaigns = notActiveCampaigns
+    }).catch(err => console.log(err));
+
+    api.getCityPerson().then(response => {
+        this.city = response.city_name
+    }).catch(err => console.log(err));
     
-    api
+    api.getRoleUser().then(response => {
+        this.roleUser = response.role_user
+    }).catch(err => console.log(err));
+
+    api.getProfile().then(response =>{
+      this.profile.level.id = parseInt(response.achievedLevel.split("/")[0])
+      this.profile.level.name = response.achievedLevel.split("/")[1]
+       
+      this.profile.higherEducation.id = parseInt(response.higherEd.split("/")[0])
+      this.profile.higherEducation.name = response.higherEd.split("/")[1]
+
+      this.profile.currentZone.id = parseInt(response.zoneActual.split("/")[0])
+      this.profile.currentZone.zoneType = response.zoneActual.split("/")[1]
+      
+      this.profile.currentState.id = parseInt(response.state.split("/")[0])
+      this.profile.currentState.name = response.state.split("/")[1]
+
+      this.profile.currentCity.id = parseInt(response.city.split("/")[0])
+      this.profile.currentCity.name = response.city.split("/")[1]
+
+      if(this.profile.currentZone.zoneType== "Urbana"){
+        this.profile.currentComuna.id= parseInt(response.comunaCorregimiento.split("/")[0])
+        this.profile.currentComuna.name = response.comunaCorregimiento.split("/")[1]
+
+        this.profile.currentNeighborhood.id= parseInt(response.neighborhoodVeredaActual.split("/")[0])
+        this.profile.currentNeighborhood.name= response.neighborhoodVeredaActual.split("/")[1]
+      }
+      if(this.profile.currentZone.zoneType == "Rural"){
+        this.profile.currentCorregimiento.id = parseInt(response.comunaCorregimiento.split("/")[0])
+        this.profile.currentCorregimiento.name = response.comunaCorregimiento.split("/")[1]
+
+        this.profile.currentVereda.id = parseInt(response.neighborhoodVeredaActual.split("/")[0])
+        this.profile.currentVereda.name = response.neighborhoodVeredaActual.split("/")[0]
+      }
+    }).catch(err => console.log(err));
+    /*api
       .getNotActiveCampaigns()
       .then(response => {
         this.notActiveCampaigns = response;})
-      .catch(err => console.log(err));
+      .catch(err => console.log(err));*/
+  },
+  computed:{
+    createdCampaigns(){
+      api.getCreatedCampaigns().then(response => {
+        this.campaigns = response.length
+        this.userCampaigns = response
+      }).catch(err => console.log(err));
+      return this.userCampaigns;
+    }
   },
   methods:{
     logout(){

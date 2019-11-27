@@ -3,37 +3,37 @@
     <v-col cols="12">
       <v-form class="form pa-5">
         <div class="form-group">
-          <label for="email">Titulo*</label>
+          <label for="title">Título*</label>
           <v-text-field
             v-model="title"
-            :error-messages="emailErrors"
+            :error-messages="titleErrors"
             outlined
             color="#0C186D"
             height="16"
             required
-            name="email"
+            name="title"
             class="input"
-            @input="$v.email.$touch()"
+            @input="$v.title.$touch()"
           ></v-text-field>
         </div>
 
         <div class="form-group">
-          <label for="password">Descripción*</label>
-          <v-text-field
+          <label for="description">Descripción*</label>
+          <v-textarea
             v-model="description"
-            :error-messages="passwordErrors"
+            :error-messages="descriptionErrors"
             outlined
             color="#0C186D"
-            height="16"
+            counter="250"
             required
-            name="password"
+            name="description"
             class="input"
-            @input="$v.password.$touch()"
-          ></v-text-field>
+            @input="$v.description.$touch()"
+          ></v-textarea>
         </div>
 
         <div class="form-group">
-          <label for="passwordConfirmation">Fecha de inicio*</label>
+          <label for="startDate">Fecha de inicio*</label>
           <v-menu
             v-model="menuStart"
             :close-on-content-click="false"
@@ -45,15 +45,15 @@
             <template v-slot:activator="{ on }">
               <v-text-field
             v-model="startDate"
-            :error-messages="passwordConfirmationErrors"
+            :error-messages="startDateErrors"
             outlined
             color="#0C186D"
             height="16"
             required
-            name="passwordConfirmation"
+            name="startDate"
             class="input"
             v-on="on"
-            @input="$v.passwordConfirmation.$touch()"
+            @input="$v.startDate.$touch()"
           ></v-text-field>
             </template>
             <v-date-picker v-model="startDate" color="#0C186D" @input="menuStart = false"></v-date-picker>
@@ -61,7 +61,7 @@
         </div>
         
         <div class="form-group">
-          <label for="passwordConfirmation">Fecha de finalización*</label>
+          <label for="endDate">Fecha de finalización*</label>
           <v-menu
             v-model="menuEnd"
             :close-on-content-click="false"
@@ -73,15 +73,15 @@
             <template v-slot:activator="{ on }">
               <v-text-field
             v-model="endDate"
-            :error-messages="passwordConfirmationErrors"
+            :error-messages="endDateErrors"
             outlined
             color="#0C186D"
             height="16"
             required
-            name="passwordConfirmation"
+            name="endDate"
             class="input"
             v-on="on"
-            @input="$v.passwordConfirmation.$touch()"
+            @input="$v.endDate.$touch()"
           ></v-text-field>
             </template>
             <v-date-picker v-model="endDate" color="#0C186D" @input="menuEnd = false"></v-date-picker>
@@ -91,28 +91,80 @@
         </div>
 
         <div class="form-group">
-          <label for="passwordConfirmation">Meta de narrativas*</label>
+          <label for="narrativesGoal">Meta de narrativas*</label>
           <v-text-field
             v-model="narrativesGoal"
-            :error-messages="passwordConfirmationErrors"
+            :error-messages="narrativesGoalErrors"
             outlined
             color="#0C186D"
             height="16"
             required
-            name="passwordConfirmation"
+            name="narrativesGoal"
             class="input"
-            @input="$v.passwordConfirmation.$touch()"
+            @input="$v.narrativesGoal.$touch()"
           ></v-text-field>
         </div>
 
-        <v-btn :ripple="false" class="ma-5 login" tile color="#673AB7" dark @click="register">Crear</v-btn>
+        <v-row align="center" justify="center">
+        <v-col cols="10">
+         <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
+          Revisa las advertencias. Tienes algún error en los campos
+          </div>
+          <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
+           {{succes}}
+          </div>
+        </v-col>
+      </v-row>
+        <v-btn v-if="!edit" :ripple="false" class="login" tile color="#673AB7" dark @click="createCampaign">Crear</v-btn>
+        <v-btn v-if="edit" :ripple="false" class="login" tile color="#673AB7" dark @click="editCampaign">Editar</v-btn>
       </v-form>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import api from '../../axios'
+import { required, numeric } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate";
+
+function dateMaxValue (date) {
+      //const validator = minValue(new Date())
+      const dateSplit = date.split("-")
+      date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
+      console.log(date)
+      const today = new Date().setHours(0,0,0,0)//.toISOString().split("T")[0]
+      //today.setHours(0,0,0,0)
+      return date >= today
+}
+
+function endGreaterThanStart (date) {
+      //const validator = minValue(new Date())
+      const dateSplit = date.split("-")
+      date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
+      console.log(date)
+      const startDateSplit =  this.startDate.split("-")
+      const startDate = new Date(parseInt(startDateSplit[0]), parseInt(startDateSplit[1])-1, parseInt(startDateSplit[2]))
+      return startDate <= date
+}
+
+function greaterThanCero(number){
+    return number > 0
+}
+
 export default {
+  mixins: [validationMixin],
+
+  validations: {
+    title : { required},
+    description: {required}, 
+    startDate : {required, dateMaxValue},
+    endDate: {required, endGreaterThanStart},
+    narrativesGoal: {required, numeric, greaterThanCero}
+  },
+  props:{
+    edit: Boolean,
+    campaign: Object
+  },
     data(){
         return{
             title: "", 
@@ -121,8 +173,102 @@ export default {
             endDate: new Date().toISOString().substr(0, 10), 
             narrativesGoal: 0,
             menuStart: false, 
-            menuEnd: false
+            menuEnd: false,
+            submitStatus: "",
+            succes : ""
         }
+    },
+    created(){
+      if(this.edit){
+        this.title= this.campaign.title
+        this.description = this.campaign.description
+        this.startDate = this.campaign.startDate
+        this.endDate = this.campaign.endDate
+        this.narrativesGoal = this.campaign.narrativesGoal
+      }
+    },
+    methods:{
+      createCampaign(){
+        this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+        this.succes = ""
+      }else{
+        this.submitStatus = ""
+        this.succes = ""
+        let data = {
+        title: this.title,
+        description: this.description,
+        start_date : this.startDate,
+        end_date: this.endDate,
+        accumulated_narratives: 0,
+        narratives_goal: this.narrativesGoal,
+        is_active: true
+      };
+      console.log(data)
+      console.log(this.$store.state.token)
+        api.saveCampaign(data).then(response => {this.succes = "Tu campaña ha sido creada con éxito"}).catch(err=> {console.log(err)})
+      }
+      },
+      editCampaign(){
+        this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+        this.succes = ""
+      }else{
+        this.submitStatus = ""
+        this.succes = ""
+        let data = {
+        id: this.campaign.id,
+        title: this.title,
+        description: this.description,
+        start_date : this.startDate,
+        end_date: this.endDate,
+        narratives_goal: this.narrativesGoal,
+        is_active: true
+      };
+      console.log(data)
+      console.log(this.$store.state.token)
+        api.editCampaign(data).then(response => {this.succes = "Tu campaña ha sido actualizada con éxito"}).catch(err=> {console.log(err)})
+      }
+      }
+    },
+    computed:{
+
+      titleErrors() {
+      const errors = [];
+      if (!this.$v.title.$dirty) return errors;
+      !this.$v.title.required && errors.push("Título es requerido.");
+      return errors;
+    },
+    descriptionErrors() {
+      const errors = [];
+      if (!this.$v.description.$dirty) return errors;
+      !this.$v.description.required && errors.push("Descripción es requerida.");
+      return errors;
+    },
+    startDateErrors() {
+      const errors = [];
+      if (!this.$v.startDate.$dirty) return errors;
+      !this.$v.startDate.required && errors.push("Fecha de inicio es requerida.");
+      !this.$v.startDate.dateMaxValue && errors.push("Fecha de inicio debe ser mayor a la fecha actual.");
+      return errors;
+    },
+    endDateErrors() {
+      const errors = [];
+      if (!this.$v.endDate.$dirty) return errors;
+      !this.$v.endDate.required && errors.push("Fecha de finalización es requerida.");
+      !this.$v.endDate.endGreaterThanStart && errors.push("Fecha de finalización debe ser mayor a la fecha de inicio.");
+      return errors;
+    },
+    narrativesGoalErrors() {
+      const errors = [];
+      if (!this.$v.narrativesGoal.$dirty) return errors;
+      !this.$v.narrativesGoal.required && errors.push("Meta de narrativas es requerida.");
+      !this.$v.narrativesGoal.numeric && errors.push("Meta de narrativas debe ser un valor numérico.");
+      !this.$v.narrativesGoal.greaterThanCero && errors.push("Meta de narrativas debe ser mayor a 0.");
+      return errors;
+    },
     }
 }
 </script>

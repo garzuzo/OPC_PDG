@@ -6,6 +6,11 @@
        <!--<img src="@/assets/bird.png" width="51" height="49" class="d-inline-block" alt />-->
     </v-btn>
      
+     <!--<v-btn class="ma-2 btn"  :ripple="false" depressed text icon to="/home">
+          <v-avatar size="20px">
+            <img src="@/assets/bird.png" class="d-inline-block" alt />
+          </v-avatar>
+      </v-btn>-->
       <h1>Narrativas de paz</h1>
     </v-toolbar-title>
 
@@ -18,19 +23,42 @@
         class="btn"
         to="/construirpaz"
       >Construir paz</v-btn>
-      <v-btn :ripple="false" depressed color="#E1E1E9" class="btn"  to="/sobrenosotros">Sobre nosotros</v-btn>
+      <v-btn v-if="!isLoggedIn" :ripple="false" depressed color="#E1E1E9" class="btn"  to="/sobrenosotros">Sobre nosotros</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/visualizacampaña">Visualiza</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campañas">Campañas</v-btn>
       <v-btn :ripple="false" depressed color="#E1E1E9" class="btn">Datos abiertos</v-btn>
     </v-toolbar-items>
 
-    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/login">Log in</v-btn>
-    <v-btn :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/construirpaz">Registrar</v-btn>
+    <v-btn v-if="isLoggedIn" class="ma-2 btn"  :ripple="false" depressed text icon to="/perfil">
+      <v-icon>fas fa-user</v-icon>
+    </v-btn>
+    <v-btn v-if="!isLoggedIn" :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/login">Log in</v-btn>
+    <v-btn v-if="isLoggedIn" :ripple="false" class="ma-2 login" tile color="#673AB7" dark @click="logout">Salir</v-btn>
+    <v-btn v-if="!isLoggedIn" :ripple="false" class="ma-2 login" tile color="#673AB7" dark to="/construirpaz">Registrar</v-btn>
   </v-toolbar>
+  
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      isLoggedIn: this.$store.getters.isLoggedIn
+    }
+  },
+  methods:{
+    logout(){
+      this.$store
+        .dispatch("logout")
+        .then((resp) => {
+          this.$router.push("/home")
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+  }
+};
 </script>
 
 <style scoped>

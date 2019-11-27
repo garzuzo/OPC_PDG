@@ -1,6 +1,8 @@
 <template>
 <div>
+  <navbar-component> </navbar-component>
  <v-container fluid class="fill-height col-form" style="min-height: 100%">
+   
  <v-row align="center" justify="center">
    <v-col cols="4">
     <v-form class="form container pa-5" @submit.prevent="login">
