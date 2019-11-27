@@ -651,12 +651,12 @@ def person_data(request):
     if request.method == "GET":
 
         person=Person.objects.get(user=request.user.id)
-        achievedLevel=person.achievedLevel.id+"/"+person.achievedLevel.name 
-        higherEd=person.achievedLevel.higherLevelEducation.id+"/"+ person.achievedLevel.higherLevelEducation.name
-        neighborhoodVereda=person.neighborhoodVeredaActual.id+"/"+person.neighborhoodVeredaActual.name
-        comunaCorregimiento=person.neighborhoodVeredaActual.comunaCorregimiento.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name
-        city=person.neighborhoodVeredaActual.comunaCorregimiento.city.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name
-        state=person.neighborhoodVeredaActual.comunaCorregimiento.city.state.id+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
+        achievedLevel=str(person.achievedLevel.id)+"/"+person.achievedLevel.name 
+        higherEd=str(person.achievedLevel.higherLevelEducation.id)+"/"+ person.achievedLevel.higherLevelEducation.name
+        neighborhoodVereda=str(person.neighborhoodVeredaActual.id)+"/"+person.neighborhoodVeredaActual.name
+        comunaCorregimiento=str(person.neighborhoodVeredaActual.comunaCorregimiento.id)+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.name
+        city=str(person.neighborhoodVeredaActual.comunaCorregimiento.city.id)+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.name
+        state=str(person.neighborhoodVeredaActual.comunaCorregimiento.city.state.id)+"/"+person.neighborhoodVeredaActual.comunaCorregimiento.city.state.name
         #neighborhoodVeredaSource=person.neighborhoodVeredaSource.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.name+"/"+person.neighborhoodVeredaSource.comunaCorregimiento.city.state.name
         data = {
             #'phoneNumber':person.phoneNumber,
