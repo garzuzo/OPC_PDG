@@ -53,6 +53,7 @@
         </div>
       </v-col>
     </v-row>
+    
      <v-container>
       <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
           Revisa las advertencias. Tienes algún error en los campos

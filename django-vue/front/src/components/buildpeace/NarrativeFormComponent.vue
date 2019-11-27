@@ -100,17 +100,27 @@
       </v-row>
       <v-container>
       <div v-if="submitStatus!=''" class="px-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos
+          Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo.
+      </div>
+      <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
+           {{succes}}
       </div>
       <v-row justify="end">
         <v-col cols="2">
-          <v-btn
+          <v-btn v-if="!isLoggedIn"
             :ripple="false"
             class="ma-2 next"
             outlined
             color="#673ab7"
             @click="emitAllToParent"
           >Siguiente</v-btn>
+          <v-btn v-if="isLoggedIn"
+            :ripple="false"
+            class="ma-2 next"
+            outlined
+            color="#673ab7"
+            @click="emitAllToParent"
+          >Finalizar</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -175,6 +185,9 @@ export default {
     word4: { required, minLength: minLength(3), differents },
     word5: { required, minLength: minLength(3), differents }
   },
+  props:{
+    succes: String
+  },
   data(){
       return{
         narrative: "",
@@ -184,6 +197,7 @@ export default {
         word4: "",
         word5: "",
         submitStatus: "",
+        isLoggedIn: this.$store.getters.isLoggedIn
       }
   },
   methods: {
@@ -192,11 +206,37 @@ export default {
       if(this.$v.$anyError){
         this.submitStatus = "Error"
       }else{
-        let data = [this.narrative, this.word1, this.word2, this.word3, this.word4,this.word5, "2"];
+        let data= []
+        if(!this.isLoggedIn){
+          data = [this.narrative, this.word1, this.word2, this.word3, this.word4,this.word5, "2"];
+        }else{
+          data = [this.narrative, this.word1, this.word2, this.word3, this.word4,this.word5, "0"];
+        }        
         this.submitStatus = ""
         this.$emit("allToParent", data);
       }
-      
+    },
+    saveInfo(){
+      if(this.isLoggedIn){
+        this.$v.$touch()
+      if(this.$v.$anyError || this.campaign.id==0){
+        this.submitStatus = "Error"
+        this.succes=""
+      }else{
+        this.submitStatus = ""
+        this.succes=""
+        let data = {
+        campaign : this.campaign.id,
+        narrative: this.narrative,
+        word1: this.word1,
+        word2: this.word2,
+        word3: this.word3,
+        word4: this.word4,
+        word5: this.word5
+      };
+       api.saveNarrativeLoggedUser(data).then(response=> {this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!"}).catch(err=> console.log(err))
+      }
+      }
     }
   }, 
   computed: {

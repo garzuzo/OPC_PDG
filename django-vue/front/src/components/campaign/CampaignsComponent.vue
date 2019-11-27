@@ -22,7 +22,7 @@
         </v-col>
       </v-row>
 
-      <h3>Campañas Pasadas</h3>
+      <h3>Campañas Finalizadas</h3>
       <v-col cols="5">
         <form class="form-inline">
         <div class="form-group div-filter">

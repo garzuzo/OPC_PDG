@@ -1,5 +1,5 @@
 import axios from './configaxios.js'
-
+import store from './store'
 export default {
     
     /*
@@ -183,6 +183,118 @@ export default {
                 })
                 .catch((err) => {
                     reject(err);
+            })
+        });
+    },
+
+    //PROFILE
+    getCityPerson(){
+        return new Promise((resolve, reject) => {
+            axios.get('/city_person/', { headers: {"Authorization" : `Bearer ${store.state.token}`} })
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting city', err);
+            })
+        });
+    },
+    getRoleUser(){
+        return new Promise((resolve, reject) => {
+            axios.get('/role_user/', { headers: {"Authorization" : `Bearer ${store.state.token}`} })
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting role', err);
+            })
+        });
+    },
+    getProfileCampaigns(){
+        return new Promise((resolve, reject) => {
+            axios.get('/campaigns_person/', { headers: {"Authorization" : `Bearer ${store.state.token}`} })
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting profile campaigns', err);
+            })
+        });
+    },
+    getCreatedCampaigns(){
+        return new Promise((resolve, reject) => {
+            axios.get('/campaigns_created_person/', { headers: {"Authorization" : `Bearer ${store.state.token}`}})
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting created campaigns', err);
+            })
+        });
+    },
+    saveCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.post(`/campaign/`, data, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((err) => {
+                    reject('Error creating a campaign',err);
+            })
+        });
+    },
+    editCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.put(`/campaign/`, data, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((err) => {
+                    reject('Error editing a campaign',err);
+            })
+        });
+    },
+    saveNarrativeLoggedUser(data){
+        return new Promise((resolve, reject) => {
+            axios.post(`/save_info_ruser/`, data, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((err) => {
+                    reject('Error saving narrative',err);
+            })
+        });
+    },
+    editProfile(data){
+        return new Promise((resolve, reject) => {
+            axios.put(`/person_data/`, data, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response);
+                })
+                .catch((err) => {
+                    reject('Error editing profile',err);
+            })
+        });
+    },
+    getProfile(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/person_data/`, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting profile',err);
+            })
+        });
+    },
+    getUserActiveCampaigns(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/acampaigns_person_list/`, { headers: {"Authorization" : `Bearer ${store.state.token}`}} )
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting user active campaign',err);
             })
         });
     }

@@ -18,6 +18,41 @@
 
     <v-container>
       <!-- ACTIVE CAMPAIGN -->
+      <v-speed-dial
+        v-model="fab"
+        bottom      
+        left
+        direction="top"
+        transition="scale-transition"
+        fixed
+      >
+      <template v-slot:activator>
+          <v-btn
+            v-model="fab"
+            color="#0c186d"
+            dark
+            fab
+          >
+            <v-icon v-if="fab">mdi-close</v-icon>
+            <v-icon v-else>mdi-share-variant</v-icon>
+          </v-btn>
+        </template>
+
+        <twitter-button 
+  class="share-button--circle share-button--outline"
+  v-bind:url="url"
+  btnText
+  description="¡Ayudanos a construir más paz!"
+/>
+
+<facebook-button 
+  class="share-button--circle share-button--outline"
+  v-bind:url="url"
+  btnText
+  description="¡Ayudanos a construir más paz!"
+/>
+      </v-speed-dial>
+
       <v-container style="padding-top: 20vh;">
         <v-row justify="center">
           <v-col cols="5">
@@ -48,26 +83,26 @@
             <!--TABS -->
             <v-stepper-header>
               <v-stepper-step color="#0C186D" class="input" :complete="e1 > 1" step="1">Narrativa</v-stepper-step>
-              <v-divider></v-divider>
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 2" step="2">Personal</v-stepper-step>
+              <v-divider v-if="!isLoggedIn"></v-divider>
+              <v-stepper-step v-if="!isLoggedIn" color="#0C186D" class="input" :complete="e1 > 2" step="2">Personal</v-stepper-step>
 
-              <v-divider></v-divider>
+              <v-divider v-if="!isLoggedIn"></v-divider>
 
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 3" step="3">Territorio</v-stepper-step>
+              <v-stepper-step v-if="!isLoggedIn" color="#0C186D" class="input" :complete="e1 > 3" step="3">Territorio</v-stepper-step>
 
-              <v-divider></v-divider>
+              <v-divider v-if="!isLoggedIn"></v-divider>
 
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 4" step="4">Educación</v-stepper-step>
-              <v-divider></v-divider>
+              <v-stepper-step v-if="!isLoggedIn" color="#0C186D" class="input" :complete="e1 > 4" step="4">Educación</v-stepper-step>
+              <v-divider v-if="!isLoggedIn"></v-divider>
 
-              <v-stepper-step color="#0C186D" class="input" :complete="e1 > 5" step="5">Finalizar</v-stepper-step>
+              <v-stepper-step v-if="!isLoggedIn" color="#0C186D" class="input" :complete="e1 > 5" step="5">Finalizar</v-stepper-step>
             </v-stepper-header>
 
             <!-- ITEMS INSIDE EACH TAB-->
             <v-stepper-items>
 
               <v-stepper-content step="1">
-                <narrative-form-component v-on:allToParent="allFromNarrativeChildClick"></narrative-form-component>
+                <narrative-form-component :succes="succesUser" v-on:allToParent="allFromNarrativeChildClick"></narrative-form-component>
               </v-stepper-content>
 
               <v-stepper-content step="2">
@@ -103,12 +138,15 @@
       <v-row align="center" justify="center">
         <v-col cols="2">
          <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos
+          Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. 
       </div>
+      <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
+           {{succes}}
+          </div>
         </v-col>
       </v-row>
 
-      {{username}} {{password}}
+      {{email}} {{password}}
     </v-container>
   </div>
 </template>
@@ -117,7 +155,8 @@
 import api from "../../axios.js";
 import { required } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-
+import TwitterButton from "vue-share-buttons/src/components/TwitterButton";
+import FacebookButton from "vue-share-buttons/src/components/FacebookButton";
 
 export default {
   name: "BuildPeace",
@@ -126,8 +165,14 @@ export default {
   validations: {
     campaign : { title: {required} }
   },
+  components: {
+    TwitterButton,
+    FacebookButton
+  },
   data() {
     return {
+      fab: false,
+      url: 'http://localhost:8080/construirpaz',
       e1: 0,
       narrative: "",
       word1: "",
@@ -135,9 +180,12 @@ export default {
       word3: "",
       word4: "",
       word5: "",
+      isLoggedIn: this.$store.getters.isLoggedIn,
       campaign: {id: 0, title:''},
       campaigns: [],
       submitStatus: "",
+      succes:"",
+      succesUser:"",
       dialog: false,
       scroll: false, 
       checkbox: false,
@@ -163,17 +211,25 @@ export default {
       originCorregimiento: {id: 0, name:''},
       originVereda: {id: 0, name:''},
       //USER
-      username:"",
+      email:"",
       password:""
     };
   },
   created() {
-    api
+
+    if(this.isLoggedIn){
+      api.getUserActiveCampaigns().then(response => {
+        this.campaigns = response;
+      })
+      .catch(err => console.log(err));
+    }else{
+      api
       .getActiveCampaigns()
       .then(response => {
         this.campaigns = response;
       })
       .catch(err => console.log(err));
+    }
   },
   methods: {
     //PROPS FROM CHILDREN
@@ -186,6 +242,28 @@ export default {
       this.word4 = value[4],
       this.word5 = value[5]
       this.e1 = parseInt(value[6]);
+
+      if(this.isLoggedIn){
+        this.$v.$touch()
+      if(this.$v.$anyError){
+        this.submitStatus = "Error"
+        this.succesUser=""
+      }else{
+        this.submitStatus = ""
+        this.succesUser=""
+        let data = {
+        campaign : this.campaign.id,
+        narrative: this.narrative,
+        word1: this.word1,
+        word2: this.word2,
+        word3: this.word3,
+        word4: this.word4,
+        word5: this.word5
+      };
+       api.saveNarrativeLoggedUser(data).then(response=> {this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!"}).catch(err=> console.log(err))
+      }
+      }
+
     },
     //Personal
     allFromPersonalChildClick(value) {
@@ -247,7 +325,7 @@ export default {
     //Finish
     allFromFinishChildClick(value){
       if(value[0]=="register"){
-        this.username = value[1];
+        this.email = value[1];
         this.password = value[2];
         this.saveDataRegister();
       }else{
@@ -302,7 +380,7 @@ export default {
         this.submitStatus = ""
         console.log("HERE I AMMMMMM REGISTER")
         let data = {
-        username : this.username,
+        email : this.email,
         password : this.password,
         campaign : this.campaign.id,
         age: this.age,
