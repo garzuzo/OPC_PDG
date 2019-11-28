@@ -1091,22 +1091,22 @@ def obtain_percentage(request):
         maxDate=request.query_params.get('max_date',None)
         if age is not None and age!=0:
 
-            if age == "primera infancia":
+            if age == "Primera infancia":
                 primeraInfanciaMin=calculate_mindate(0)
                 primeraInfanciaMax=calculate_mindate(5)
-            elif age == "infancia":
+            elif age == "Infancia":
                 infanciaMin=calculate_mindate(6)
                 infanciaMax=calculate_mindate(11)
-            elif age == "adolescencia":
+            elif age == "Adolescencia":
                 adolescenciaMin=calculate_mindate(12)
                 adolescenciaMax=calculate_mindate(18)
-            elif age == "juventud":
+            elif age == "Juventud":
                 juventudMin=calculate_mindate(19)
                 juventudMax=calculate_mindate(26)
-            elif age == "adultez":
+            elif age == "Adultez":
                 adultezMin=calculate_mindate(27)
                 adultezMax=calculate_mindate(59)
-            elif age == "vejez":
+            elif age == "Vejez":
                 vejez=calculate_mindate(60)
 
 
@@ -1151,22 +1151,22 @@ def obtain_percentage(request):
 
 
 
-                if age == "primera Infancia":
+                if age == "Primera infancia":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax)
-                elif age == "infancia":
+                elif age == "Infancia":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax)
-                elif age == "adolescencia":
+                elif age == "Adolescencia":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax)
-                elif age == "juventud":
+                elif age == "Juventud":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax)
-                elif age == "adultez":
+                elif age == "Adultez":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax)
-                elif age == "vejez":
+                elif age == "Vejez":
 
                     personCampaignAct=personCampaignAct.filter( person__birthdate__lte=vejez)
 
