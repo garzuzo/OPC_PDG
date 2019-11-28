@@ -3,6 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 import json
+from django.db.models import Q
+
 from opcapp.models import *
 
 from opcapp.serializers import (RoleUserSerializer, 
@@ -278,15 +280,17 @@ def narratives_list(request):
 @api_view(['GET'])
 def narratives_campaign_list(request):
     if request.method == "GET":
-        id=request.query_params.get('id', None)
-        if id is not None:
+        idCampaign=request.query_params.get('id_campaign', None)
+        idUserCampaign=request.query_params.get('id_user', None)
+        if idCampaign is not None and idUserCampaign is not None:
 
-            narrativesList=ActivityNarrative.objects.filter(campaign__id=id)
-            serializer=ActivityNarrativeSerializer(narrativesList, many=True)
+            narrativesList=ActivityNarrative.objects.filter(campaign__id=idCampaign, personCampaign=idUserCampaign).first()
+            serializer=ActivityNarrativeSerializer(narrativesList)
             return Response(serializer.data)
         else :
             return Response( status=status.HTTP_404_NOT_FOUND)
-
+    else :
+            return Response( status=status.HTTP_404_NOT_FOUND)
 #--------------------------------------------REMOVE-----------------------------
 @api_view(['POST'])
 def create_user(request):
@@ -1288,6 +1292,15 @@ def education_visualization_list(request):
                 universitaria=universitaria.filter(activitynarrative__topicSecondary=topic)
                 postgrado=postgrado.filter(activitynarrative__topicSecondary=topic)
 
+            elif topicType is not None and topicType=="General":
+
+                primaria=primaria.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                secundaria=secundaria.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                tyt=tyt.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                universitaria=universitaria.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                postgrado=postgrado.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                
+
 
         if comuna is not None:
             
@@ -1365,6 +1378,14 @@ def gender_list(request):
                 numMasculino=numMasculino.filter(activitynarrative__topicSecondary=topic)
                 numFemenino=numFemenino.filter(activitynarrative__topicSecondary=topic)
                 numIntersexual=numIntersexual.filter(activitynarrative__topicSecondary=topic)
+
+            elif topicType is not None and topicType=="General":
+
+                numMasculino=numMasculino.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                numFemenino=numFemenino.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                numIntersexual=numIntersexual.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                
+
 
 
 
@@ -1466,8 +1487,14 @@ def age_range_list(request):
                 adultezList=adultezList.filter(activitynarrative__topicSecondary=topic)
                 vejezList=vejezList.filter(activitynarrative__topicSecondary=topic)
 
+            elif topicType is not None and topicType=="General":
 
-
+                primeraInfanciaList=primeraInfanciaList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                infanciaList=infanciaList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                adolescenciaList=adolescenciaList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                juventudList=juventudList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                adultezList=adultezList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
+                vejezList=vejezList.filter(Q(activitynarrative__topicSecondary=topic) | Q(activitynarrative__topicPrimary=topic))
 
 
 

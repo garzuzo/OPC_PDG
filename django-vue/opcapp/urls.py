@@ -60,7 +60,7 @@ urlpatterns = [
     path('api/obtain_opendata/', views.obtain_opendata),
     path('api/obtain_percentage/', views.obtain_percentage),
     path('api/narratives/', views.narratives_list),
-    path('api/narratives_campaign/', views.narratives_campaign_list),
+    path('api/narrative_user_campaign/', views.narratives_campaign_list),
     path('api/role_user/', views.role_user),
     path('api/topic_list/', views.topic_list),
     path('api/topic_person_campaign/', views.topic_person_campaign),
