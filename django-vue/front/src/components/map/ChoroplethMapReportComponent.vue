@@ -1,12 +1,12 @@
 <template>
   <div style="height: 100%; width: 100%">
     
-    <div class="info" style="height: 15%">
+    <!--<div class="info" style="height: 15%">
       CAMPAIGN {{campaign.id}}
       <span>Center: {{ center }}</span>
       <span>Zoom: {{ zoom }}</span>
       <span>Bounds: {{ bounds }}</span>
-    </div>
+    </div>-->
     <l-map
       style="height: 80%; width: 100%"
       :zoom="zoom"
@@ -85,7 +85,7 @@ export default {
             }
           });
           //layer.bindPopup( "<p> hola bb</p>");
-          layer.bindPopup(popup.$mount().$el, {minWidth:250, maxHeight: 350})
+          layer.bindPopup(popup.$mount().$el, {minWidth:300, maxHeight: 350})
           //layer.bindPopup(popup)*/
           //layer.bindPopup(feature.properties.nombre);
         }

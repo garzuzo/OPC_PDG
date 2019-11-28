@@ -15,12 +15,14 @@
 
   <div>
     <p>Edad</p>
-        <ve-bar :data="ageData"></ve-bar>
+        <ve-pie  :data="ageData" :settings="ageSettings"></ve-pie>
+       <!-- <ve-bar :data="ageData"></ve-bar>-->
   </div>
 
   <div>
     <p>Educación</p>
-        <ve-bar :data="educationData"></ve-bar>
+        <ve-pie :data="educationData" :settings="educationSettings"></ve-pie>
+       <!-- <ve-bar :data="educationData"></ve-bar>-->
   </div>
   </div>
 </template>
@@ -39,6 +41,14 @@ export default {
         dimension: 'gender',
         metrics: 'frequency'
       };
+    this.ageSettings = {
+        dimension: 'range',
+        metrics: 'frequency'
+      };
+    this.educationSettings = {
+        dimension: 'education',
+        metrics: 'frequency'
+      };    
     return {
       object: {
         mujeres: 0,
@@ -74,12 +84,18 @@ export default {
     };
   },
   created() {
-    var data = [this.campaign.id, this.name];
+    var data={id:this.campaign.id, territory:'', idTerritory:this.id}
+    if(this.id <=22){
+      data.territory = 'comuna'
+    }else{
+      data.territory = 'corregimiento'
+    }
+    //var data = [this.campaign.id, this.id];
     api
-      .getPeopleByCampaignAndComuna(data)
+      .getPeopleByCampaignAndTerritory(data)
       .then(response => {
-        this.object.mujeres = response.women;
-        this.object.hombres = response.men;
+        /*this.object.mujeres = response.women;
+        this.object.hombres = response.men;*/
         this.pieData.rows.length = 0
         this.pieData.rows.push({ 'gender': 'mujeres', 'frequency': response.women })
         this.pieData.rows.push({ 'gender': 'hombres', 'frequency': response.men })
@@ -87,13 +103,13 @@ export default {
       .catch(err => console.log(err));
    
 
-    api.getRangesOfAgeByCampaignAndComuna(data).then(response => {
-      this.object.primeraInfancia = response.primeraInfancia;
+    api.getRangesOfAgeByCampaignAndTerritory(data).then(response => {
+      /*this.object.primeraInfancia = response.primeraInfancia;
       this.object.infancia = response.infancia;
       this.object.adolescencia = response.adolescencia;
       this.object.juventud = response.juventud;
       this.object.adultez = response.adultez;
-      this.object.vejez = response.vejez;
+      this.object.vejez = response.vejez;*/
       this.ageData.rows.length = 0
       this.ageData.rows.push({ 'range': '0-5', 'frequency': response.primeraInfancia })
       this.ageData.rows.push({ 'range': '6-11', 'frequency': response.infancia })
@@ -101,10 +117,41 @@ export default {
       this.ageData.rows.push({ 'range': '19-26', 'frequency': response.juventud })
       this.ageData.rows.push({ 'range': '27-59', 'frequency': response.adultez })
       this.ageData.rows.push({ 'range': '60 o más', 'frequency': response.vejez })
-    });
+    }).catch(err => console.log(err));
     
+    api.getEducationByCampaignAndTerritory(data).then(response => {
+      /*this.object.primeraInfancia = response.primeraInfancia;
+      this.object.infancia = response.infancia;
+      this.object.adolescencia = response.adolescencia;
+      this.object.juventud = response.juventud;
+      this.object.adultez = response.adultez;
+      this.object.vejez = response.vejez;*/
+      this.educationData.rows.length = 0
+      this.educationData.rows.push({ 'education': 'primaria', 'frequency': response.primaria })
+      this.educationData.rows.push({ 'education': 'secundaria', 'frequency': response.secundaria })
+      this.educationData.rows.push({ 'education': 'técnico y tecnólogo', 'frequency': response.tyt })
+      this.educationData.rows.push({ 'education': 'universitaria', 'frequency': response.universitaria })
+      this.educationData.rows.push({ 'education': 'postgrado', 'frequency': response.postgrado })
+    }).catch(err => console.log(err));
     
 
   }
 };
 </script>
+
+<style scoped>
+h3{
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  /*color: #0c186d;*/
+}
+p {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+}
+</style>

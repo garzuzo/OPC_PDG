@@ -2,11 +2,11 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="7">
+        <v-col cols="6">
             <choropleth-map-report-component :campaign="campaign"></choropleth-map-report-component>
         </v-col>
 
-      <v-col cols="5">
+      <v-col cols="6">
         <v-row>
         <v-col cols="12">
           <p>
@@ -37,19 +37,22 @@
             <span>Los participantes de esta campaña dicen:</span>
             "{{narratives[randomNumber]}}"
           </p>
-        </v-col>
-        <v-divider> </v-divider>       
-        <v-col cols="12">
+
           <h3>Los conceptos de percepción de paz más relevantes identificados en esta campaña son:</h3>
-          <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud>
+          <v-row justify="center">
+          <ve-wordcloud width="400px" height="350px" :data="wordData" :textStyle="textStyle"></ve-wordcloud>
+          </v-row>
+        </v-col>   
+        <v-col cols="12">
+          
         </v-col>
       </v-row>
       </v-col>
       </v-row>
-      <v-divider> </v-divider>
+      <!--<v-divider> </v-divider>-->
       <!-- <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud> -->
 
-      <v-row>
+      <!--<v-row>
         <v-col cols="12">
           <ve-histogram
             :data="chartData"
@@ -58,7 +61,7 @@
             :textStyle="textStyle"
           ></ve-histogram>
         </v-col>
-      </v-row>
+      </v-row>-->
     </v-container>
   </div>
 </template>
@@ -114,7 +117,7 @@ export default {
     };
   },
   created() {
-    for (var i = 1; i < 23; i++) {
+    /*for (var i = 1; i < 23; i++) {
       var object = {
         comuna: "Comuna " + i,
         mujeres: 0,
@@ -143,7 +146,7 @@ export default {
         object.vejez = response.vejez;
       })
       this.chartData.rows.push(object);
-    }
+    }*/
     //console.log(campaign.id)
     api.getKeywords(this.campaign.id).then(response => {
         for(var i=0; i< response.length; i++){
@@ -173,22 +176,22 @@ p {
   font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 18px;
+  line-height: 24px;
 }
 span{
   font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 h3{
-  font-family: "Poppins";
+  font-family: "Roboto";
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
-  color: #0c186d;
+  /*color: #0c186d;*/
 }
 </style>

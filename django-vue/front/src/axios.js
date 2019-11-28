@@ -28,9 +28,9 @@ export default {
         });
     },
 
-    getPeopleByCampaignAndComuna(data){
+    getPeopleByCampaignAndTerritory(data){
         return new Promise((resolve, reject) => {
-            axios.get(`/women_men/?id=${data[0]}&comuna=${data[1]}`)
+            axios.get(`/women_men/?id=${data.id}&${data.territory}=${data.idTerritory}`)
                 .then((response) => {
                     resolve(response.data);
                 })
@@ -40,9 +40,21 @@ export default {
         });
     },
 
-    getRangesOfAgeByCampaignAndComuna(data){
+    getRangesOfAgeByCampaignAndTerritory(data){
         return new Promise((resolve, reject) => {
-            axios.get(`/ages/?id=${data[0]}&comuna=${data[1]}`)
+            axios.get(`/ages/?id=${data.id}&${data.territory}=${data.idTerritory}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+
+    getEducationByCampaignAndTerritory(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/educations/?id=${data.id}&${data.territory}=${data.idTerritory}`)
                 .then((response) => {
                     resolve(response.data);
                 })
