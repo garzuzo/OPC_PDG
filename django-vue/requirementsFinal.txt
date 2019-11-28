@@ -53,4 +53,3 @@ urllib3==1.25.7
 wasabi==0.4.0
 xlrd==1.2.0
 zipp==0.6.0
-es-core-news-sm==2.2.0
