@@ -35,11 +35,11 @@ urlpatterns = [
     #path('api/users', views.users),
 #Pagina Campañas
     path('api/keywords/', views.fivekeywords_list), 
-    path('api/women_men/', views.womenmen_campaign_list), 
-    path('api/ages/', views.age_range_campaign_list), 
+    path('api/gender_list/', views.gender_list), 
+    path('api/ages/', views.age_range_list), 
     path('api/comunacorr/', views.create_comunacorr),
     path('api/population_comunas/', views.population_comunas_list),
-    path('api/educations/', views.education_campaign_list),
+    path('api/educations/', views.education_visualization_list),
     path('api/saveall/', views.save_info),
     path('api/validuser/', views.valid_user),
     path('api/register/', views.register),
@@ -62,6 +62,13 @@ urlpatterns = [
     path('api/narratives/', views.narratives_list),
     path('api/narratives_campaign/', views.narratives_campaign_list),
     path('api/role_user/', views.role_user),
+    path('api/topic_list/', views.topic_list),
+    path('api/topic_person_campaign/', views.topic_person_campaign),
+    path('api/obtain_campaign/', views.obtain_campaign),
+
+
+
+
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

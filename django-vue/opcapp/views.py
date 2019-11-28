@@ -217,198 +217,6 @@ def notacampaigns_list(request):
         return Response(serializer.data)
 
 
-@api_view(['GET'])
-def fivekeywords_list(request):
-    if request.method == "GET":
-       #if 'city' or 'zone'\ are not informed, the values ​​are None.
-        id=request.query_params.get('id', None)
-
-        if id is not None:
-            conceptsCampaignList=KeyConcept.objects.filter(activityNarrative__campaign__id=id).distinct().order_by('frequency').reverse()[:5]
-           
-            serializer=KeyConceptSerializer(conceptsCampaignList, many=True)
-            return Response(serializer.data)
-        else:
-            return Response( status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def education_campaign_list(request):
-    if request.method == "GET":
-       #if 'city' or 'zone'\ are not informed, the values ​​are None.
-        id=request.query_params.get('id', None)
-        comuna=request.query_params.get('comuna', None)
-        corregimiento=request.query_params.get('corregimiento', None)
-        city=request.query_params.get('city', None)
-        if id is not None:
-
-            primaria=None
-            secundaria=None
-            tyt=None
-            universitaria=None
-            postgrado=None
-            flag=False
-            if comuna is not None:
-                flag=True
-                primaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=1, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                secundaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=2, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                tyt=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=3, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                universitaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=4, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                postgrado=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=5, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                
-            elif corregimiento is not None:
-                flag=True
-                primaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=1, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                secundaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=2, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                tyt=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=3, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                universitaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=4, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                postgrado=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=5, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                
-            elif state is not None:
-                flag=True
-                primaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=1, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                secundaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=2, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                tyt=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=3, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                universitaria=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=4, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                postgrado=PersonCampaign.objects.filter(campaign__id=id, achievedLevel__higherLevelEducation__id=5, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-
-            if flag :
-                data = {
-                "primaria": primaria,
-                "secundaria":secundaria,
-                "tyt":tyt,
-                "universitaria":universitaria,
-                "postgrado":postgrado,
-                }
-            
-                return JsonResponse(data)
-            else :
-                return Response( status=status.HTTP_400_BAD_REQUEST)
-        else :
-            return Response( status=status.HTTP_400_BAD_REQUEST)
-
-
-
-@api_view(['GET'])
-def womenmen_campaign_list(request):
-    if request.method == "GET":
-       #if 'city' or 'zone'\ are not informed, the values ​​are None.
-        id=request.query_params.get('id', None)
-        comuna=request.query_params.get('comuna', None)
-        corregimiento=request.query_params.get('corregimiento', None)
-        state=request.query_params.get('state', None)
-        if id is not None:
-            
-            numMasculino=None
-            numFemenino=None
-            flag=False
-            if comuna is not None:
-                flag=True
-                numMasculino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Masculino', neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                numFemenino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Femenino', neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-            
-            elif corregimiento is not None:
-                flag=True
-                numMasculino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Masculino',  neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                numFemenino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Femenino',  neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
- 
-            elif state is not None:
-                flag=True
-                numMasculino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Masculino',  neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                numFemenino=PersonCampaign.objects.filter(campaign__id=id, gender__typeGender='Femenino',  neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
- 
-            if flag :
-                data = {
-                "men": numMasculino,
-                "women":numFemenino
-                }
-            
-                return JsonResponse(data)
-            else :
-                return Response( status=status.HTTP_404_NOT_FOUND)
-        else :
-            return Response( status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['GET'])
-def age_range_campaign_list(request):
-    if request.method == "GET":
-       #if 'city' or 'zone'\ are not informed, the values ​​are None.
-        id=request.query_params.get('id', None)
-        comuna=request.query_params.get('comuna', None)
-        corregimiento=request.query_params.get('corregimiento', None)
-        city=request.query_params.get('city', None)
-
-        if id is not None:
-            #Ages
-            primeraInfanciaMin=calculate_mindate(0)
-            primeraInfanciaMax=calculate_mindate(5)
-            infanciaMin=calculate_mindate(6)
-            infanciaMax=calculate_mindate(11)
-            adolescenciaMin=calculate_mindate(12)
-            adolescenciaMax=calculate_mindate(18)
-            juventudMin=calculate_mindate(19)
-            juventudMax=calculate_mindate(26)
-            adultezMin=calculate_mindate(27)
-            adultezMax=calculate_mindate(59)
-            vejez=calculate_mindate(60)
-
-
-
-
-            primeraInfanciaList=None
-            infanciaList=None
-            adolescenciaList=None
-            juventudList=None
-            adultezList=None
-            vejezList=None
-
-            flag=False
-            if comuna is not None:
-                flag=True
-                primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                infanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                adolescenciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                juventudList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                adultezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-                vejezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=vejez, neighborhoodVeredaActual__comunaCorregimiento__id=comuna).count()
-    
-            
-            elif corregimiento is not None:
-                flag=True
-                primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                infanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                adolescenciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                juventudList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                adultezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-                vejezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=vejez, neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento).count()
-            elif state is not None:
-                flag=True
-                primeraInfanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                infanciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                adolescenciaList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                juventudList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                adultezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-                vejezList=PersonCampaign.objects.filter(campaign=id, person__birthdate__lte=vejez, neighborhoodVeredaActual__comunaCorregimiento__city__state__id=city).count()
-
-
-            if flag :
-                data = {
-
-
-                    'primeraInfancia':primeraInfanciaList,
-                    'infancia':infanciaList,
-                    'adolescencia':adolescenciaList,
-                    'juventud':juventudList,
-                    'adultez':adultezList,
-                    'vejez':vejezList,
-
-                }
-                return JsonResponse(data)
-            else :
-                return Response( status=status.HTTP_404_NOT_FOUND)
-        else :
-            return Response( status=status.HTTP_404_NOT_FOUND)
-
 
 def calculate_mindate(age):
     today = date.today()
@@ -1163,6 +971,52 @@ def create_comunacorr(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
   
+@api_view(['GET'])
+def topic_person_campaign(request):
+
+    if request.method=="GET":
+        id=request.query_params.get('id', None)
+        if id is not None:
+            
+
+            aNarrative=ActivityNarrative.objects.get(personCampaign=id)
+            topicPrimaryId=aNarrative.topicPrimary.id
+            topicSecondaryId=aNarrative.topicSecondary.id
+            topicPrimary=Topic.objects.get(id=topicPrimaryId).concepts
+            topicSecondary=Topic.objects.get(id=topicSecondaryId).concepts
+
+            data={
+                "id_primary":topicPrimaryId,
+                "id_secondary":topicSecondaryId,
+                "topic_primary":topicPrimary,
+                "topic_secondary":topicSecondary
+            }
+            return Response(data=data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+@api_view(['GET'])
+def obtain_campaign(request):
+
+    if request.method=="GET":
+        id=request.query_params.get('id', None)
+        if id is not None:
+            
+
+            campaign=Campaign.objects.get(id=id)
+
+            serializer=CampaignSerializer(campaign)
+         
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -1218,114 +1072,446 @@ def acampaigns_person_list(request):
 @api_view(['GET'])
 def obtain_percentage(request):
     if request.method=="GET":
-        #Por comuna
+        
         gender=request.query_params.get('gender', None)
         age=request.query_params.get('age', None)
         education=request.query_params.get('education', None)
-        achievedLevel=request.query_params.get('gender', None)
         idCampaign=request.query_params.get('id_campaign', None)
         topicPrimary=request.query_params.get('topic_primary', None)
         topicSecondary=request.query_params.get('topic_secondary', None)
-       # personCampaignList=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento__lte=22)
-        typeFilter=request.query_params.get('typeFilter',None)
+        typeFilter=request.query_params.get('type_filter',None)
         
-        if age is not None:
+        #por tiempo
+        minDate=request.query_params.get('min_date',None)
+        maxDate=request.query_params.get('max_date',None)
+        if age is not None and age!=0:
 
-            if age is "primera Infancia":
+            if age == "primera infancia":
                 primeraInfanciaMin=calculate_mindate(0)
                 primeraInfanciaMax=calculate_mindate(5)
-            elif age is "infancia":
+            elif age == "infancia":
                 infanciaMin=calculate_mindate(6)
                 infanciaMax=calculate_mindate(11)
-            elif age is "adolescencia":
+            elif age == "adolescencia":
                 adolescenciaMin=calculate_mindate(12)
                 adolescenciaMax=calculate_mindate(18)
-            elif age is "juventud":
+            elif age == "juventud":
                 juventudMin=calculate_mindate(19)
                 juventudMax=calculate_mindate(26)
-            elif age is "adultez":
+            elif age == "adultez":
                 adultezMin=calculate_mindate(27)
                 adultezMax=calculate_mindate(59)
-            elif age is "adultez":
+            elif age == "vejez":
                 vejez=calculate_mindate(60)
 
 
         idList=[]
-        if typeFilter is 'comuna':
-            idList=list(range(1,22))
-        elif typeFilter is 'corregimiento':
-            idList=list(range(23,37))
+        print(typeFilter)
+        if typeFilter == 'comuna':
+            idList=list(range(1,23))
+        elif typeFilter == 'corregimiento':
+            idList=list(range(23,38))
 
-        elif typeFilter is 'state':
+        elif typeFilter == 'state':
             idList=State.objects.values_list('id', flat=True)
+            print("entr")
 
+        print(idList)
         dictWithFilters={}
         for i in idList:
-            if (typeFilter is 'comuna') or (typeFilter is 'corregimiento'):
-                personCampaignAct=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento=i)
-            elif typeFilter is 'state':
-                personCampaignAct=PersonCampaign.objects.filter(neighborhoodVereda__comunaCorregimiento__city__state=i)
+            if (typeFilter == 'comuna') or (typeFilter == 'corregimiento'):
+                personCampaignAct=PersonCampaign.objects.filter(neighborhoodVeredaActual__comunaCorregimiento=i)
+            elif typeFilter == 'state':
+                personCampaignAct=PersonCampaign.objects.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state=i)
                 
             
             
             #Por si es un filtro en una campaña
-            if idCampaign is not None:
-                personCampaignAct=personCampaignAct.filter(campaign=idCampaign)
+            if idCampaign is not None and idCampaign!=0:
+                personCampaignAct=personCampaignAct.filter(campaign__id=idCampaign)
 
             #Las 3 posibles de siempre
-            if gender is not None:
-                personCampaignAct=personCampaignAct.filter(gender=gender)
+            if gender is not None and gender!=0:
+                personCampaignAct=personCampaignAct.filter(gender__name=gender)
 
-            if age is not None:
+            #por tiempo
+            if minDate is not None:
+                personCampaignAct=personCampaignAct.filter(campaign__startDate__gte=minDate)
+
+            if maxDate is not None:
+                personCampaignAct=personCampaignAct.filter(campaign__endDate__lte=maxDate)
 
 
-                if age is "primera Infancia":
-                    primeraInfanciaMin=calculate_mindate(0)
-                    primeraInfanciaMax=calculate_mindate(5)
-
-                    personCampaignAct=personCampaignAct.filter(birthdate__lte=primeraInfanciaMin,birthdate__gte=primeraInfanciaMax)
-                elif age is "infancia":
-                    infanciaMin=calculate_mindate(6)
-                    infanciaMax=calculate_mindate(11)
-                elif age is "adolescencia":
-                    adolescenciaMin=calculate_mindate(12)
-                    adolescenciaMax=calculate_mindate(18)
-                elif age is "juventud":
-                    juventudMin=calculate_mindate(19)
-                    juventudMax=calculate_mindate(26)
-                elif age is "adultez":
-                    adultezMin=calculate_mindate(27)
-                    adultezMax=calculate_mindate(59)
-                elif age is "adultez":
-                    vejez=calculate_mindate(60)
+            if age is not None and age!=0:
 
 
 
+                if age == "primera Infancia":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax)
+                elif age == "infancia":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax)
+                elif age == "adolescencia":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax)
+                elif age == "juventud":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax)
+                elif age == "adultez":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax)
+                elif age == "vejez":
+
+                    personCampaignAct=personCampaignAct.filter( person__birthdate__lte=vejez)
 
 
-            if achievedLevel is not None:
+
+
+
+            if education is not None and education!=0:
                 personCampaignAct=personCampaignAct.filter(achievedLevel__higherLevelEducation__name=education)
 
             #Por si es un filtro en la visualiza general
-            if topicPrimary is not None:
-                personCampaignAct=personCampaignAct.filter(activityNarrative__topicPrimary=topicPrimary)
-            if topicSecondary is not None:
-                personCampaignAct=personCampaignAct.filter(activityNarrative__topicSecondary=topicSecondary)
+            if topicPrimary is not None and topicPrimary!=0:
+                personCampaignAct=personCampaignAct.filter(activitynarrative__topicPrimary__id=topicPrimary)
+            if topicSecondary is not None and topicSecondary!=0:
+                personCampaignAct=personCampaignAct.filter(activitynarrative__topicSecondary__id=topicSecondary)
 
             dictWithFilters[i]=personCampaignAct.count()
 
-        data=json.dumps(dictWithFilters)
-        return JsonResponse(data)
+        if dictWithFilters:
+            dictWithFilters=create_percentages(dictWithFilters)
 
+            return JsonResponse(dictWithFilters, safe=False)
+        else:
+           return Response(status=status.HTTP_404_NOT_FOUND) 
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+def create_percentages(dictWithFilters):
+
+    maxIndex=max(dictWithFilters, key=dictWithFilters.get)
+    maxValue=dictWithFilters[maxIndex]
+    
+    if maxValue!=0:
+        for key, value in dictWithFilters.items():
+            dictWithFilters[key]=float("{0:.2f}".format((value)/maxValue))
+    else:
+        for key, value in dictWithFilters.items():
+            dictWithFilters[key]=float("{0:.2f}".format(0))
+    return dictWithFilters
+
+
+
+    
 
 @api_view(['GET'])
 def obtain_opendata(request):
     if request.method=="GET":
 
+        #edad
+        #genero
+        #level
+        #
+        #
+        #
+
         person_campaign_list=PersonCampaign.objects.all()
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+
+#visualizacion
+
+@api_view(['GET'])
+def fivekeywords_list(request):
+    if request.method == "GET":
+       #if 'city' or 'zone'\ are not informed, the values ​​are None.
+        id=request.query_params.get('id', None)
+
+        if id is not None:
+            conceptsCampaignList=KeyConcept.objects.filter(activityNarrative__campaign__id=id).distinct().order_by('frequency').reverse()[:5]
+           
+            serializer=KeyConceptSerializer(conceptsCampaignList, many=True)
+            return Response(serializer.data)
+        else:
+            return Response( status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def education_visualization_list(request):
+    if request.method == "GET":
+       #if 'city' or 'zone'\ are not informed, the values ​​are None.
+        
+        comuna=request.query_params.get('comuna', None)
+        corregimiento=request.query_params.get('corregimiento', None)
+        state=request.query_params.get('state', None)
+        
+        id=request.query_params.get('id', None)
+        topic=request.query_params.get('topic',None)
+        topicType=request.query_params.get('topic_type',None)
+
+
+        primaria=PersonCampaign.objects.filter(achievedLevel__higherLevelEducation__id=1 )
+        secundaria=PersonCampaign.objects.filter( achievedLevel__higherLevelEducation__id=2)
+        tyt=PersonCampaign.objects.filter( achievedLevel__higherLevelEducation__id=3)
+        universitaria=PersonCampaign.objects.filter( achievedLevel__higherLevelEducation__id=4)
+        postgrado=PersonCampaign.objects.filter( achievedLevel__higherLevelEducation__id=5)
+
+        if id is not None:
+            primaria=primaria.filter(campaign__id=id)
+            secundaria=secundaria.filter(campaign__id=id)
+            tyt=tyt.filter(campaign__id=id)
+            universitaria=universitaria.filter(campaign__id=id)
+            postgrado=postgrado.filter(campaign__id=id)
+                
+
+           
+
+        if topic is not None:
+            if topicType is not None and topicType=="Primario":
+                primaria=primaria.filter(activitynarrative__topicPrimary=topic)
+                secundaria=secundaria.filter(activitynarrative__topicPrimary=topic)
+                tyt=tyt.filter(activitynarrative__topicPrimary=topic)
+                universitaria=universitaria.filter(activitynarrative__topicPrimary=topic)
+                postgrado=postgrado.filter(activitynarrative__topicPrimary=topic)
+            
+            elif topicType is not None and topicType=="Secundario":
+                primaria=primaria.filter(activitynarrative__topicSecondary=topic)
+                secundaria=secundaria.filter(activitynarrative__topicSecondary=topic)
+                tyt=tyt.filter(activitynarrative__topicSecondary=topic)
+                universitaria=universitaria.filter(activitynarrative__topicSecondary=topic)
+                postgrado=postgrado.filter(activitynarrative__topicSecondary=topic)
+
+
+        if comuna is not None:
+            
+            primaria=primaria.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            secundaria=secundaria.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            tyt=tyt.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            universitaria=universitaria.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            postgrado=postgrado.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            
+        elif corregimiento is not None:
+            
+            primaria=primaria.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            secundaria=secundaria.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            tyt=tyt.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            universitaria=universitaria.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            postgrado=postgrado.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            
+        elif state is not None:
+            
+            primaria=primaria.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            secundaria=secundaria.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            tyt=tyt.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            universitaria=universitaria.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            postgrado=postgrado.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+
+           
+        data = {
+        "primaria": primaria.count(),
+        "secundaria":secundaria.count(),
+        "tyt":tyt.count(),
+        "universitaria":universitaria.count(),
+        "postgrado":postgrado.count(),
+        }
+    
+        return JsonResponse(data)
+    else :
+        return Response( status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+def gender_list(request):
+    if request.method == "GET":
+       #if 'city' or 'zone'\ are not informed, the values ​​are None.
+
+        comuna=request.query_params.get('comuna', None)
+        corregimiento=request.query_params.get('corregimiento', None)
+        state=request.query_params.get('state', None)
+
+        id=request.query_params.get('id', None)
+        topic=request.query_params.get('topic',None)
+        topicType=request.query_params.get('topic_type',None)
+
+
+
+        numMasculino=PersonCampaign.objects.filter(gender__typeGender='Masculino')
+        numFemenino=PersonCampaign.objects.filter(gender__typeGender='Femenino')
+        numIntersexual=PersonCampaign.objects.filter(gender__typeGender='Intersexual')
+
+
+        if id is not None:
+            numMasculino=numMasculino.filter(campaign__id=id)
+            numFemenino=numFemenino.filter(campaign__id=id)
+            numIntersexual=numIntersexual.filter(campaign__id=id)
+                
+
+        if topic is not None:
+            if topicType is not None and topicType=="Primario":
+                numMasculino=numMasculino.filter(activitynarrative__topicPrimary=topic)
+                numFemenino=numFemenino.filter(activitynarrative__topicPrimary=topic)
+                numIntersexual=numIntersexual.filter(activitynarrative__topicPrimary=topic)
+
+            
+            elif topicType is not None and topicType=="Secundario":
+                numMasculino=numMasculino.filter(activitynarrative__topicSecondary=topic)
+                numFemenino=numFemenino.filter(activitynarrative__topicSecondary=topic)
+                numIntersexual=numIntersexual.filter(activitynarrative__topicSecondary=topic)
+
+
+
+
+
+        if comuna is not None:
+
+            numMasculino=numMasculino.filter( neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            numFemenino=numFemenino.filter( neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            numIntersexual=numIntersexual.filter( neighborhoodVeredaActual__comunaCorregimiento__zone__zoneType='Urbana', neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+        
+        elif corregimiento is not None:
+
+            numMasculino=PersonCampaign.objects.filter(  neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            numFemenino=PersonCampaign.objects.filter(  neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            numIntersexual=numIntersexual.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+
+        elif state is not None:
+
+            numMasculino=numMasculino.filter( neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            numFemenino=numFemenino.filter( neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            numIntersexual=numIntersexual.filter(  neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+
+        data = {
+        "men": numMasculino.count(),
+        "women":numFemenino.count(),
+        "intersexual":numIntersexual.count()
+        }
+            
+        return JsonResponse(data)
+
+    else :
+        return Response( status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def age_range_list(request):
+    if request.method == "GET":
+       #if 'city' or 'zone'\ are not informed, the values ​​are None.
+
+        comuna=request.query_params.get('comuna', None)
+        corregimiento=request.query_params.get('corregimiento', None)
+        state=request.query_params.get('state', None)
+
+        id=request.query_params.get('id', None)
+        topic=request.query_params.get('topic',None)
+        topicType=request.query_params.get('topic_type',None)
+
+
+
+        #Ages
+        primeraInfanciaMin=calculate_mindate(0)
+        primeraInfanciaMax=calculate_mindate(5)
+        infanciaMin=calculate_mindate(6)
+        infanciaMax=calculate_mindate(11)
+        adolescenciaMin=calculate_mindate(12)
+        adolescenciaMax=calculate_mindate(18)
+        juventudMin=calculate_mindate(19)
+        juventudMax=calculate_mindate(26)
+        adultezMin=calculate_mindate(27)
+        adultezMax=calculate_mindate(59)
+        vejez=calculate_mindate(60)
+
+
+
+        primeraInfanciaList=PersonCampaign.objects.filter(person__birthdate__lte=primeraInfanciaMin, person__birthdate__gte=primeraInfanciaMax)
+        infanciaList=PersonCampaign.objects.filter(person__birthdate__lte=infanciaMin, person__birthdate__gte=infanciaMax )
+        adolescenciaList=PersonCampaign.objects.filter(person__birthdate__lte=adolescenciaMin, person__birthdate__gte=adolescenciaMax)
+        juventudList=PersonCampaign.objects.filter(person__birthdate__lte=juventudMin, person__birthdate__gte=juventudMax)
+        adultezList=PersonCampaign.objects.filter(person__birthdate__lte=adultezMin, person__birthdate__gte=adultezMax)
+        vejezList=PersonCampaign.objects.filter(person__birthdate__lte=vejez)
+
+        if id is not None:
+            primeraInfanciaList=primeraInfanciaList.filter(campaign__id=id)
+            infanciaList=infanciaList.filter(campaign__id=id)
+            adolescenciaList=adolescenciaList.filter(campaign__id=id)
+            juventudList=juventudList.filter(campaign__id=id)
+            adultezList=adultezList.filter(campaign__id=id)
+            vejezList=vejezList.filter(campaign__id=id)
+
+
+        
+        if topic is not None:
+            if topicType is not None and topicType=="Primario":
+
+                primeraInfanciaList=primeraInfanciaList.filter(activitynarrative__topicPrimary=topic)
+                infanciaList=infanciaList.filter(activitynarrative__topicPrimary=topic)
+                adolescenciaList=adolescenciaList.filter(activitynarrative__topicPrimary=topic)
+                juventudList=juventudList.filter(activitynarrative__topicPrimary=topic)
+                adultezList=adultezList.filter(activitynarrative__topicPrimary=topic)
+                vejezList=vejezList.filter(activitynarrative__topicPrimary=topic)
+
+
+            elif topicType is not None and topicType=="Secundario":
+
+                primeraInfanciaList=primeraInfanciaList.filter(activitynarrative__topicSecondary=topic)
+                infanciaList=infanciaList.filter(activitynarrative__topicSecondary=topic)
+                adolescenciaList=adolescenciaList.filter(activitynarrative__topicSecondary=topic)
+                juventudList=juventudList.filter(activitynarrative__topicSecondary=topic)
+                adultezList=adultezList.filter(activitynarrative__topicSecondary=topic)
+                vejezList=vejezList.filter(activitynarrative__topicSecondary=topic)
+
+
+
+
+
+
+
+
+        if comuna is not None:
+    
+            primeraInfanciaList=primeraInfanciaList.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            infanciaList=infanciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            adolescenciaList=adolescenciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            juventudList=juventudList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            adultezList=adultezList.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+            vejezList=vejezList.filter( neighborhoodVeredaActual__comunaCorregimiento__id=comuna)
+
+        
+        elif corregimiento is not None:
+            
+            primeraInfanciaList=primeraInfanciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            infanciaList=infanciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            adolescenciaList=adolescenciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            juventudList=juventudList.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            adultezList=adultezListfilter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            vejezList=vejezList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+        elif state is not None:
+        
+            primeraInfanciaList=primeraInfanciaList.filter( neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            infanciaList=infanciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            adolescenciaList=adolescenciaList.filter( neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            juventudList=juventudList.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            adultezList=adultezList.filter( neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+            vejezList=vejezList.filter(neighborhoodVeredaActual__comunaCorregimiento__city__state__id=state)
+
+
+
+        data = {
+            'primeraInfancia':primeraInfanciaList.count(),
+            'infancia':infanciaList.count(),
+            'adolescencia':adolescenciaList.count(),
+            'juventud':juventudList.count(),
+            'adultez':adultezList.count(),
+            'vejez':vejezList.count(),
+
+        }
+        return JsonResponse(data)
+
+    else :
+        return Response( status=status.HTTP_404_NOT_FOUND)
