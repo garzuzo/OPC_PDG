@@ -1084,7 +1084,8 @@ def obtain_percentage(request):
         topicPrimary=request.query_params.get('topic_primary', None)
         topicSecondary=request.query_params.get('topic_secondary', None)
         typeFilter=request.query_params.get('type_filter',None)
-        
+        topicGeneral=request.query_params.get('topic_general',None)
+
         #por tiempo
         minDate=request.query_params.get('min_date',None)
         maxDate=request.query_params.get('max_date',None)
@@ -1131,11 +1132,11 @@ def obtain_percentage(request):
             
             
             #Por si es un filtro en una campaña
-            if idCampaign is not None and idCampaign!=0:
+            if idCampaign is not None:
                 personCampaignAct=personCampaignAct.filter(campaign__id=idCampaign)
 
             #Las 3 posibles de siempre
-            if gender is not None and gender!=0:
+            if gender is not None :
                 personCampaignAct=personCampaignAct.filter(gender__name=gender)
 
             #por tiempo
@@ -1146,7 +1147,7 @@ def obtain_percentage(request):
                 personCampaignAct=personCampaignAct.filter(campaign__endDate__lte=maxDate)
 
 
-            if age is not None and age!=0:
+            if age is not None:
 
 
 
@@ -1173,13 +1174,18 @@ def obtain_percentage(request):
 
 
 
-            if education is not None and education!=0:
+            if education is not None:
                 personCampaignAct=personCampaignAct.filter(achievedLevel__higherLevelEducation__name=education)
 
             #Por si es un filtro en la visualiza general
-            if topicPrimary is not None and topicPrimary!=0:
+
+            if topicGeneral is not None :
+                personCampaignAct=personCampaignAct.filter(Q(activitynarrative__topicSecondary=topicGeneral) | Q(activitynarrative__topicPrimary=topicGeneral))
+
+
+            if topicPrimary is not None:
                 personCampaignAct=personCampaignAct.filter(activitynarrative__topicPrimary__id=topicPrimary)
-            if topicSecondary is not None and topicSecondary!=0:
+            if topicSecondary is not None:
                 personCampaignAct=personCampaignAct.filter(activitynarrative__topicSecondary__id=topicSecondary)
 
             dictWithFilters[i]=personCampaignAct.count()
