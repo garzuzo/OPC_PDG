@@ -1347,14 +1347,68 @@ def create_percentages(dictWithFilters):
 def obtain_opendata(request):
     if request.method=="GET":
 
-        #edad
-        #genero
-        #level
-        #
-        #
-        #
-
         person_campaign_list=PersonCampaign.objects.all()
+
+        pc_response_list=[]
+        for pcActual in person_campaign_list:
+            
+            gender=Gender.objects.get(id=pcActual.gender.id).typeGender
+            
+            achievedLevel=AchievedLevel.objects.get(id=pcActual.achievedLevel.id)
+            hlEducation=HigherLevelEducation.objects.get(id=achievedLevel.higherLevelEducation.id)
+            narrative=ActivityNarrative.objects.get(id=pcActual.activitynarrative.id)
+            keyConcepts=KeyConcept.objects.filter(activityNarrative=pcActual.activitynarrative.id)
+
+            kc_array=[]
+            for kcActual in keyConcepts:
+                kc_array.append(kcActual.name)
+
+
+            neigh_vereda_actual=NeighborhoodVereda.objects.filter(id=pcActual.neighborhoodVeredaActual.id).first()
+            comuna_corr_actual=ComunaCorregimiento.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.id).first()
+            city_actual=City.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.id).first()
+            state_actual=State.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.state.id).first()
+            country_actual=Country.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.state.country.id).first()
+
+            neigh_vereda_source=NeighborhoodVereda.objects.filter(id=pcActual.neighborhoodVeredaSource.id).first()
+            comuna_corr_source=ComunaCorregimiento.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.id).first()
+            city_source=City.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.id).first()
+            state_source=State.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.state.id).first()
+            country_source=Country.objects.filter(id=pcActual.neighborhoodVeredaActual.comunaCorregimiento.city.state.country.id).first()
+
+
+
+            neigh_vereda_actual_name="" if neigh_vereda_actual.id>419 else neigh_vereda_actual.name
+            neigh_vereda_source_name="" if neigh_vereda_source.id>419 else neigh_vereda_source.name
+            comuna_corr_actual_name="" if comuna_corr_actual.id>37 else comuna_corr_actual.name
+            comuna_corr_source_name="" if comuna_corr_source.id>37 else comuna_corr_source.name
+
+
+            data={
+                "Genero":gender,
+                "Nivel_educativo":hlEducation.name,
+                "Nivel_alcanzado":achievedLevel.name,
+                "Narrativa":narrative.text,
+                "Palabras_clave_1":kc_array[0],
+                "Palabras_clave_2":kc_array[1],
+                "Palabras_clave_3":kc_array[2],
+                "Palabras_clave_4":kc_array[3],
+                "Palabras_clave_5":kc_array[4],
+                "Barrio_vereda_actual":neigh_vereda_actual_name,
+                "Comuna_corregimiento_actual":comuna_corr_actual_name,
+                "Ciudad_actual":city_actual.name,
+                "Departamento_actual":state_actual.name,
+                "Pais_actual":country_actual.name,
+                "Barrio_vereda_source":neigh_vereda_source_name,
+                "Comuna_corregimiento_source":comuna_corr_source_name,
+                "Ciudad_source":city_source.name,
+                "Departamento_source":state_source.name,
+                "Pais_source":country_source.name,
+            }
+            pc_response_list.append(data)
+
+        return JsonResponse(pc_response_list, safe=False)
+            
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

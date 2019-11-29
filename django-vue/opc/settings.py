@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4+wzffo!#3i9!&%%k_e3*2)ntw47z&m^jidhfk+)54$ct^8!u3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -113,12 +113,10 @@ WSGI_APPLICATION = 'opc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'opc_test',
-       # 'USER':os.environ['OPC_USER'],
-        #'PASSWORD':os.environ['OPC_PASS'],
-        'USER': 'u_opc',
-        'PASSWORD':'opc_passwd',
-        'HOST': 'localhost',
+        'NAME': os.environ['DB_NAME'],
+        'USER':os.environ['OPC_USER'],
+        'PASSWORD':os.environ['OPC_PASS'],
+        'HOST': os.environ['OPC_HOST'],
         'PORT': '',
 
     }
