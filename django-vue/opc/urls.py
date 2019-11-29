@@ -24,7 +24,7 @@ from opcapp import views
 
 
 urlpatterns = [
-    path('', include('opcapp.urls')),
+    path('opcapi/', include('opcapp.urls')),
     path('admin/', admin.site.urls),
   #  url(r'^api/public/', views.public),
   #  url(r'^api/private/', views.private)
