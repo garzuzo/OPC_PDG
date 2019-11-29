@@ -666,6 +666,113 @@ def save_info_registered_user(request):
         else:
             return Response( status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['POST'])
+def create_person(request):
+    if request.method == "POST":
+        age=request.data.get('age', None)
+        gender=request.data.get('gender', None)
+        level=request.data.get('level', None)
+        higherEducation=request.data.get('higherEducation', None)
+        currentZone=request.data.get('currentZone', None)
+        currentState=request.data.get('currentState', None)
+        currentCity=request.data.get('currentCity', None)
+        currentComuna=request.data.get('currentComuna', None)
+        currentNeighborhood=request.data.get('currentNeighborhood', None)
+        currentCorregimiento=request.data.get('currentCorregimiento', None)
+        currentVereda=request.data.get('currentVereda', None)
+        originZone=request.data.get('originZone', None)
+        originState=request.data.get('originState', None)
+        originCity=request.data.get('originCity', None)
+        originComuna=request.data.get('originComuna', None)
+        originNeighborhood=request.data.get('originNeighborhood', None)
+        originCorregimiento=request.data.get('originCorregimiento', None)
+        originVereda=request.data.get('originVereda', None)
+  
+
+        email=request.data.get('email', None)
+        password=request.data.get('password', None)
+
+        if age is not None and gender is not None and level is not None and higherEducation is not None and currentZone is not None and currentState is not None and currentCity is not None and currentComuna is not None and currentNeighborhood is not None and currentCorregimiento is not None and currentVereda is not None and originZone is not None and originState is not None and originCity is not None and originComuna is not None and originNeighborhood is not None and originCorregimiento is not None and originVereda is not None :
+            currentLevel3=0
+            originLevel3=0
+            if currentNeighborhood != 0 and currentVereda  == 0:
+                currentLevel3=currentNeighborhood
+                
+
+            elif currentNeighborhood == 0 and currentVereda  != 0:
+                currentLevel3=currentVereda
+
+            if originNeighborhood != 0 and originVereda == 0:
+                originLevel3=originNeighborhood
+
+            elif originNeighborhood == 0 and originVereda != 0:
+                originLevel3=originVereda
+
+
+            if currentNeighborhood == 0 and currentVereda == 0 :
+                currentLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=currentCity ).first().id
+
+
+            if originNeighborhood == 0 and originVereda == 0 :
+                originLevel3=NeighborhoodVereda.objects.filter(comunaCorregimiento__city__id=originCity).first().id
+
+
+        # print(currentLevel3)
+        # print(originLevel3)
+
+            idUser=None
+
+            if email is not None and password is not None:
+
+                if User.objects.filter(username=email).exists() :
+
+                    return Response({"status_code": 409, "detail": "User already exists"},status=409)
+
+                else:
+                    userAct = User.objects.create_user(username=email,
+                                        email=email,
+                                        password=password)
+
+                    userAct.save()
+
+                    idUser=userAct.id
+
+
+            if level is not None and originLevel3 is not None:
+
+                #debe existir registrado en la db
+                roleUserId=RoleUser.objects.filter(name="Registrado").first().id
+                #print(roleUserId)
+                dataPerson={
+                    'birthdate':age,        
+                    'achievedLevel':level,
+                    'gender':gender,
+                    'neighborhoodVeredaSource':originLevel3,
+                    'neighborhoodVeredaActual':currentLevel3,
+                    'roleUser':roleUserId,
+                    'user':None
+
+                }
+
+                
+                #Si se va a crear una cuenta actualizo el dict para luego guardar el objeto
+                if idUser is not None:
+                    dataPerson.update({'user':idUser})
+
+                personAct=None
+                serializerPerson=PersonSerializer(data=dataPerson)
+
+                if serializerPerson.is_valid():
+                    personAct= serializerPerson.save()
+                    return Response(serializerPerson.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response( status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response( status=status.HTTP_400_BAD_REQUEST)
+
+
+
 @api_view(['POST'])
 def save_info(request):
     if request.method == "POST":
@@ -1137,7 +1244,7 @@ def obtain_percentage(request):
 
             #Las 3 posibles de siempre
             if gender is not None :
-                personCampaignAct=personCampaignAct.filter(gender__name=gender)
+                personCampaignAct=personCampaignAct.filter(gender__typeGender=gender)
 
             #por tiempo
             if minDate is not None:

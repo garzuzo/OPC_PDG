@@ -65,6 +65,7 @@ urlpatterns = [
     path('api/topic_list/', views.topic_list),
     path('api/topic_person_campaign/', views.topic_person_campaign),
     path('api/obtain_campaign/', views.obtain_campaign),
+    path('api/create_person/', views.create_person),
 
 
 
