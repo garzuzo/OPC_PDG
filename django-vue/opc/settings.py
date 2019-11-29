@@ -113,12 +113,10 @@ WSGI_APPLICATION = 'opc.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'opc_test',
-       # 'USER':os.environ['OPC_USER'],
-        #'PASSWORD':os.environ['OPC_PASS'],
-        'USER': 'u_opc',
-        'PASSWORD':'opc_passwd',
-        'HOST': 'localhost',
+        'NAME': os.environ['DB_NAME'],
+        'USER':os.environ['OPC_USER'],
+        'PASSWORD':os.environ['OPC_PASS'],
+        'HOST': os.environ['OPC_HOST'],
         'PORT': '',
 
     }
