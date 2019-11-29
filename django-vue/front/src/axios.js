@@ -30,7 +30,7 @@ export default {
 
     getPeopleByCampaignAndTerritory(data){
         return new Promise((resolve, reject) => {
-            axios.get(`/women_men/?id=${data.id}&${data.territory}=${data.idTerritory}`)
+            axios.get(`/gender_list/?id=${data.id}&${data.territory}=${data.idTerritory}`)
                 .then((response) => {
                     resolve(response.data);
                 })
@@ -191,7 +191,7 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/saveall/`, data)
                 .then((response) => {
-                    resolve(response);
+                    resolve(response.data);
                 })
                 .catch((err) => {
                     reject(err);
@@ -200,6 +200,17 @@ export default {
     },
 
     //PROFILE
+    getPersonCampaignLogged(id){
+        return new Promise((resolve, reject) => {
+            axios.get(`/obtain_person_campaign_logged/?id=${id}`, { headers: {"Authorization" : `Bearer ${store.state.token}`} })
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting city', err);
+            })
+        });
+    },
     getCityPerson(){
         return new Promise((resolve, reject) => {
             axios.get('/city_person/', { headers: {"Authorization" : `Bearer ${store.state.token}`} })
@@ -308,6 +319,150 @@ export default {
                 .catch((err) => {
                     reject('Error getting user active campaign',err);
             })
+        });
+    },
+    //VISUALIZATION
+    getPeopleByCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/gender_list/?id=${data.id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting people', err);
+                })
+        });
+    },
+    getRangesOfAgeByCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/ages/?id=${data.id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+    getEducationByCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/educations/?id=${data.id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+    getPeopleByTopic(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/gender_list/?topic=${data.id}&topic_type=${data.type}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting people', err);
+                })
+        });
+    },
+    getRangesOfAgeByTopic(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/ages/?topic=${data.id}&topic_type=${data.type}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+    getEducationByTopic(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/educations/?topic=${data.id}&topic_type=${data.type}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+    getAllPeople(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/gender_list/`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting people', err);
+                })
+        });
+    },
+    getAllRangesOfAge(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/ages/`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting ranges of age', err);
+                })
+        });
+    },
+    getAllEducation(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/educations/`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting education', err);
+                })
+        });
+    },
+    getTwoTopicsByPerson(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/topic_person_campaign/?id=${data.id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting 2 topics', err);
+                })
+        });
+    },
+    getAllTopics(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/topic_list/`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting topics', err);
+                })
+        });
+    },
+    getCampaign(data){
+        return new Promise((resolve, reject) => {
+            axios.get(`/obtain_campaign/?id=${data.id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting campaign', err);
+                })
+        });
+    },
+    getPercentage(query){
+        return new Promise((resolve, reject) => {
+            axios.get(`/obtain_percentage/?${query}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting percentage', err);
+                })
         });
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-        <v-col cols="5">
+        <v-col cols="12" sm="12" md="12">
           <v-checkbox
           v-model="checkbox"
           label="¿Deseas guardar tus datos para una próxima ocasión?"
@@ -11,8 +11,8 @@
         </v-row>
 
         <v-row v-if="checkbox">
-            <v-col cols="4">
-                <div class="form-group">
+            <v-col cols="12" sm="12" md="4">
+            <div class="form-group">
           <label for="email">Correo electrónico*</label>
           <v-text-field
             v-model="email"
@@ -27,7 +27,7 @@
           ></v-text-field>
         </div>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="12" sm="12" md="4">
                 <div class="form-group">
           <label for="password">Contraseña*</label>
           <v-text-field
@@ -45,7 +45,7 @@
           ></v-text-field>
         </div>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="12" sm="12" md="4">
                 <div class="form-group">
           <label for="passwordConfirmation">Confirmar contraseña*</label>
           <v-text-field
@@ -64,11 +64,20 @@
             </v-col>
         </v-row>
         <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos
+          {{submitStatus}}
       </div>
 
-        <v-row justify="end">
-            <v-col cols="2">
+        <v-row justify="space-between">
+          <v-col cols="4" sm="4" md="2">
+          <v-btn
+            :ripple="false"
+            class="ma-2 next"
+            outlined
+            color="#673ab7"
+            @click="emitBeforeToParent"
+          >Anterior</v-btn>
+        </v-col>
+            <v-col cols="4" sm="4" md="2">
           <v-btn
             :ripple="false"
             class="ma-2 next"
@@ -115,11 +124,14 @@ export default {
         }
     },
     methods:{
+      emitBeforeToParent(event){
+         this.$emit("before", "4");
+      },
         emitAllToParent(event){
             let data=[]
         this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. "
       }else{
           this.submitStatus = ""
           if(this.checkbox){

@@ -4,7 +4,7 @@
     <v-row justify="space-around">
       <!--FIRST COLUMN-->
       
-      <v-col cols="5">
+      <v-col cols="6" sm="6" md="5">
        
         <div class="form-group">
           <label for="currentZone">Zona*</label>
@@ -80,7 +80,7 @@
       </v-col>
 
       <!--SECOND COLUMN -->
-      <v-col align-self="end" cols="5">
+      <v-col align-self="end" cols="6" sm="6" md="5">
         <div class="form-group">
           <label for="currentCity">Municipio*</label>
           <v-select
@@ -138,7 +138,7 @@
     </v-row>
     <v-divider> </v-divider>
     <v-row justify="center">
-      <v-col cols="8">
+      <v-col cols="12" sm="12" md="8">
         <h3>Territorio de origen</h3>
         <v-checkbox
           v-model="checkbox"
@@ -150,7 +150,7 @@
     <!--ORIGIN TERRITORY -->
     <v-row justify="space-around">
       <!--FIRST COLUMN-->
-      <v-col cols="5">
+      <v-col cols="6" sm="6" md="5">
         <div class="form-group">
           <label for="originZone">Zona*</label>
           <v-select
@@ -229,7 +229,7 @@
       </v-col>
 
       <!--SECOND COLUMN -->
-      <v-col align-self="end" cols="5">
+      <v-col align-self="end" cols="6" sm="6" md="5">
         <div class="form-group">
           <label for="originCity">Municipio*</label>
           <v-select
@@ -291,10 +291,10 @@
 
     <v-container>
       <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos
+          {{submitStatus}}
       </div>
       <v-row justify="space-between">
-        <v-col cols="2">
+        <v-col cols="4" sm="3" md="2">
           <v-btn
             :ripple="false"
             class="ma-2 next"
@@ -303,7 +303,7 @@
             @click="emitBeforeToParent"
           >Anterior</v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="4" sm="3" md="2">
           <v-btn
             :ripple="false"
             class="ma-2 next"
@@ -641,7 +641,7 @@ export default {
     emitAllToParent(event) {
       this.$v.$touch();
       if (this.$v.$anyError) {
-        this.submitStatus = "Error";
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. ";
       } else {
         this.submitStatus = "";
         let data = [

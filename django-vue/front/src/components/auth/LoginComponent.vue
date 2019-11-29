@@ -4,7 +4,7 @@
  <v-container fluid class="fill-height col-form" style="min-height: 100%">
    
  <v-row align="center" justify="center">
-   <v-col cols="4">
+   <v-col cols="10" sm="10" md="4">
     <v-form class="form container pa-5" @submit.prevent="login">
       <h3>Iniciar Sesión </h3>
 
@@ -39,7 +39,11 @@
             @input="$v.password.$touch()"
           ></v-text-field>
         </div>
-
+    <v-container>
+      <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
+          {{submitStatus}}
+      </div>
+    </v-container>
     <v-btn :ripple="false" class="mx-2 login" tile color="#673AB7" dark @click="login">Iniciar</v-btn>
   </v-form>
    </v-col>
@@ -67,7 +71,8 @@ export default {
     data(){
       return{        
         email:"",
-        password:""
+        password:"",
+        submitStatus:""
       }
     },
     methods: {
@@ -88,6 +93,7 @@ export default {
           this.$router.push("/perfil")
         })
         .catch(err => {
+          this.submitStatus = err.data.detail
           console.log(err);
         });
       }

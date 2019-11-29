@@ -111,12 +111,12 @@ export default {
       this.object.adultez = response.adultez;
       this.object.vejez = response.vejez;*/
       this.ageData.rows.length = 0
-      this.ageData.rows.push({ 'range': '0-5', 'frequency': response.primeraInfancia })
-      this.ageData.rows.push({ 'range': '6-11', 'frequency': response.infancia })
-      this.ageData.rows.push({ 'range': '12-18', 'frequency': response.adolescencia })
-      this.ageData.rows.push({ 'range': '19-26', 'frequency': response.juventud })
-      this.ageData.rows.push({ 'range': '27-59', 'frequency': response.adultez })
-      this.ageData.rows.push({ 'range': '60 o más', 'frequency': response.vejez })
+      this.ageData.rows.push({ 'range': 'primera infancia', 'frequency': response.primeraInfancia })
+      this.ageData.rows.push({ 'range': 'infancia', 'frequency': response.infancia })
+      this.ageData.rows.push({ 'range': 'adolescencia', 'frequency': response.adolescencia })
+      this.ageData.rows.push({ 'range': 'juventud', 'frequency': response.juventud })
+      this.ageData.rows.push({ 'range': 'adultez', 'frequency': response.adultez })
+      this.ageData.rows.push({ 'range': 'vejez', 'frequency': response.vejez })
     }).catch(err => console.log(err));
     
     api.getEducationByCampaignAndTerritory(data).then(response => {

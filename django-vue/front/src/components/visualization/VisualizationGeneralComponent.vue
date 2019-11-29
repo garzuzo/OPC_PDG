@@ -1,18 +1,21 @@
 <template>
   <div>
-    <navbar-component v-if="!logged"></navbar-component>
+    <navbar-component></navbar-component>
     <v-container>
       <v-row>
         <!--{{idCampaign}} - {{idUser}}-->
         <!--MAP -->
-        <v-col cols="6">
-            <map-campaign-component :filter="filter"></map-campaign-component>
+        <v-col cols="12" sm="12" md="6">
+            <map-general-component :filter="filter"></map-general-component>
         </v-col>
 
         <!--VISUALIZATION-->
-        <v-col cols="6">
-          <h3>En la campaña "{{campaign}}", para ti la paz está asociada a los siguientes conceptos:</h3>
-          <ve-wordcloud
+        <v-col cols="12" sm="12" md="6">
+          <h3>La paz está asociada a los siguientes conceptos:</h3>
+
+          <v-row justify="center">
+              <v-col cols="6" sm="6" md="6">
+                  <ve-wordcloud
             :data="topicOneData"
             :tooltip-visible="tooltip"
             :textStyle="textStyle"
@@ -20,7 +23,9 @@
             :events="topicOneEvents"
             width="400px" height="350px"
           ></ve-wordcloud>
-          <ve-wordcloud
+              </v-col>
+              <v-col cols="6" sm="6" md="6">
+                  <ve-wordcloud
             :data="topicTwoData"
             :tooltip-visible="tooltip"
             :textStyle="textStyle"
@@ -28,23 +33,78 @@
             :events="topicTwoEvents"
             width="400px" height="350px"
           ></ve-wordcloud>
+              </v-col>
+              <v-col cols="6" sm="6" md="6">
+                  <ve-wordcloud
+            :data="topicThreeData"
+            :tooltip-visible="tooltip"
+            :textStyle="textStyle"
+            :settings="wordSettings"
+            :events="topicThreeEvents"
+            width="400px" height="350px"
+          ></ve-wordcloud>
+              </v-col>
+              <v-col cols="6" sm="6" md="6">
+                  <ve-wordcloud
+            :data="topicFourData"
+            :tooltip-visible="tooltip"
+            :textStyle="textStyle"
+            :settings="wordSettings"
+            :events="topicFourEvents"
+            width="400px" height="350px"
+          ></ve-wordcloud>
+              </v-col>
+              <v-col cols="6" sm="6" md="6">
+                  <ve-wordcloud
+            :data="topicFiveData"
+            :tooltip-visible="tooltip"
+            :textStyle="textStyle"
+            :settings="wordSettings"
+            :events="topicFiveEvents"
+            width="400px" height="350px"
+          ></ve-wordcloud>
+              </v-col>
+          </v-row>
+          
+          
         </v-col>
       </v-row>
       <h3>Selecciona opciones para filtrar en el mapa</h3>
       <v-row justify="start">
         
-        <v-col cols="3">
+        <v-col cols="2">
           <v-checkbox
             v-model="checkboxTopicOne"
-            label="Topico primario"
+            label="Topico 1"
             @change="checkTopicOne($event)"
           ></v-checkbox>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="2">
           <v-checkbox
             v-model="checkboxTopicTwo"
-            label="Topico secundario"
+            label="Topico 2"
             @change="checkTopicTwo($event)"
+          ></v-checkbox>
+        </v-col>
+        <v-col cols="2">
+          <v-checkbox
+            v-model="checkboxTopicThree"
+            label="Topico 3"
+            @change="checkTopicThree($event)"
+          ></v-checkbox>
+        </v-col>
+        <v-col cols="2">
+          <v-checkbox
+            v-model="checkboxTopicFour"
+            label="Topico 4"
+            @change="checkTopicFour($event)"
+          ></v-checkbox>
+        </v-col>
+        <v-col cols="2">
+          <v-checkbox
+            v-model="checkboxTopicFive"
+            label="Topico 5"
+            @change="checkTopicFive($event)"
           ></v-checkbox>
         </v-col>
       </v-row>
@@ -79,9 +139,6 @@ import echarts from "echarts";
 import api from "../../axios";
 
 export default {
-  props:{
-    logged:Boolean
-  },
   data() {
     this.pieSettings = {
       dimension: "gender",
@@ -122,6 +179,27 @@ export default {
       click: function(e) {
         //self.name = e.name;
         self.filterTopicTwo();
+        console.log(e);
+      }
+    };
+    this.topicThreeEvents = {
+      click: function(e) {
+        //self.name = e.name;
+        self.filterTopicThree();
+        console.log(e);
+      }
+    };
+    this.topicFourEvents = {
+      click: function(e) {
+        //self.name = e.name;
+        self.filterTopicFour();
+        console.log(e);
+      }
+    };
+    this.topicFiveEvents = {
+      click: function(e) {
+        //self.name = e.name;
+        self.filterTopicFive();
         console.log(e);
       }
     };
@@ -171,73 +249,76 @@ export default {
       },
       topicOneData: {
         columns: ["word", "count"],
-        rows: [
-          /*{ word: "tranquilidad", count: 2199 },
-          { word: "familia", count: 1288 },
-          { word: "amor", count: 14000 },
-          { word: "cultura", count: 10000 },
-          { word: "paz", count: 10388 }*/
-        ]
+        rows: []
       },
       topicTwoData: {
         columns: ["word", "count"],
-        rows: [
-          /*{ word: "tranquilidad", count: 2199 },
-          { word: "familia", count: 1288 },
-          { word: "amor", count: 14000 },
-          { word: "cultura", count: 10000 },
-          { word: "paz", count: 10388 }*/
-        ]
+        rows: []
+      },
+      topicThreeData: {
+        columns: ["word", "count"],
+        rows: []
+      },
+      topicFourData: {
+        columns: ["word", "count"],
+        rows: []
+      },
+      topicFiveData: {
+        columns: ["word", "count"],
+        rows: []
       },
       narratives: [
         "Para mi la paz es sentir que el río está limpio",
         "Para mi la paz es que la gente no tire basuras al río"
       ],
-      campaign: "Ríos de mi ciudad",
       sex:"",
       age:"",
       education:"",
-      idCampaign: this.$store.state.campaign,
-      idUser: this.$store.state.user,
       topicOne: 0,
       topicTwo: 0,
+      topicThree: 0,
+      topicFour: 0,
+      topicFive: 0,
       checkboxTopicOne: false, 
       checkboxTopicTwo: false,
+      checkboxTopicThree: false,
+      checkboxTopicFour: false,
+      checkboxTopicFive: false,
       filter:{
-        topicOne:0,
-        topicTwo:0,
+        topicGeneral:0,
         sex: '',
         age:'',
-        education:'',
-        idCampaign:0
+        education:''
       }
     };
   },
   created() {
-    console.log(this.idCampaign);
-    console.log(this.idUser);
-    let campaign = { id: this.idCampaign };
-    api
-      .getCampaign(campaign)
-      .then(response => {
-        this.campaign = response.title;
-      })
-      .catch(err => console.log(err));
 
-    let user = { id: this.idUser };
-    api
-      .getTwoTopicsByPerson(user)
+    api.getAllTopics()
       .then(response => {
-        this.topicOne = response.id_primary;
-        this.topicTwo = response.id_secondary;
+        this.topicOne = response[0].id;
+        this.topicTwo = response[1].id;
+        this.topicThree = response[2].id;
+        this.topicFour = response[3].id;
+        this.topicFive = response[4].id;
 
-        let array= response.topic_primary.split(', ')
-        let array2= response.topic_secondary.split(', ')
+        let array= response[0].concepts.split(', ')
+        let array2= response[1].concepts.split(', ')
+        let array3= response[2].concepts.split(', ')
+        let array4= response[3].concepts.split(', ')
+        let array5= response[4].concepts.split(', ')
+
         for (var i = 0; i < array.length; i++) {
           var actOne = { word: array[i], count: 2 };
           this.topicOneData.rows.push(actOne);
           var actTwo = { word: array2[i], count: 2 };
           this.topicTwoData.rows.push(actTwo);
+          var actThree = { word: array3[i], count: 2 };
+          this.topicThreeData.rows.push(actThree);
+          var actFour = { word: array4[i], count: 2 };
+          this.topicFourData.rows.push(actFour);
+          var actFive = { word: array5[i], count: 2 };
+          this.topicFiveData.rows.push(actFive);
         }
       })
       .catch(err => console.log(err));
@@ -247,7 +328,7 @@ export default {
   methods: {
     init(){
       let data= {id:this.idCampaign}
-      api.getPeopleByCampaign(data)
+      api.getAllPeople()
       .then(response => {
         this.pieData.rows.length = 0
         this.pieData.rows.push({ 'gender': 'Femenino', 'frequency': response.women })
@@ -256,7 +337,7 @@ export default {
       })
       .catch(err => console.log(err));   
 
-    api.getRangesOfAgeByCampaign(data).then(response => {
+    api.getAllRangesOfAge().then(response => {
       this.ageData.rows.length = 0
       this.ageData.rows.push({ 'range': 'Primera infancia', 'frequency': response.primeraInfancia })
       this.ageData.rows.push({ 'range': 'Infancia', 'frequency': response.infancia })
@@ -266,7 +347,7 @@ export default {
       this.ageData.rows.push({ 'range': 'Vejez', 'frequency': response.vejez })
     }).catch(err => console.log(err));
     
-    api.getEducationByCampaign(data).then(response => {
+    api.getAllEducation().then(response => {
       this.educationData.rows.length = 0
       this.educationData.rows.push({ 'education': 'Primaria', 'frequency': response.primaria })
       this.educationData.rows.push({ 'education': 'Secundaria', 'frequency': response.secundaria })
@@ -276,41 +357,32 @@ export default {
     }).catch(err => console.log(err));
     },
     filterTopicOne(){
-      let data= {id:this.topicOne, type:'Primario'}
-      this.filter.topicOne = this.topicOne
-      api.getPeopleByTopic(data)
-      .then(response => {
-        this.pieData.rows.length = 0
-        this.pieData.rows.push({ 'gender': 'Femenino', 'frequency': response.women })
-        this.pieData.rows.push({ 'gender': 'Masculino', 'frequency': response.men })
-        this.pieData.rows.push({ 'gender': 'Intersexual', 'frequency': response.intersexual })
-      })
-      .catch(err => console.log(err));   
-
-    api.getRangesOfAgeByTopic(data).then(response => {
-      this.ageData.rows.length = 0
-      this.ageData.rows.push({ 'range': 'Primera infancia', 'frequency': response.primeraInfancia })
-      this.ageData.rows.push({ 'range': 'Infancia', 'frequency': response.infancia })
-      this.ageData.rows.push({ 'range': 'Adolescencia', 'frequency': response.adolescencia })
-      this.ageData.rows.push({ 'range': 'Juventud', 'frequency': response.juventud })
-      this.ageData.rows.push({ 'range': 'Adultez', 'frequency': response.adultez })
-      this.ageData.rows.push({ 'range': 'Vejez', 'frequency': response.vejez })
-    }).catch(err => console.log(err));
-    
-    api.getEducationByTopic(data).then(response => {
-      this.educationData.rows.length = 0
-      this.educationData.rows.push({ 'education': 'Primaria', 'frequency': response.primaria })
-      this.educationData.rows.push({ 'education': 'Secundaria', 'frequency': response.secundaria })
-      this.educationData.rows.push({ 'education': 'Técnica y Tecnológica', 'frequency': response.tyt })
-      this.educationData.rows.push({ 'education': 'Universitaria', 'frequency': response.universitaria })
-      this.educationData.rows.push({ 'education': 'Postgrado', 'frequency': response.postgrado })
-    }).catch(err => console.log(err));
+      let data= {id:this.topicOne, type:'General'}
+      this.filter.topicGeneral = this.topicOne
+      this.filterTopic(data)
     },
-
     filterTopicTwo(){
-      let data= {id:this.topicTwo, type:'Secundario'}
-      this.filter.topicTwo = this.topicTwo
-      api.getPeopleByTopic(data)
+      let data= {id:this.topicTwo, type:'General'}
+      this.filter.topicGeneral = this.topicTwo
+      this.filterTopic(data)
+    },
+    filterTopicThree(){
+      let data= {id:this.topicThree, type:'General'}
+      this.filter.topicGeneral = this.topicThree
+      this.filterTopic(data)
+    },
+    filterTopicFour(){
+      let data= {id:this.topicFour, type:'General'}
+      this.filter.topicGeneral = this.topicFour
+      this.filterTopic(data)
+    },
+    filterTopicFive(){
+      let data= {id:this.topicFive, type:'General'}
+      this.filter.topicGeneral = this.topicFive
+      this.filterTopic(data)
+    },
+    filterTopic(data){
+        api.getPeopleByTopic(data)
       .then(response => {
         this.pieData.rows.length = 0
         this.pieData.rows.push({ 'gender': 'Femenino', 'frequency': response.women })
@@ -364,93 +436,39 @@ export default {
     },
     checkTopicOne(event){
       if(this.checkboxTopicOne){
-        this.filter.topicOne = this.topicOne
+        this.filter.topicGeneral = this.topicOne
       }else{
-        this.filter.topicOne = 0
+        this.filter.topicGeneral = 0
       }
     },
     checkTopicTwo(event){
       if(this.checkboxTopicTwo){
-        this.filter.topicTwo = this.topicTwo
+        this.filter.topicGeneral = this.topicTwo
       }else{
-        this.filter.topicTwo = 0
+        this.filter.topicGeneral = 0
       }
     },
-    changeData(word) {
-      if (word == "tranquilidad") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 60 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 80 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 15 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
+    checkTopicThree(event){
+      if(this.checkboxTopicThree){
+        this.filter.topicGeneral = this.topicThree
+      }else{
+        this.filter.topicGeneral = 0
       }
-      if (word == "familia") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 60 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 70 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 20 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 50 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
+    },
+    checkTopicFour(event){
+      if(this.checkboxTopicFour){
+        this.filter.topicGeneral = this.topicFour
+      }else{
+        this.filter.topicGeneral = 0
       }
-      if (word == "amor") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 60 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 70 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 20 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 50 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
+    },
+    checkTopicFive(event){
+      if(this.checkboxTopicFive){
+        this.filter.topicGeneral = this.topicFive
+      }else{
+        this.filter.topicGeneral = 0
       }
-      if (word == "cultura") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 20 });
-        this.ageData.rows.push({ range: "6-11", frequency: 12 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 50 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 70 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 30 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
-      }
-      if (word == "paz") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 70 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 60 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 80 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 80 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 10 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 80
-        });
-      }
-    }
+    },
   }
 };
 </script>

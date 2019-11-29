@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-col cols="5">
+    <v-col cols="12" sm="12" md="5">
       <div class="form-group">
         <label for="higherEducation">Nivel educativo más alto alcanzado*</label>
         <v-select
@@ -40,14 +40,14 @@
 
     <v-container>
       <div v-if="submitStatus!=''" class="px-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos
+          {{submitStatus}}
       </div>
       <v-row justify="space-between">
-        <v-col cols="2">
+        <v-col cols="4" sm="4" md="2">
           <v-btn :ripple="false" class="ma-2 next" outlined color="#673ab7" @click="emitBeforeToParent">Anterior</v-btn>
         </v-col>        
 
-        <v-col cols="2">
+        <v-col cols="4" sm="4" md="2">
           <v-btn
             :ripple="false"
             class="ma-2 next"
@@ -124,24 +124,11 @@ export default {
     emitAllToParent(event){
       this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo."
       }else{
         let data = [this.higherEducation, this.level, "5"];
         this.submitStatus = ""
         this.$emit("allToParent", data);
-      } 
-    },
-    allFromRegister(value){
-      this.$v.$touch()
-      if(this.$v.$anyError){
-        this.submitStatus = "Error"
-      }else{
-        console.log(value.username)
-        console.log(value.password)
-        this.dialog = value.dialog
-        let data = [this.higherEducation, this.level, value.username, value.password, "done"];
-        this.submitStatus = ""
-        this.$emit("allToParentFromRegister", data);
       } 
     },
     emitBeforeToParent(event){

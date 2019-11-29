@@ -214,7 +214,7 @@ def acampaigns_list(request):
 @api_view(['GET'])
 def notacampaigns_list(request):
     if request.method == "GET":
-        campList=Campaign.objects.filter(isActive=False)
+        campList=Campaign.objects.filter(Q(startDate__gt=date.today()) | Q(endDate__lt=date.today()) | Q(isActive=False))
         serializer=CampaignSerializer(campList, many=True)
         return Response(serializer.data)
 
@@ -1146,6 +1146,25 @@ def topic_list(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def obtain_person_campaign_logged(request):
+
+    idCampaign=request.query_params("id",None)
+
+    if request.method=="GET":
+        personCampaign=PersonCampaign.objects.filter(person__user__id=request.user.id, campaign=idCampaign).first()
+
+        serializer=PersonCampaignSerializer(personCampaign)
+         
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def role_user(request):
 
     if request.method=="GET":
@@ -1629,7 +1648,7 @@ def age_range_list(request):
             infanciaList=infanciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
             adolescenciaList=adolescenciaList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
             juventudList=juventudList.filter( neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
-            adultezList=adultezListfilter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
+            adultezList=adultezList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
             vejezList=vejezList.filter(neighborhoodVeredaActual__comunaCorregimiento__id=corregimiento)
         elif state is not None:
         

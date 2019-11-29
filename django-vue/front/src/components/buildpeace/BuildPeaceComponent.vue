@@ -6,7 +6,7 @@
       <v-container  class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
-          <v-col cols="7">
+          <v-col sm="12" md="7">
             <h1 style="padding-bottom:10vh;">¡Construyamos Paz!</h1>
             <p>Para el Observatorio de Paz y Convivencia es de vital importancia comprender tu percepción de paz con el fin de aportar información valiosa para las campañas en curso de proyectos alineados a la construcción de paz y cultura ciudadana.
               ¡Ayudános a construir más paz!
@@ -55,7 +55,7 @@
 
       <v-container style="padding-top: 20vh;">
         <v-row justify="center">
-          <v-col cols="5">
+          <v-col sm="8" md="5">
             <div class="form-group">
               <p for="campaign">Selecciona la campaña en la que deseas participar</p>
               <v-select
@@ -78,7 +78,7 @@
       </v-container>
       <!-- STEPPER -->
       <v-row align="center" justify="center">
-        <v-col cols="10" md="8">
+        <v-col sm="8" md="8">
           <v-stepper v-model="e1">
             <!--TABS -->
             <v-stepper-header>
@@ -126,7 +126,7 @@
               <v-stepper-content step="5">
                 <save-info-component
                   v-on:allToParent="allFromFinishChildClick"
-                  v-on:before="beforeEducation"
+                  v-on:before="beforeFinish"
                 ></save-info-component>
               </v-stepper-content>
 
@@ -136,17 +136,15 @@
       </v-row>
 
       <v-row align="center" justify="center">
-        <v-col cols="2">
+        <v-col cols="12" sm="12" md="8">
          <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. 
+          {{submitStatus}}
       </div>
       <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
            {{succes}}
           </div>
         </v-col>
       </v-row>
-
-      {{email}} {{password}}
     </v-container>
   </div>
 </template>
@@ -172,7 +170,7 @@ export default {
   data() {
     return {
       fab: false,
-      url: 'http://localhost:8080/construirpaz',
+      url: 'http://pi2sis.icesi.edu.co/opc/construirpaz',
       e1: 0,
       narrative: "",
       word1: "",
@@ -246,7 +244,7 @@ export default {
       if(this.isLoggedIn){
         this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. "
         this.succesUser=""
       }else{
         this.submitStatus = ""
@@ -260,7 +258,12 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-       api.saveNarrativeLoggedUser(data).then(response=> {this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!"}).catch(err=> console.log(err))
+       api.saveNarrativeLoggedUser(data).then(response=> {
+         this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
+         let data= {campaign:response.campaign, user: response.id}
+         this.$store.dispatch("saveNarrative",data)
+         setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
+         }).catch(err=> console.log(err))
       }
       }
 
@@ -312,6 +315,9 @@ export default {
     beforeTerritory(value) {
       this.e1 = value;
     },
+    beforeFinish(value){
+      this.e1 = value;
+    },
     logout(){
       this.$store
         .dispatch("logout")
@@ -336,7 +342,7 @@ export default {
     saveData() {
       this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. "
       }else{
         this.submitStatus = ""
         console.log("HERE I AMMMMMM")
@@ -367,15 +373,23 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-      console.log(data)
-      api.saveData(data).then((resp)=>{this.$router.push("/visualizacampaña")}).catch(err=> {console.log(err)});
+      //console.log(data)
+      api.saveData(data).then((resp)=>{
+        this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
+        console.log(resp)
+        let data= {campaign:resp.campaign, user: resp.id}
+        console.log("DATOS ANTES DE STORE")
+        console.log(data)
+        this.$store.dispatch("saveNarrative",data)
+        setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
+        }).catch(err=> {console.log(err)});
       }
       
     },
     saveDataRegister(){
       this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo."
       }else{
         this.submitStatus = ""
         console.log("HERE I AMMMMMM REGISTER")
@@ -409,7 +423,15 @@ export default {
         word5: this.word5
       };
       console.log(data)
-      api.saveData(data).then((resp)=>{this.$router.push("/login")}).catch(err=> {console.log(err)});
+      api.saveData(data).then((resp)=>{
+        this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
+        let data= {campaign:resp.campaign, user: resp.id}
+        this.$store.dispatch("saveNarrative",data)
+        setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
+        //this.$router.push("/login")
+        }).catch(err=> {
+          this.submitStatus= err.data.detail
+      console.log(err)});
       }
     }
   },
@@ -439,8 +461,8 @@ h1 {
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 64px;
-  line-height: 96px;
+  /*calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));*/
+  font-size: calc(32px + (64 - 32) * ((100vw - 300px) / (1600 - 300)));
   color: #0c186d;
 }
 
@@ -448,8 +470,7 @@ p {
   font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
 }
 
 label {

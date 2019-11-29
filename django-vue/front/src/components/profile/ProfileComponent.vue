@@ -47,14 +47,14 @@
         <v-col cols="4">
             <h2 class="ml-3"> Activas </h2>
             <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
-                <campaign-item-component color="#FFFFFF" :edit="false" :campaign="campaign"></campaign-item-component>
+                <campaign-item-component color="#FFFFFF" :edit="false" :campaign="campaign" :logged="true"></campaign-item-component>
             </v-col>
         </v-col>
 
         <v-col cols="4">
             <h2 class="ml-3">Finalizadas </h2>
             <v-col v-for="campaign in notActiveCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
-                <campaign-item-component color="#E1E1E9" :edit="false" :campaign="campaign"></campaign-item-component>
+                <campaign-item-component color="#E1E1E9" :edit="false" :campaign="campaign" :logged="true"></campaign-item-component>
             </v-col>
         </v-col>   
 
@@ -106,7 +106,7 @@ export default {
       userCampaigns: [],
       dialogEdit: false,
       dialogCampaign: false,
-      city: '',
+      cityComputed: '',
       narratives: 0, 
       campaigns: 0,
       roleUser: 0,
@@ -140,10 +140,6 @@ export default {
         }
         this.activeCampaigns = activeCampaigns
         this.notActiveCampaigns = notActiveCampaigns
-    }).catch(err => console.log(err));
-
-    api.getCityPerson().then(response => {
-        this.city = response.city_name
     }).catch(err => console.log(err));
     
     api.getRoleUser().then(response => {
@@ -181,11 +177,6 @@ export default {
         this.profile.currentVereda.name = response.neighborhoodVeredaActual.split("/")[0]
       }
     }).catch(err => console.log(err));
-    /*api
-      .getNotActiveCampaigns()
-      .then(response => {
-        this.notActiveCampaigns = response;})
-      .catch(err => console.log(err));*/
   },
   computed:{
     createdCampaigns(){
@@ -194,6 +185,12 @@ export default {
         this.userCampaigns = response
       }).catch(err => console.log(err));
       return this.userCampaigns;
+    },
+    city(){
+      api.getCityPerson().then(response => {
+        this.cityComputed = response.city_name
+    }).catch(err => console.log(err));
+      return this.cityComputed
     }
   },
   methods:{

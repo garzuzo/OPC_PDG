@@ -3,7 +3,7 @@
 <div>
 <!-- NARRATIVE -->
       <v-row align="center" justify="start">
-        <v-col cols="12"> 
+        <v-col sm="12"> 
           <div id="text" class="form-group">
             <label for="narrative">Con un texto ayudanos a responder la pregunta: Para ti, ¿Qué si es paz?</label>
             <v-textarea
@@ -22,13 +22,13 @@
 
       <!--KEYWORDS -->
       <v-row align="center" justify="start">
-        <v-col cols="8">
+        <v-col cols="12" sm="12" md="8">
           <p>Danos 5 palabras que para ti reflejen Qué si es paz</p>
         </v-col>
       </v-row>
 
       <v-row align="center" justify="start">
-        <v-col cols="4">
+        <v-col cols="6" sm="6" md="4">
           <v-text-field
             v-model="word1"
             :error-messages="word1Errors"
@@ -42,7 +42,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" sm="6" md="4">
           <v-text-field
             v-model="word2"
             :error-messages="word2Errors"
@@ -56,7 +56,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" sm="6" md="4">
           <v-text-field
             v-model="word3"
             :error-messages="word3Errors"
@@ -70,7 +70,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" sm="6" md="4">
           <v-text-field
             v-model="word4"
             :error-messages="word4Errors"
@@ -84,7 +84,7 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="6" sm="6" md="4">
           <v-text-field
             v-model="word5"
             :error-messages="word5Errors"
@@ -100,13 +100,13 @@
       </v-row>
       <v-container>
       <div v-if="submitStatus!=''" class="px-5 alert alert-danger" role="alert">
-          Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo.
+          {{submitStatus}}
       </div>
       <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
            {{succes}}
       </div>
       <v-row justify="end">
-        <v-col cols="2">
+        <v-col cols="4" sm="4" md="2">
           <v-btn v-if="!isLoggedIn"
             :ripple="false"
             class="ma-2 next"
@@ -204,7 +204,7 @@ export default {
     emitAllToParent(event) {
       this.$v.$touch()
       if(this.$v.$anyError){
-        this.submitStatus = "Error"
+        this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo."
       }else{
         let data= []
         if(!this.isLoggedIn){
@@ -214,28 +214,6 @@ export default {
         }        
         this.submitStatus = ""
         this.$emit("allToParent", data);
-      }
-    },
-    saveInfo(){
-      if(this.isLoggedIn){
-        this.$v.$touch()
-      if(this.$v.$anyError || this.campaign.id==0){
-        this.submitStatus = "Error"
-        this.succes=""
-      }else{
-        this.submitStatus = ""
-        this.succes=""
-        let data = {
-        campaign : this.campaign.id,
-        narrative: this.narrative,
-        word1: this.word1,
-        word2: this.word2,
-        word3: this.word3,
-        word4: this.word4,
-        word5: this.word5
-      };
-       api.saveNarrativeLoggedUser(data).then(response=> {this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!"}).catch(err=> console.log(err))
-      }
       }
     }
   }, 

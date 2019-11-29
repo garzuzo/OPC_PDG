@@ -105,6 +105,19 @@
           ></v-text-field>
         </div>
 
+        <div>
+          <v-checkbox v-if="!edit"
+          v-model="checkbox"
+          label="¿Crear como campaña activa?"
+          @change="check($event)"
+        ></v-checkbox>
+        <v-checkbox v-if="edit"
+          v-model="checkbox"
+          label="Activa"
+          @change="check($event)"
+        ></v-checkbox>
+        </div>
+
         <v-row align="center" justify="center">
         <v-col cols="10">
          <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
@@ -130,11 +143,10 @@ import { validationMixin } from "vuelidate";
 function dateMaxValue (date) {
       //const validator = minValue(new Date())
       const dateSplit = date.split("-")
-      date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
-      console.log(date)
+      const dateFinal = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
       const today = new Date().setHours(0,0,0,0)//.toISOString().split("T")[0]
       //today.setHours(0,0,0,0)
-      return date >= today
+      return dateFinal > today
 }
 
 function endGreaterThanStart (date) {
@@ -157,8 +169,8 @@ export default {
   validations: {
     title : { required},
     description: {required}, 
-    startDate : {required, dateMaxValue},
-    endDate: {required, endGreaterThanStart},
+    startDate : {required},
+    endDate: {required, dateMaxValue, endGreaterThanStart},
     narrativesGoal: {required, numeric, greaterThanCero}
   },
   props:{
@@ -175,7 +187,8 @@ export default {
             menuStart: false, 
             menuEnd: false,
             submitStatus: "",
-            succes : ""
+            succes : "",
+            checkbox:false
         }
     },
     created(){
@@ -185,6 +198,7 @@ export default {
         this.startDate = this.campaign.startDate
         this.endDate = this.campaign.endDate
         this.narrativesGoal = this.campaign.narrativesGoal
+        this.checkbox = this.campaign.isActive
       }
     },
     methods:{
@@ -203,7 +217,7 @@ export default {
         end_date: this.endDate,
         accumulated_narratives: 0,
         narratives_goal: this.narrativesGoal,
-        is_active: true
+        is_active: this.checkbox
       };
       console.log(data)
       console.log(this.$store.state.token)
@@ -225,7 +239,7 @@ export default {
         start_date : this.startDate,
         end_date: this.endDate,
         narratives_goal: this.narrativesGoal,
-        is_active: true
+        is_active: this.checkbox
       };
       console.log(data)
       console.log(this.$store.state.token)
@@ -251,13 +265,13 @@ export default {
       const errors = [];
       if (!this.$v.startDate.$dirty) return errors;
       !this.$v.startDate.required && errors.push("Fecha de inicio es requerida.");
-      !this.$v.startDate.dateMaxValue && errors.push("Fecha de inicio debe ser mayor a la fecha actual.");
       return errors;
     },
     endDateErrors() {
       const errors = [];
       if (!this.$v.endDate.$dirty) return errors;
       !this.$v.endDate.required && errors.push("Fecha de finalización es requerida.");
+      !this.$v.endDate.dateMaxValue && errors.push("Fecha de inicio debe ser mayor a la fecha actual.");
       !this.$v.endDate.endGreaterThanStart && errors.push("Fecha de finalización debe ser mayor a la fecha de inicio.");
       return errors;
     },

@@ -7,6 +7,7 @@ import CampaignsComponent from '@/components/campaign/CampaignsComponent'
 import ProfileComponent from '@/components/profile/ProfileComponent'
 import FrontPageComponent from '@/components/frontpage/FrontPageComponent'
 import VisualizationCampaignComponent from '@/components/visualization/VisualizationCampaignComponent'
+import VisualizationGeneralComponent from '@/components/visualization/VisualizationGeneralComponent'
 import LoginComponent from '@/components/auth/LoginComponent'
 const routes = [
   { path: '/construirpaz', component: BuildPeaceComponent },
@@ -18,7 +19,9 @@ const routes = [
   {path: '/campañas', component: CampaignsComponent},
   {path: '/perfil', component: ProfileComponent, meta: { requiresAuth: true }},
   {path: '/visualizacampaña', component: VisualizationCampaignComponent},
+  {path: '/visualiza', component: VisualizationGeneralComponent},
   {path: '/login', component: LoginComponent},
+  { path: '/', redirect: '/home' },
   { path: '*', redirect: '/' }   
 ];
 

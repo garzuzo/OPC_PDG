@@ -9,6 +9,8 @@ export default new Vuex.Store({
     state: {
         status: '',
         token: localStorage.getItem('token') || '',
+        campaign: 5,
+        user: 12
     },
     mutations: {
         auth_request(state) {
@@ -25,6 +27,10 @@ export default new Vuex.Store({
             state.status = ''
             state.token = ''
           },
+          saveInfo(state, {user,campaign}){
+            state.campaign = campaign
+            state.user = user
+          }
     },
     actions: {
 
@@ -73,6 +79,11 @@ export default new Vuex.Store({
               delete axios.defaults.headers.common['Authorization']
               resolve()
             })
+          },
+          saveNarrative({commit}, data){
+            const campaign = data.campaign
+            const user = data.user
+            commit('saveInfo', {user,campaign})
           }
 
       },

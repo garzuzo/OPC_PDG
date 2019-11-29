@@ -63,7 +63,8 @@
               </v-btn>
               <v-toolbar-title>{{campaign.title}}</v-toolbar-title>
             </v-toolbar>
-            <report-campaign-component :campaign="campaign"> </report-campaign-component>
+            <report-campaign-component v-if="!logged" :campaign="campaign"> </report-campaign-component>
+            <visualization-campaign-component v-if="logged" :logged="true"> </visualization-campaign-component>
           </v-card>
         </v-dialog>
       </v-row>
@@ -77,13 +78,24 @@ export default {
   props: {
     color: String,
     campaign: Object,
-    edit: Boolean
+    edit: Boolean,
+    logged: Boolean,
   },
   data() {
     return {
       dialog: false,
       dialogEdit: false
     };
+  },
+  created(){
+    if(this.logged){
+      api.getPersonCampaignLogged(this.campaign.id).then(response=>{
+        let data= {campaign:this.campaign.id, user: response.id}
+        console.log("DATOS ANTES DE STORE")
+        console.log(data)
+        this.$store.dispatch("saveNarrative",data)
+      }).catch(err=>console.log(err))      
+    }    
   }
 };
 </script>
