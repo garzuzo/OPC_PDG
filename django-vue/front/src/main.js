@@ -45,7 +45,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 const router = new VueRouter({
   base: '/opc/',
-  mode: 'history',
+  //mode: 'history',
   routes 
 })
 
