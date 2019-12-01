@@ -1148,7 +1148,7 @@ def topic_list(request):
 @permission_classes([IsAuthenticated])
 def obtain_person_campaign_logged(request):
 
-    idCampaign=request.query_params("id",None)
+    idCampaign=request.query_params.get("id",None)
 
     if request.method=="GET":
         personCampaign=PersonCampaign.objects.filter(person__user__id=request.user.id, campaign=idCampaign).first()
@@ -1399,11 +1399,11 @@ def obtain_opendata(request):
                 "Ciudad_actual":city_actual.name,
                 "Departamento_actual":state_actual.name,
                 "Pais_actual":country_actual.name,
-                "Barrio_vereda_source":neigh_vereda_source_name,
-                "Comuna_corregimiento_source":comuna_corr_source_name,
-                "Ciudad_source":city_source.name,
-                "Departamento_source":state_source.name,
-                "Pais_source":country_source.name,
+                "Barrio_vereda_origen":neigh_vereda_source_name,
+                "Comuna_corregimiento_origen":comuna_corr_source_name,
+                "Ciudad_origen":city_source.name,
+                "Departamento_origen":state_source.name,
+                "Pais_origen":country_source.name,
             }
             pc_response_list.append(data)
 

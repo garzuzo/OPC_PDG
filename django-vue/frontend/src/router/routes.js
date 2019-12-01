@@ -7,7 +7,9 @@ import FrontPageComponent from '@/components/frontpage/FrontPageComponent'
 import VisualizationCampaignComponent from '@/components/visualization/VisualizationCampaignComponent'
 import VisualizationGeneralComponent from '@/components/visualization/VisualizationGeneralComponent'
 import LoginComponent from '@/components/auth/LoginComponent'
+import OpenDataComponent from '@/components/opendata/OpenDataComponent'
 const routes = [
+  { path: '/datosabiertos', component: OpenDataComponent },
   { path: '/construirpaz', component: BuildPeaceComponent },
   { path: '/sobrenosotros', component: AboutUsComponent },
   {path: '/home', component: FrontPageComponent},

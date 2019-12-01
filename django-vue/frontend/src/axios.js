@@ -2,6 +2,18 @@ import axios from './configaxios.js'
 import store from './store'
 export default {
     
+    getOpenData() {
+        return new Promise((resolve, reject) => {
+            axios.get('/obtain_opendata/')
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting open data', err);
+                })
+        });
+    },
+
     /*
     CAMPAIGNS
     */
