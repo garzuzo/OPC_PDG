@@ -170,7 +170,7 @@ export default {
   data() {
     return {
       fab: false,
-      url: 'http://pi2sis.icesi.edu.co/opc/construirpaz',
+      url: 'http://pi2sis.icesi.edu.co/opc/#/construirpaz',
       e1: 0,
       narrative: "",
       word1: "",
@@ -194,14 +194,14 @@ export default {
       level: {id: 0, name:''},
       higherEducation: {id: 0, name:''},
       //TERRITORY COMPONENT
-      currentZone: {id: 0, name:''},
+      currentZone: {id: 0, zoneType:''},
       currentState: {id: 0, name:''},
       currentCity: {id: 0, name:''},
       currentComuna: {id: 0, name:''},
       currentNeighborhood: {id: 0, name:''},
       currentCorregimiento: {id: 0, name:''},
       currentVereda: {id: 0, name:''},
-      originZone: {id: 0, name:''},
+      originZone: {id: 0, zoneType:''},
       originState: {id: 0, name:''},
       originCity: {id: 0, name:''},
       originComuna: {id: 0, name:''},

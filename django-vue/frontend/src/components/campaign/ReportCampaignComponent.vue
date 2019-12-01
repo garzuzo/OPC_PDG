@@ -2,11 +2,11 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6">
             <choropleth-map-report-component :campaign="campaign"></choropleth-map-report-component>
         </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" sm="12" md="6">
         <v-row>
         <v-col cols="12">
           <p>
@@ -40,7 +40,7 @@
 
           <h3>Los conceptos de percepción de paz más relevantes identificados en esta campaña son:</h3>
           <v-row justify="center">
-          <ve-wordcloud width="400px" height="350px" :data="wordData" :textStyle="textStyle"></ve-wordcloud>
+          <ve-wordcloud width="400px" height="350px" :data="wordData" :textStyle="textStyle" :settings="wordSettings"></ve-wordcloud>
           </v-row>
         </v-col>   
         <v-col cols="12">
@@ -85,13 +85,10 @@ export default {
       ],
       dimension: ["comuna"]
     };
-    this.dataZoom = [
-      {
-        type: "slider",
-        start: 0,
-        end: 23
-      }
-    ];
+    this.wordSettings={
+        sizeMin: 14,
+        sizeMax: 24
+    }
     this.textStyle = { fontFamily: "Poppins" };
 
     return {

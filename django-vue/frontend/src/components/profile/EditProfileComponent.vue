@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col cols="10" md="8">
+      <v-col cols="12" sm="12" md="8">
         <v-stepper v-model="e1">
           <!--TABS -->
           <v-stepper-header>
@@ -22,7 +22,7 @@
             <v-stepper-content step="1">
               <v-container>
                 <v-row>
-                  <v-col cols="5">
+                  <v-col cols="8" sm="8" md="5">
                     <div class="form-group">
                       <label for="gender">Sexo*</label>
                       <v-select
@@ -48,7 +48,7 @@
                     role="alert"
                   >Revisa las advertencias. Tienes algún error en los campos</div>
                   <v-row justify="end">
-                    <v-col cols="2">
+                    <v-col cols="4" sm="4" md="2">
                       <v-btn
                         :ripple="false"
                         class="ma-2 next"
@@ -70,7 +70,7 @@
                   <v-row justify="space-around">
                     <!--FIRST COLUMN-->
 
-                    <v-col cols="5">
+                    <v-col cols="6" sm="6" md="5">
                       <div class="form-group">
                         <label for="currentZone">Zona*</label>
                         <v-select
@@ -151,7 +151,7 @@
                     </v-col>
 
                     <!--SECOND COLUMN -->
-                    <v-col align-self="end" cols="5">
+                    <v-col align-self="end" cols="6" sm="6" md="5">
                       <div class="form-group">
                         <label for="currentCity">Municipio*</label>
                         <v-select
@@ -160,6 +160,7 @@
                           item-value="name"
                           outlined
                           v-model="currentCity"
+                          :value="currentCity"
                           return-object
                           :error-messages="currentCityErrors"
                           required
@@ -221,7 +222,7 @@
                       role="alert"
                     >Revisa las advertencias. Tienes algún error en los campos</div>
                     <v-row justify="space-between">
-                      <v-col cols="2">
+                      <v-col cols="4" sm="4" md="2">
                         <v-btn
                           :ripple="false"
                           class="ma-2 next"
@@ -230,7 +231,7 @@
                           @click="beforeTerritory"
                         >Anterior</v-btn>
                       </v-col>
-                      <v-col cols="2">
+                      <v-col cols="4" sm="4" md="2">
                         <v-btn
                           :ripple="false"
                           class="ma-2 next"
@@ -248,7 +249,7 @@
             <!--EDUCACIÓN -->
             <v-stepper-content step="3">
               <div>
-                <v-col cols="5">
+                <v-col cols="12" sm="12" md="5">
                   <div class="form-group">
                     <label for="higherEducation">Nivel educativo más alto alcanzado*</label>
                     <v-select
@@ -270,7 +271,7 @@
                   <div class="form-group">
                     <label for="level">Nivel más alto alcanzado en el anterior nivel*</label>
                     <v-select
-                      :items="levelsEd"
+                      :items="levels"
                       :error-messages="levelErrors"
                       item-text="name"
                       item-value="name"
@@ -285,7 +286,6 @@
                     ></v-select>
                   </div>
                 </v-col>
-                {{higherEducation}} {{level}}
                 <v-container>
                   <div
                     v-if="submitStatus!=''"
@@ -298,7 +298,7 @@
                     role="alert"
                   >{{succes}}</div>
                   <v-row justify="space-between">
-                    <v-col cols="2">
+                    <v-col cols="4" sm="4" md="2">
                       <v-btn
                         :ripple="false"
                         class="ma-2 next"
@@ -308,7 +308,7 @@
                       >Anterior</v-btn>
                     </v-col>
 
-                    <v-col cols="2">
+                    <v-col cols="4" sm="4" md="2">
                       <v-btn
                         :ripple="false"
                         class="ma-2 next"
@@ -411,13 +411,19 @@ export default {
       submitStatus: "",
       succes: "",
       genders: [],
-      zones: [],
-      currentCitiesComputed: [],
+      zones: ['Rural', 'Urbana'],
+      currentCities: [],
+      currentNeighborhoodsCali: [],
+      currentVeredasCali: [],
       states: [],
       comunasCali: [],
-      neighborhoodsCali: [],
       corregimientosCali: [],
-      veredasCali: [],
+
+      /*currentCitiesComputed: [],
+      
+      neighborhoodsCali: [],
+      
+      veredasCali: [],*/
       education: [],
       levels: [],
       neighborhoodVereda: 0,
@@ -476,7 +482,83 @@ export default {
       .catch(err => {
         console.log(err);
       });
+
+      //init watch
+      api
+          .getCities(this.currentState.name)
+          .then(response => {
+            this.currentCities = response;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+
+      let dataComunaN = ["Cali", "Urbana", this.currentComuna.name];
+        api
+          .getNeighborhoodsVeredas(dataComunaN)
+          .then(response => {
+            this.currentNeighborhoodsCali = response;
+          })
+          .catch(err => console.log(err));
+      let dataCorregimientoN = ["Cali", "Rural", this.currentCorregimiento.name];
+        api
+          .getNeighborhoodsVeredas(dataCorregimientoN)
+          .then(response => {
+            this.currentVeredasCali = response;
+          })
+          .catch(err => console.log(err));
+
+         api
+        .getAchievedLevel(this.higherEducation.name)
+        .then(response => {
+          this.levels = response;
+        })
+        .catch(err => {
+          console.log(err);
+        }); 
   },
+  watch:{
+    //CURRENT
+    currentState(state){
+      api
+          .getCities(this.currentState.name)
+          .then(response => {
+            this.currentCities = response;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    },
+    currentComuna(comuna){
+      let dataComuna = ["Cali", "Urbana", this.currentComuna.name];
+        api
+          .getNeighborhoodsVeredas(dataComuna)
+          .then(response => {
+            this.currentNeighborhoodsCali = response;
+          })
+          .catch(err => console.log(err));
+    },
+    currentCorregimiento(corregimiento){
+      let dataCorregimiento = ["Cali", "Rural", this.currentCorregimiento.name];
+        api
+          .getNeighborhoodsVeredas(dataCorregimiento)
+          .then(response => {
+            this.currentVeredasCali = response;
+          })
+          .catch(err => console.log(err));
+    },
+    higherEducation(education){
+      console.log("CAMBIE")
+        api
+        .getAchievedLevel(this.higherEducation.name)
+        .then(response => {
+          this.levels = response;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },  
   methods: {
     checkPersonal() {
       this.$v.$touch();
@@ -554,7 +636,7 @@ export default {
       return errors;
     },
     //TERRITORY
-    currentCities() {
+    /*currentCities() {
       if (this.currentState.name != "") {
         api
           .getCities(this.currentState.name)
@@ -594,7 +676,7 @@ export default {
           .catch(err => console.log(err));
       }
       return this.veredasCali;
-    },
+    },*/
     currentZoneErrors() {
       const errors = [];
       if (!this.$v.currentZone.$dirty) return errors;
@@ -648,7 +730,7 @@ export default {
       return errors;
     },
     //EDUCATION
-    levelsEd() {
+    /*levelsEd() {
       if(this.higherEducation.name != ""){
         api
         .getAchievedLevel(this.higherEducation.name)
@@ -660,7 +742,7 @@ export default {
         });
       }
       return this.levels;
-    },
+    },*/
     higherEducationErrors(){
       const errors = []
         if (!this.$v.higherEducation.$dirty) return errors

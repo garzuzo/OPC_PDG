@@ -4,7 +4,7 @@
     <h2 align="center">Un proyecto que dá de que hablar</h2>
     <v-container>
       <v-row justify="center">
-        <v-col v-for="n in 3" :key="n" cols="4">
+        <v-col v-for="n in 3" :key="n" cols="10" sm="10" md="4">
           <v-card class="mx-auto" max-width="400">
             <v-card-text class="headline font-weight-bold">
               <p
@@ -47,8 +47,7 @@ h3 {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
   color: #0c186d;
 }
 
@@ -56,8 +55,7 @@ h4 {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 36px;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
   text-align: justify;
 
   color: #0c186d;
@@ -67,8 +65,7 @@ h2 {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 48px;
-  line-height: 72px;
+  font-size: calc(24px + (48 - 24) * ((100vw - 300px) / (1600 - 300)));
   color: #000000;
 }
 
@@ -76,8 +73,7 @@ h5 {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 72px;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
   color: #000000;
 }
 

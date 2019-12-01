@@ -74,6 +74,7 @@
 
 
 <script>
+import api from '../../axios'
 export default {
   props: {
     color: String,

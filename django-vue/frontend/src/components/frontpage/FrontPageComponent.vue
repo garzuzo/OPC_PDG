@@ -7,7 +7,7 @@
       <v-container class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
-          <v-col cols="7">
+          <v-col sm="12" md="7">
             <h1 style="padding-bottom:10vh;">Narrativas de Paz</h1>
             <p style="padding-bottom:5vh;">El Observatorio de Paz y Convivencia (OPC) de la Secretaría de Paz y Cultura Ciudadana de la Alcaldía de Santiago de Cali tiene como objetivo realizar mediciones de la percepción de la paz bajo el mandato ciudad-región. </p>
             <v-btn :ripple="false" depressed rounded class="mx-2 pa-5 btn peace" color="#673AB7" dark to="/construirpaz">Quiero construir paz</v-btn>
@@ -58,8 +58,7 @@ h1 {
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 64px;
-  line-height: 96px;
+  font-size: calc(32px + (64 - 32) * ((100vw - 300px) / (1600 - 300)));
   color: #0c186d;
 }
 
@@ -67,8 +66,7 @@ p {
   font-family: "Roboto";
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
 }
 
 .peace{
@@ -76,7 +74,7 @@ p {
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
   line-height: 24px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

@@ -12,7 +12,6 @@
   "dependencies": {
     "core-js": "^3.4.3",
     "vue": "^2.6.10",
-
     "@types/leaflet": "^1.5.1",
     "ajv": "^6.10.2",
     "auth0-js": "^9.11.3",
@@ -22,7 +21,6 @@
     "material-design-icons-iconfont": "^5.0.1",
     "serve": "^11.2.0",
     "v-charts": "^1.19.0",
-
     "vue-choropleth": "^0.3.1",
     "vue-router": "^3.0.1",
     "vue-share-buttons": "^1.0.6",
@@ -34,9 +32,13 @@
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-service": "^4.1.0",
     "vue-template-compiler": "^2.6.10",
-
-
     "leaflet": "^1.5.1",
-    "vue2-leaflet": "^2.2.1"
+    "vue2-leaflet": "^2.2.1",
+    "css-loader": "^3.2.0",
+    "file-loader": "^1.1.4",
+    "postcss-loader": "^2.0.8",
+    "url-loader": "^2.1.0",
+    "vue-loader": "^13.3.0",
+    "vue-style-loader": "^3.0.1"
   }
 }

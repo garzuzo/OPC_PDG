@@ -21,8 +21,9 @@
 
       <div class="form-group">
         <label for="level">Nivel más alto alcanzado en el anterior nivel*</label>
-        <v-select
-          :items="levelsEd"
+       <!--:items="levelsEd"-->
+        <v-select          
+          :items="levels"
           :error-messages="levelErrors"
           item-text="name"
           item-value="name"
@@ -92,6 +93,19 @@ export default {
       .catch(err => {
         console.log(err);
       });
+  },
+  watch:{
+    higherEducation(education){
+      console.log("CAMBIE")
+        api
+        .getAchievedLevel(this.higherEducation.name)
+        .then(response => {
+          this.levels = response;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   computed: {
     levelsEd() {

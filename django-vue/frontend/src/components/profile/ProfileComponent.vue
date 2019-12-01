@@ -25,15 +25,15 @@
 
     <v-container>
       <v-row style="padding-top: 5vh;" justify="center">
-        <v-col cols="3">
+        <v-col cols="4" sm="4" md="3" >
           <p>Estoy en <span>{{city}}</span></p>
         </v-col>
 
-        <v-col cols="3">
+        <v-col cols="4" sm="4" md="3">
            <p>He realizado <span>{{narratives}} narrativas</span></p>
         </v-col>
 
-        <v-col v-if="roleUser==2" cols="3">
+        <v-col v-if="roleUser==2" cols="4" sm="4" md="3">
            <p>He creado <span>{{campaigns}} campañas</span></p>           
         </v-col>
       </v-row>
@@ -44,21 +44,21 @@
       <h2>Has participado en las siguientes campañas:</h2>
 
       <v-row justify="space-around"> 
-        <v-col cols="4">
+        <v-col cols="12" sm="12" md="4">
             <h2 class="ml-3"> Activas </h2>
             <v-col v-for="campaign in activeCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
                 <campaign-item-component color="#FFFFFF" :edit="false" :campaign="campaign" :logged="true"></campaign-item-component>
             </v-col>
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="12" sm="12" md="4">
             <h2 class="ml-3">Finalizadas </h2>
             <v-col v-for="campaign in notActiveCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
                 <campaign-item-component color="#E1E1E9" :edit="false" :campaign="campaign" :logged="true"></campaign-item-component>
             </v-col>
         </v-col>   
 
-        <v-col v-if="roleUser==2" cols="4">
+        <v-col v-if="roleUser==2" cols="12" sm="12" md="4">
             <h2 class="ml-3"> Creadas </h2>
             <v-col v-for="campaign in createdCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
                 <campaign-item-component color="#E6CEFF" :edit="true" :campaign="campaign"></campaign-item-component>
@@ -154,6 +154,7 @@ export default {
       this.profile.higherEducation.name = response.higherEd.split("/")[1]
 
       this.profile.currentZone.id = parseInt(response.zoneActual.split("/")[0])
+      console.log(this.profile.currentZone)
       this.profile.currentZone.zoneType = response.zoneActual.split("/")[1]
       
       this.profile.currentState.id = parseInt(response.state.split("/")[0])
@@ -222,8 +223,7 @@ h3 {
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 36px;
-  line-height: 66px;
+  font-size: calc(18px + (36 - 18) * ((100vw - 300px) / (1600 - 300)));
 
   color: #ffffff;
 }
@@ -232,8 +232,8 @@ h2{
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 36px;
-  line-height: 96px;
+  /*calc([minimum size] + ([maximum size] - [minimum size]) * ((100vw - [minimum viewport width]) / ([maximum viewport width] - [minimum viewport width])));*/
+  font-size: calc(18px + (36 - 18) * ((100vw - 300px) / (1600 - 300)));
   color: #0c186d;
 
 }

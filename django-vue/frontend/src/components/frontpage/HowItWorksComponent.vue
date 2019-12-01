@@ -1,7 +1,7 @@
 <template>
     <div>
       <v-row justify="center">
-      <v-col cols="6" > 
+      <v-col cols="8" sm="8" md="6"> 
         <h3> {{subtitle}} </h3>
         <h2>{{title}}</h2>
         <p>{{description}} </p>
@@ -12,53 +12,53 @@
 
         <v-row justify="center"> 
 
-          <v-col cols="4">
+          <v-col class="hidden-sm-and-down" md="4">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col offset="1" cols="4">
+          <v-col offset-md="1" cols="10" sm="10" md="4">
             <h2>01 </h2>
             <h3>Responde ¿Para tí, qué es la paz? </h3>
             <p> Es importante que te cuestiones qué es la paz para ti de manera que contribuyas a las mediciones de percepción de paz.</p>
           </v-col>
 
-          <v-col cols="4">
+          <v-col cols="10" sm="10" md="4">
             <h2>02 </h2>
             <h3>Comparate con personas </h3>
             <p> Podrás comparar tu percepción de paz con la de los demás participantes en diferentes enfoques como el territorio, el diferencial, el desarrollo de capacidades y el tiempo.</p>
           </v-col>
 
-          <v-col offset="1" cols="4">
+          <v-col offset-md="1" class="hidden-sm-and-down" md="4">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col cols="4">
+          <v-col class="hidden-sm-and-down" md="4">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col offset="1" cols="4">
+          <v-col offset-md="1" cols="10" sm="10" md="4">
             <h2>03 </h2>
             <h3>Comparte a tus conocidos </h3>
             <p> Ayudanos a que más personas contribuyan a la construcción de paz para la ciudad y región para que puedan compararse contigo y los demás.</p>
           </v-col>
 
-          <v-col cols="4">
+          <v-col cols="10" sm="10" md="4">
             <h2>04 </h2>
             <h3>Contribuye a proyectos alineados a la construcción de paz y convivencia</h3>
             <p> Narrativas de Paz es un insumo importante para definir proyectos alineados a la construcción de paz y convivencia puesto que ayuda a la toma de decisiones públicas para la ciudad y región.</p>
           </v-col>
 
-          <v-col offset="1" cols="4">
+          <v-col offset-md="1" class="hidden-sm-and-down" md="4">
             <img src="@/assets/steps.png" />
           </v-col>
         </v-row>
 
         <v-container>
       <v-row justify="end">
-        <v-col cols="5">
+        <v-col cols="10" sm="10" md="5">
           <v-btn
             :ripple="false"
-            class="mx-2 btn peace"
+            class="mx-2 pa-5 btn peace"
             color="#673AB7"
             depressed 
             rounded  
@@ -102,8 +102,7 @@ h3{
   font-family: Poppins;
 font-style: normal;
 font-weight: bold;
-font-size: 24px;
-line-height: 36px;
+font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
 text-align: justify;
 
 color: #0C186D;
@@ -113,8 +112,7 @@ h2{
   font-family: Poppins;
 font-style: normal;
 font-weight: bold;
-font-size: 48px;
-line-height: 72px;
+font-size: calc(24px + (48 - 24) * ((100vw - 300px) / (1600 - 300)));
 }
 
 p{
@@ -132,7 +130,7 @@ color: #000000;
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: calc(16px + (20 - 16) * ((100vw - 300px) / (1600 - 300)));
   line-height: 24px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

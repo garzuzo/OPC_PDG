@@ -5,13 +5,13 @@
 <v-container>
 
   <v-row justify="center" style="padding-top: 20vh; padding-bottom: 20vh;">
-      <v-col justify="center" cols="7">
+      <v-col justify="center" cols="12" sm="12" md="7">
         <h3> {{subtitle}} </h3>
         <h2>{{title}}</h2>
         <br>
         <p>{{description}} </p>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="12" sm="12" md="4">
         <v-img
             :src="require('@/assets/objective.png')"
             aspect-ratio="1"
@@ -50,8 +50,7 @@ h3{
   font-family: Poppins;
 font-style: normal;
 font-weight: bold;
-font-size: 24px;
-line-height: 36px;
+font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
 text-align: justify;
 
 color: #000000;
@@ -61,8 +60,7 @@ h2{
   font-family: Poppins;
 font-style: normal;
 font-weight: bold;
-font-size: 48px;
-line-height: 72px;
+font-size: calc(24px + (48 - 24) * ((100vw - 300px) / (1600 - 300)));
 color: #ffffff
 }
 

@@ -64,7 +64,8 @@ export default {
       years: [],
       year: "",
       activeCampaigns: [],
-      notActiveCampaigns: []
+      notActiveCampaigns: [],
+      filterCampaigns: []
     };
   },
   created() {
@@ -88,8 +89,18 @@ export default {
       })
       .catch(err => console.log(err));
   },
+  watch:{
+    year(year){
+      for(var i=0; i < this.notActiveCampaigns.length; i++){
+          var campaign = this.notActiveCampaigns[i];
+          if(campaign.endDate.split("-")[0] == this.year){
+            this.filterCampaigns.push(campaign)
+          }
+      }
+    }
+  },
   computed: {
-    filterCampaigns(){
+    /*filterCampaigns(){
       var campaigns = []
       if(this.year != ""){
         for(var i=0; i < this.notActiveCampaigns.length; i++){
@@ -100,7 +111,7 @@ export default {
         }
       }
       return campaigns
-    }
+    }*/
   }
 };
 </script>

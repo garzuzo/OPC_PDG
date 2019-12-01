@@ -207,7 +207,7 @@ export default {
                     resolve(response.data);
                 })
                 .catch((err) => {
-                    reject('Error getting city', err);
+                    reject('Error getting person campaign logged', err);
             })
         });
     },
