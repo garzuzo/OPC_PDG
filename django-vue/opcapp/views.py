@@ -1148,7 +1148,7 @@ def topic_list(request):
 @permission_classes([IsAuthenticated])
 def obtain_person_campaign_logged(request):
 
-    idCampaign=request.query_params("id",None)
+    idCampaign=request.query_params.get("id",None)
 
     if request.method=="GET":
         personCampaign=PersonCampaign.objects.filter(person__user__id=request.user.id, campaign=idCampaign).first()
