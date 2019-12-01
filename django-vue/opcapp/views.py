@@ -1399,11 +1399,11 @@ def obtain_opendata(request):
                 "Ciudad_actual":city_actual.name,
                 "Departamento_actual":state_actual.name,
                 "Pais_actual":country_actual.name,
-                "Barrio_vereda_source":neigh_vereda_source_name,
-                "Comuna_corregimiento_source":comuna_corr_source_name,
-                "Ciudad_source":city_source.name,
-                "Departamento_source":state_source.name,
-                "Pais_source":country_source.name,
+                "Barrio_vereda_origen":neigh_vereda_source_name,
+                "Comuna_corregimiento_origen":comuna_corr_source_name,
+                "Ciudad_origen":city_source.name,
+                "Departamento_origen":state_source.name,
+                "Pais_origen":country_source.name,
             }
             pc_response_list.append(data)
 
