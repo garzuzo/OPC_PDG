@@ -2,7 +2,7 @@
     <v-card class="mx-auto" max-width="400">
             <v-container>
               <v-col align="center">
-                <img :src="require(`@/assets/${member.img}.jpg`)" class="img" />
+                <img :src="require(`@/assets/${member.img}`)" class="img" />
                 <h4>{{member.name}}</h4>
                 <h5>{{member.profession}}</h5>
                 <h5>{{member.place}}</h5>

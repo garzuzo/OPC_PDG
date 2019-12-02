@@ -73,10 +73,11 @@ export default {
   data(){
     return {
       members:[
-        {name:'Sandra Niño', img:'sandra', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
-        {name:'Johnatan Garzón', img:'johnatan', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
-        {name:'Juan Carlos Muñoz, PhD', img:'sandra', profession: 'Profesor Ingeniería de Sistemas', place: 'Universidad Icesi'},
-        {name:'Mauricio Sedano', img:'sandra', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'},
+        {name:'Sandra Niño', img:'sandra.jpg', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
+        {name:'Johnatan Garzón', img:'johnatan.jpg', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
+        {name:'Juan Carlos Muñoz, PhD', img:'juancarlos.jpg', profession: 'Profesor Ingeniería de Sistemas', place: 'Universidad Icesi'},
+        {name:'Mauricio Sedano', img:'mauricio.jpg', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'},
+        {name:'Andrés', img:'profile.png', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'}
       ]
     }
   }
