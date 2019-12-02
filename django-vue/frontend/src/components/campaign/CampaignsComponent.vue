@@ -8,7 +8,7 @@
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col sm="12" md="7">
             <h1 style="padding-bottom:10vh;">Campañas</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam egestas, metus ac dignissim mattis, metus risus pretium ligula, ut mattis purus eros at nisl.</p>
+            <p>Las campañas de Narrativas de Paz tienen como objetivo recolectar datos de percepción de paz para poder formular proyectos relacionados a la construcción de paz y cultura ciudadana según los enfoques de territorio, diferencial, desarrollo de capacidades y tiempo.</p>
           </v-col>
         </v-row>
       </v-container>

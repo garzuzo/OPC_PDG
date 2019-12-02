@@ -9,7 +9,7 @@
             <v-card-text class="headline font-weight-bold">
               <p
                 class="description"
-              >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+              >{{testimonial[n-1]}}</p>
             </v-card-text>
 
             <v-card-actions>
@@ -21,13 +21,9 @@
                   ></v-img>
                 </v-list-item-avatar>
 
-                <!--<v-list-item-content>
-                  <v-list-item-title><h4>Sandra Niño -</h4>
-                  <h5 class="mr-2">Antropóloga</h5></v-list-item-title>
-                </v-list-item-content>-->
                 <v-row align="center" justify="end">
-                  <h4>22 años -</h4>
-                  <h5 class="mr-2">Cali, Comuna 19</h5>
+                  <h4>{{ages[n-1]}} -</h4>
+                  <h5 class="mr-2">{{territory[n-1]}}</h5>
                 </v-row>
               </v-list-item>
             </v-card-actions>
@@ -39,7 +35,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      testimonial: [
+        'Es un proyecto que permite optimizar la toma de decisiones públicas teniendo en cuenta las percepciones de paz de los ciudadanos',
+        'Es increible que por medio de la tecnología se puede dar a conocer los significados de paz de diferentes lugares del país',
+        'Es una herramienta indispensable para crear proyectos de cultura ciudadana que realmente impactarían a los ciudadanos'
+      ],
+      ages: ['21 años', '31 años', '51 años'],
+      territory: ['Cali, Comuna 19', 'Cali, Comuna 1', 'Cali, Comuna 17']
+    }
+  }
+};
 </script>
 
 <style scoped>

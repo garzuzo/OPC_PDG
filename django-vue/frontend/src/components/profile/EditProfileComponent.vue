@@ -419,11 +419,6 @@ export default {
       comunasCali: [],
       corregimientosCali: [],
 
-      /*currentCitiesComputed: [],
-      
-      neighborhoodsCali: [],
-      
-      veredasCali: [],*/
       education: [],
       levels: [],
       neighborhoodVereda: 0,
@@ -615,13 +610,11 @@ export default {
           this.neighborhoodVereda = 0
         }
 
-        console.log(this.currentCity.id)
         let data= {
           achievedLevel : this.level.id,
           neighborhoodVeredaActual: this.neighborhoodVereda,
           cityActual : this.currentCity.id
         }
-        console.log(data)
         api.editProfile(data).then(response=>{this.succes= "Tu perfil se actualizó correctamente."}).catch(err=>console.log(err))
       }
     }
@@ -636,47 +629,6 @@ export default {
       return errors;
     },
     //TERRITORY
-    /*currentCities() {
-      if (this.currentState.name != "") {
-        api
-          .getCities(this.currentState.name)
-          .then(response => {
-            this.currentCitiesComputed = response;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-      return this.currentCitiesComputed;
-    },
-    currentNeighborhoodsCali() {
-      if (this.currentComuna.name != "") {
-        let dataComuna = ["Cali", "Urbana", this.currentComuna.name];
-        api
-          .getNeighborhoodsVeredas(dataComuna)
-          .then(response => {
-            this.neighborhoodsCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.neighborhoodsCali;
-    },
-    currentVeredasCali() {
-      if (this.currentCorregimiento.name != "") {
-        let dataCorregimiento = [
-          "Cali",
-          "Rural",
-          this.currentCorregimiento.name
-        ];
-        api
-          .getNeighborhoodsVeredas(dataCorregimiento)
-          .then(response => {
-            this.veredasCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.veredasCali;
-    },*/
     currentZoneErrors() {
       const errors = [];
       if (!this.$v.currentZone.$dirty) return errors;
@@ -730,19 +682,6 @@ export default {
       return errors;
     },
     //EDUCATION
-    /*levelsEd() {
-      if(this.higherEducation.name != ""){
-        api
-        .getAchievedLevel(this.higherEducation.name)
-        .then(response => {
-          this.levels = response;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }
-      return this.levels;
-    },*/
     higherEducationErrors(){
       const errors = []
         if (!this.$v.higherEducation.$dirty) return errors

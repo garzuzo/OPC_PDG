@@ -33,7 +33,7 @@
           to="/sobrenosotros"
         >Sobre nosotros</v-btn>
         <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/visualiza">Visualiza</v-btn>
-        <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campañas">Campañas</v-btn>
+        <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campanas">Campañas</v-btn>
         <v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/datosabiertos">Datos abiertos</v-btn>
       </v-toolbar-items>
 
@@ -98,7 +98,7 @@
           to="/sobrenosotros"
         >Sobre nosotros</v-btn> </div>
         <div><v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/visualiza">Visualiza</v-btn> </div>
-        <div><v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campañas">Campañas</v-btn></div>
+        <div><v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/campanas">Campañas</v-btn></div>
         <div><v-btn :ripple="false" depressed color="#E1E1E9" class="btn" to="/datosabiertos">Datos abiertos</v-btn></div>
 
               <div>

@@ -5,12 +5,14 @@
       <v-row>
         <!--{{idCampaign}} - {{idUser}}-->
         <!--MAP -->
-        <v-col cols="6">
-            <map-campaign-component :filter="filter"></map-campaign-component>
+        <v-col cols="12" sm="12" md="6">
+            <v-switch class="hidden-sm-and-down" v-model="switch1" label="Mapa de departamentos"></v-switch>
+          <map-campaign-component class="hidden-sm-and-down" v-if="!switch1" :filter="filter"></map-campaign-component>
+          <map-states-campaign-component v-if="switch1" :filter="filter"></map-states-campaign-component>
         </v-col>
 
         <!--VISUALIZATION-->
-        <v-col cols="6">
+        <v-col cols="12" sm="12" md="6">
           <h3>En la campaña "{{campaign}}", para ti la paz está asociada a los siguientes conceptos:</h3>
           <ve-wordcloud
             :data="topicOneData"
@@ -33,14 +35,14 @@
       <h3>Selecciona opciones para filtrar en el mapa</h3>
       <v-row justify="start">
         
-        <v-col cols="3">
+        <v-col cols="6" sm="6" md="3">
           <v-checkbox
             v-model="checkboxTopicOne"
             label="Topico primario"
             @change="checkTopicOne($event)"
           ></v-checkbox>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="6" sm="6" md="3">
           <v-checkbox
             v-model="checkboxTopicTwo"
             label="Topico secundario"
@@ -50,24 +52,35 @@
       </v-row>
 
       <v-row justify="center">
-        <v-col cols="4">
+        <v-col cols="12" sm="12" md="4">
           <h3>Sexo</h3>
           <ve-pie id="pie" :data="pieData" :settings="pieSettings" :events="sexEvents"></ve-pie>
-          {{sex.toUpperCase()}}
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="12" sm="12" md="4">
           <h3>Edad</h3>
           <ve-pie :data="ageData" :settings="ageSettings" :events="ageEvents"></ve-pie>
-          {{age.toUpperCase()}}
           <!--<ve-bar :data="ageData"></ve-bar>-->
         </v-col>
 
-        <v-col cols="4">
+        <v-col cols="12" sm="12" md="4">
           <h3>Educación</h3>
           <ve-pie :data="educationData" :settings="educationSettings" :events="educationEvents"></ve-pie>
-          {{education.toUpperCase()}}
           <!--<ve-bar :data="educationData"></ve-bar>-->
+        </v-col>
+      </v-row>
+      <h3> Filtros aplicados: </h3>
+      <v-row justify="center">
+        <v-col cols="12" sm="12" md="4">
+          <p>{{sex.toUpperCase()}}</p>
+        </v-col>
+
+        <v-col cols="12" sm="12" md="4">
+          <p>{{age.toUpperCase()}}</p>
+        </v-col>
+
+        <v-col cols="12" sm="12" md="4">
+          <p>{{education.toUpperCase()}}</p>
         </v-col>
       </v-row>
     </v-container>
@@ -99,51 +112,36 @@ export default {
         sizeMin: 14,
         sizeMax: 30
     }
-    this.dataZoom = [
-      {
-        type: "slider",
-        start: 0,
-        end: 23
-      }
-    ];
     this.textStyle = { fontFamily: "Poppins" };
-    this.timeline = {
-      data: ["2017-01-01", "2018-01-01", "2019-01-01"]
-    };
     var self = this;
     this.topicOneEvents = {
       click: function(e) {
         //self.name = e.name;
         self.filterTopicOne();
-        console.log(e);
       }
     };
     this.topicTwoEvents = {
       click: function(e) {
         //self.name = e.name;
         self.filterTopicTwo();
-        console.log(e);
       }
     };
     this.ageEvents = {
       click: function(e) {
         //self.age = e.name;
         self.filterAge(e.name);
-        console.log(e);
       }
     };
     this.sexEvents = {
       click: function(e) {
         //self.sex = e.name;
         self.filterSex(e.name);
-        console.log(e);
       }
     };
     this.educationEvents = {
       click: function(e) {
         //self.education = e.name;
         self.filterEducation(e.name);
-        console.log(e);
       }
     };
     return {
@@ -203,6 +201,7 @@ export default {
       topicTwo: 0,
       checkboxTopicOne: false, 
       checkboxTopicTwo: false,
+      switch1: false,
       filter:{
         topicOne:0,
         topicTwo:0,
@@ -214,8 +213,6 @@ export default {
     };
   },
   created() {
-    console.log(this.idCampaign);
-    console.log(this.idUser);
     let campaign = { id: this.idCampaign };
     api
       .getCampaign(campaign)
@@ -224,6 +221,8 @@ export default {
       })
       .catch(err => console.log(err));
 
+    this.filter.idCampaign = this.idCampaign
+    
     let user = { id: this.idUser };
     api
       .getTwoTopicsByPerson(user)
@@ -462,7 +461,14 @@ h3 {
   font-family: "Poppins";
   font-style: normal;
   font-weight: bold;
-  font-size: 24px;
+  font-size: calc(18px + (24 - 18) * ((100vw - 300px) / (1600 - 300)));
   color: #0c186d;
+}
+
+p{
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: normal;
+  font-size: calc(16px + (18 - 16) * ((100vw - 300px) / (1600 - 300)));
 }
 </style>

@@ -153,7 +153,6 @@ function endGreaterThanStart (date) {
       //const validator = minValue(new Date())
       const dateSplit = date.split("-")
       date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
-      console.log(date)
       const startDateSplit =  this.startDate.split("-")
       const startDate = new Date(parseInt(startDateSplit[0]), parseInt(startDateSplit[1])-1, parseInt(startDateSplit[2]))
       return startDate <= date
@@ -219,8 +218,6 @@ export default {
         narratives_goal: this.narrativesGoal,
         is_active: this.checkbox
       };
-      console.log(data)
-      console.log(this.$store.state.token)
         api.saveCampaign(data).then(response => {this.succes = "Tu campaña ha sido creada con éxito"}).catch(err=> {console.log(err)})
       }
       },
@@ -241,8 +238,6 @@ export default {
         narratives_goal: this.narrativesGoal,
         is_active: this.checkbox
       };
-      console.log(data)
-      console.log(this.$store.state.token)
         api.editCampaign(data).then(response => {this.succes = "Tu campaña ha sido actualizada con éxito"}).catch(err=> {console.log(err)})
       }
       }

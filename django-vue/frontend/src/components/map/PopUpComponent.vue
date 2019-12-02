@@ -1,16 +1,10 @@
 <template>
   <div>
     <h3>{{name}}</h3>
-    <!--<p>Mujeres: {{object.mujeres}}</p>
-    <p>hombres: {{object.hombres}}</p>
-    <p>Adolescentes: {{object.adolescencia}}</p>
-    <p>Jóvenes: {{object.juventud}}</p>
-    <p>Adultos: {{object.adultez}}</p>
-    <p>Tercera edad: {{object.vejez}}</p>-->
 
   <div>
     <p>Sexo</p>
-        <ve-pie id="pie" :data="pieData" :settings="pieSettings"></ve-pie>
+        <ve-pie :data="pieData" :settings="pieSettings"></ve-pie>
   </div>
 
   <div>
@@ -50,48 +44,28 @@ export default {
         metrics: 'frequency'
       };    
     return {
-      object: {
-        mujeres: 0,
-        hombres: 0,
-        primeraInfancia: 0,
-        infancia: 0,
-        adolescencia: 0,
-        juventud: 0,
-        adultez: 0,
-        vejez: 0
-      },
-      init: '',
       ageData: {
         columns: ['range','frequency'],
-        rows: [
-            { 'range': '0-5', 'frequency': 60 },
-            { 'range': '6-11', 'frequency': 80 }
-        ]
+        rows: []
       },
       pieData: {
           columns: ['gender', 'frequency'],
-          rows: [
-            { 'gender': 'mujeres', 'frequency': 60 },
-            { 'gender': 'hombres', 'frequency': 20 },
-          ]
+          rows: []
         },
          educationData: {
           columns: ['education', 'frequency'],
-          rows: [
-            { 'education': 'primaria', 'frequency': 60 },
-            { 'education': 'secundaria', 'frequency': 20 },
-          ]
+          rows: []
         },
     };
   },
-  mounted() {
+  created() {
     var data={id:this.campaign.id, territory:'', idTerritory:this.id}
     if(this.id <=22){
       data.territory = 'comuna'
     }else{
       data.territory = 'corregimiento'
     }
-    //var data = [this.campaign.id, this.id];
+   
     api
       .getPeopleByCampaignAndTerritory(data)
       .then(response => {

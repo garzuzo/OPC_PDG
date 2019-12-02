@@ -154,7 +154,6 @@ export default {
       this.profile.higherEducation.name = response.higherEd.split("/")[1]
 
       this.profile.currentZone.id = parseInt(response.zoneActual.split("/")[0])
-      console.log(this.profile.currentZone)
       this.profile.currentZone.zoneType = response.zoneActual.split("/")[1]
       
       this.profile.currentState.id = parseInt(response.state.split("/")[0])

@@ -92,8 +92,6 @@ export default {
     if(this.logged){
       api.getPersonCampaignLogged(this.campaign.id).then(response=>{
         let data= {campaign:this.campaign.id, user: response.id}
-        console.log("DATOS ANTES DE STORE")
-        console.log(data)
         this.$store.dispatch("saveNarrative",data)
       }).catch(err=>console.log(err))      
     }    
