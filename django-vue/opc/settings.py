@@ -118,7 +118,9 @@ DATABASES = {
         'PASSWORD':os.environ.get('OPC_PASS'),
         'HOST': os.environ.get('OPC_HOST'),
         'PORT': '',
-
+        'TEST': {
+            'NAME': 'test_django_db',
+        },
     }
 }
 

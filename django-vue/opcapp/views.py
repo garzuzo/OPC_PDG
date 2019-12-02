@@ -535,7 +535,7 @@ def save_info_registered_user(request):
             #si el usuario ya ha participado en esta campaña
             isAlreadyCreated=PersonCampaign.objects.filter(person=person.id,campaign=campaign)
             if isAlreadyCreated:
-                return Response({"status_code": 409, "detail": "User already exists"},status=409)
+                return Response({"status_code": 409, "detail": "Este usuario ya esta asociado a esta campana"},status=409)
 
             dataPersonCampaign={
                 #    person=models.ForeignKey(Person, on_delete=models.CASCADE)
@@ -727,7 +727,7 @@ def create_person(request):
 
                 if User.objects.filter(username=email).exists() :
 
-                    return Response({"status_code": 409, "detail": "User already exists"},status=409)
+                    return Response({"status_code": 409, "detail": "Este usuario ya existe"},status=409)
 
                 else:
                     userAct = User.objects.create_user(username=email,
@@ -841,7 +841,7 @@ def save_info(request):
 
                 if User.objects.filter(username=email).exists() :
 
-                    return Response({"status_code": 409, "detail": "User already exists"},status=409)
+                    return Response({"status_code": 409, "detail": "Este usuario ya existe"},status=409)
 
                 else:
                     userAct = User.objects.create_user(username=email,
@@ -1046,13 +1046,7 @@ def register(request):
             
             return Response(serializer.data)
 
-  
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def valid_user(request):
-    print(request.user.email)
-    return HttpResponse("=)")
-    
+
 
 @api_view(['GET'])
 def logout_view(request):

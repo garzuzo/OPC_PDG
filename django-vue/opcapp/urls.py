@@ -41,7 +41,6 @@ urlpatterns = [
     path('population_comunas/', views.population_comunas_list),
     path('educations/', views.education_visualization_list),
     path('saveall/', views.save_info),
-    path('validuser/', views.valid_user),
     path('register/', views.register),
     path('save_info_zone/', views.save_info_zone),
     path('campaign/', views.save_campaign),
