@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default axios.create({
-    baseURL: 'http://127.0.0.1:8000/opcapi', 
+    baseURL: 'http://pi2sis.icesi.edu.co/opcapi', 
     headers: {
      'X-Requested-With': 'XMLHttpRequest',
      //'Content-Type': 'application/x-www-form-urlencoded', 
