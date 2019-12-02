@@ -62,26 +62,10 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-/*router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page 
-  const publicPages = ['/login', '/register', '/construirpaz', '/sobrenosotros', '/home', '/campañas', '/visualizacampaña'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
-
-  if (authRequired && !loggedIn) {
-    return next('/login');
-  }
-
-  next();
-})*/
-
 /* eslint-disable no-new */
 new Vue({
-  //el: '#app',
   router,
   store,
-  /*components: { App },
-  template: '<App/>'*/
   vuetify: new Vuetify(),
   render: h => h(App)
 }).$mount('#app');

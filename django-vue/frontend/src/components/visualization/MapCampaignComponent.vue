@@ -47,26 +47,99 @@ export default {
       responseCorregimiento:{},
       geojson: {
         geojson: comunas,
-        /*options: {
-        style: this.style,
-        onEachFeature: function(feature, layer) {
-        var comuna_corregimiento = feature.properties.comuna_corregimiento;
-          if(comuna_corregimiento <23 && self.filter.sex=="mujeres"){
-              layer.setStyle({
-                  fillColor : "#006887"
-              });
-            }
-          else if(comuna_corregimiento <23 && self.filter.sex=="hombres"){
-              layer.setStyle({
-                  fillColor : "#006787"
-              });             
-              
-            }
-          
-        }
-      }*/
       }
     };
+  },
+  created(){
+    for (var i = 0; i < 2; i++) {
+        var msg=""
+        if(this.filter.topicOne!=0){
+            msg+= `topic_primary=${this.filter.topicOne}&`
+        }
+        if(this.filter.topicTwo !=0){
+            msg+= `topic_secondary=${this.filter.topicTwo}&` 
+        }
+        if(this.filter.sex!=''){
+            msg+= `gender=${this.filter.sex}&` 
+        }
+        if(this.filter.age!=''){
+            msg+= `age=${this.filter.age}&` 
+        }
+        if(this.filter.education!=''){
+            msg+= `education=${this.filter.education}&` 
+        }
+        if(this.filter.idCampaign!=0){
+            msg+= `id_campaign=${this.filter.idCampaign}&` 
+        }
+        //comuna
+        if (i == 0) {
+          msg += `type_filter=comuna`;
+          api
+            .getPercentage(msg)
+            .then(response => {
+              this.responseComuna = response;
+            })
+            .catch(err => console.log(err));
+        } else {
+          //corregimiento
+          msg += `type_filter=corregimiento`;
+          api
+            .getPercentage(msg)
+            .then(response => {
+              this.responseCorregimiento = response;
+            })
+            .catch(err => console.log(err));
+        }
+      }
+  },
+  watch: {
+    filter: {
+      deep: true,
+      // We have to move our method to a handler field
+      handler(filter){
+        for (var i = 0; i < 2; i++) {
+        var msg=""
+        if(filter.topicOne!=0){
+            msg+= `topic_primary=${filter.topicOne}&`
+        }
+        if(filter.topicTwo !=0){
+            msg+= `topic_secondary=${filter.topicTwo}&` 
+        }
+        if(filter.sex!=''){
+            msg+= `gender=${filter.sex}&` 
+        }
+        if(filter.age!=''){
+            msg+= `age=${filter.age}&` 
+        }
+        if(filter.education!=''){
+            msg+= `education=${filter.education}&` 
+        }
+        if(filter.idCampaign!=0){
+            msg+= `id_campaign=${filter.idCampaign}&` 
+        }
+        //comuna
+        if (i == 0) {
+          msg += `type_filter=comuna`;
+          api
+            .getPercentage(msg)
+            .then(response => {
+              this.responseComuna = response;
+            })
+            .catch(err => console.log(err));
+        } else {
+          //corregimiento
+          msg += `type_filter=corregimiento`;
+          api
+            .getPercentage(msg)
+            .then(response => {
+              this.responseCorregimiento = response;
+            })
+            .catch(err => console.log(err));
+        }
+      }
+      }
+      
+    }
   },
   computed:{
     options() {
@@ -75,24 +148,12 @@ export default {
         style: this.styleFilterFunction
       };
     },
-    styleFunction() {
-      const sex = this.filter.sex; // important! need touch fillColor in computed for re-calculate when change fillColor
-      return (feature) => {
-        
-        var fillColor,
-          comuna_corregimiento = feature.properties.comuna_corregimiento;
-      if(comuna_corregimiento <23 && sex=="Femenino"){fillColor = "#006887"}
-      else if(comuna_corregimiento <23 && sex=="Masculino"){fillColor = "#ffa500"}      
-      else if ( comuna_corregimiento < 23 && sex=="") {fillColor = "#006837"}
-      else {fillColor = "#31a354"}  // no data
-      return { color: "#999", weight: 2, fillColor: fillColor, fillOpacity: .6 };
-
-      };
-    },
     styleFilterFunction() {
       const sex = this.filter.sex; // important! need touch fillColor in computed for re-calculate when change fillColor
-      const respComuna = this.filterComuna
-      const respCorregimiento = this.filterCorregimiento
+      /*const respComuna = this.filterComuna
+      const respCorregimiento = this.filterCorregimiento*/
+      const respComuna = this.responseComuna;
+      const respCorregimiento = this.responseCorregimiento;
       return (feature) => {
 
         var fillColor, 
@@ -114,136 +175,14 @@ export default {
         return { color: "#999", weight: 2, fillColor: fillColor, fillOpacity: .8 };
 
       };
-    },
-    onEachFeatureFunction() {
-        const sex= this.filter.sex
-        return (feature, layer) => {
-        var comuna_corregimiento = feature.properties.comuna_corregimiento;
-          if(comuna_corregimiento <23 && sex=="Femenino"){
-              layer.setStyle({
-                  fillColor : "#006887"
-              });
-            }
-          else if(comuna_corregimiento <23 && sex=="Masculino"){
-              layer.setStyle({
-                  fillColor : "#006787"
-              });             
-              
-          }
-          else if ( comuna_corregimiento < 23 && sex=="") {
-              layer.setStyle({
-                  fillColor : "#006837"
-              });              
-              }
-        else {
-            layer.setStyle({
-                  fillColor : "#31a354"
-              });    }
-      };
-        // no data
-    },
-    filterComuna(){     
-        var msg=""
-        if(this.filter.topicOne!=0){
-            msg+= `topic_primary=${this.filter.topicOne}&`
-        }
-        if(this.filter.topicTwo !=0){
-            msg+= `topic_secondary=${this.filter.topicTwo}&` 
-        }
-        if(this.filter.sex!=''){
-            msg+= `gender=${this.filter.sex}&` 
-        }
-        if(this.filter.age!=''){
-            msg+= `age=${this.filter.age}&` 
-        }
-        if(this.filter.education!=''){
-            msg+= `education=${this.filter.education}&` 
-        }
-        if(this.filter.idCampaign!=0){
-            msg+= `id_campaign=${this.filter.idCampaign}&` 
-        }
-        msg+= `type_filter=comuna`
-        /*if(territory=="comuna"){
-            
-        }
-        if(territory=="corregimiento"){
-            msg+= `type_filter=${territory}`
-        }*/
-        api.getPercentage(msg).then(response =>{
-            this.responseComuna = response
-            /*if(territory=="comuna"){
-                this.responseComuna = response
-            }else{
-                self.responseCorregimiento = response
-            }*/
-        }).catch(err=>console.log(err))
-        return this.responseComuna
-    },
-    filterCorregimiento(){       
-        var msg=""
-        if(this.filter.topicOne!=0){
-            msg+= `topic_primary=${this.filter.topicOne}&`
-        }
-        if(this.filter.topicTwo !=0){
-            msg+= `topic_secondary=${this.filter.topicTwo}&` 
-        }
-        if(this.filter.sex!=''){
-            msg+= `gender=${this.filter.sex}&` 
-        }
-        if(this.filter.age!=''){
-            msg+= `age=${this.filter.age}&` 
-        }
-        if(this.filter.education!=''){
-            msg+= `education=${this.filter.education}&` 
-        }
-        if(this.filter.idCampaign!=0){
-            msg+= `id_campaign=${this.filter.idCampaign}&` 
-        }
-        msg+= `type_filter=corregimiento`
-        /*if(territory=="comuna"){
-            
-        }
-        if(territory=="corregimiento"){
-            msg+= `type_filter=${territory}`
-        }*/
-        api.getPercentage(msg).then(response =>{
-            this.responseCorregimiento = response
-            /*if(territory=="comuna"){
-                this.responseComuna = response
-            }else{
-                self.responseCorregimiento = response
-            }*/
-        }).catch(err=>console.log(err))
-        return this.responseCorregimiento
-    }  
+    }
   },
   methods: {    
     onEachFeature(){
         return (feature,layer) => {
             layer.bindTooltip(feature.properties.nombre);
         };
-    },
-    style(feature){
-          var fillColor,
-          comuna_corregimiento = feature.properties.comuna_corregimiento;
-      if(comuna_corregimiento <23 && this.filter.sex=="mujeres"){fillColor = "#006887"}
-      else if(comuna_corregimiento <23 && this.filter.sex=="hombres"){fillColor = "#006787"}      
-      else if ( comuna_corregimiento < 23 && this.filter.sex=="") {fillColor = "#006837"}
-      else {fillColor = "#31a354"}  // no data
-      return { color: "#999", weight: 2, fillColor: fillColor, fillOpacity: .6 };
-
-          /*if (feature.properties.comuna_corregimiento > 11) {
-            return {
-              weight: 4,
-              color: '#00FF00'
-            }
-          } else {
-            return {
-              weight: 4,
-              color: '#FF0000'
-            }
-          }*/
-    },  
+    }, 
     zoomUpdated (zoom) {
       this.zoom = zoom;
     },

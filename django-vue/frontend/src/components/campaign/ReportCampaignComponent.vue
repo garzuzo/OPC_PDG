@@ -49,19 +49,6 @@
       </v-row>
       </v-col>
       </v-row>
-      <!--<v-divider> </v-divider>-->
-      <!-- <ve-wordcloud :data="wordData" :textStyle="textStyle"></ve-wordcloud> -->
-
-      <!--<v-row>
-        <v-col cols="12">
-          <ve-histogram
-            :data="chartData"
-            :settings="chartSettings"
-            :data-zoom="dataZoom"
-            :textStyle="textStyle"
-          ></ve-histogram>
-        </v-col>
-      </v-row>-->
     </v-container>
   </div>
 </template>
@@ -74,17 +61,6 @@ export default {
     campaign: Object
   },
   data() {
-    this.chartSettings = {
-      metrics: [
-        "mujeres",
-        "hombres",
-        "adolescencia",
-        "juventud",
-        "adultez",
-        "vejez"
-      ],
-      dimension: ["comuna"]
-    };
     this.wordSettings={
         sizeMin: 14,
         sizeMax: 24
@@ -92,18 +68,6 @@ export default {
     this.textStyle = { fontFamily: "Poppins" };
 
     return {
-      chartData: {
-        columns: [
-          "comuna",
-          "mujeres",
-          "hombres",
-          "adolescencia",
-          "juventud",
-          "adultez",
-          "vejez"
-        ],
-        rows: []
-      },
       wordData: {
         columns: ["word", "count"],
         rows: []
@@ -114,37 +78,6 @@ export default {
     };
   },
   created() {
-    /*for (var i = 1; i < 23; i++) {
-      var object = {
-        comuna: "Comuna " + i,
-        mujeres: 0,
-        hombres: 0,
-        adolescencia: 0,
-        juventud: 0,
-        adultez: 0,
-        vejez: 0
-      };
-      object.mujeres = 80;
-      object.hombres = 100;
-      object.adolescencia = 50;
-      object.juventud = 20;
-      object.adultez = 10;
-      object.vejez = 30;
-      var data = [this.campaign.id, object.comuna]
-      api.getPeopleByCampaignAndComuna(data).then(response => {
-        object.mujeres = response.women;
-        object.hombres = response.men;
-      }).catch(err => console.log(err))
-
-      api.getRangesOfAgeByCampaignAndComuna(data).then(response => {
-        object.adolescencia = response.adolescencia;
-        object.juventud = response.juventud;
-        object.adultez = response.adultez;
-        object.vejez = response.vejez;
-      })
-      this.chartData.rows.push(object);
-    }*/
-    //console.log(campaign.id)
     api.getKeywords(this.campaign.id).then(response => {
         for(var i=0; i< response.length; i++){
           var act = { word: response[i].name, count: response[i].frequency }
@@ -160,8 +93,8 @@ export default {
     }).catch(err => console.log(err));
     this.randomNumber =
       Math.floor(Math.random() * this.narratives.length) + 1 - 1;
-    const number = (this.campaign.accumulatedNarratives / this.campaign.narrativesGoal) * 100;
-    this.percentage = Math.round(number * 100) / 100
+    const number = (this.campaign.accumulatedNarratives / this.campaign.narrativesGoal);
+    this.percentage = Math.round(number * 1000) / 1000
   }
 };
 </script>

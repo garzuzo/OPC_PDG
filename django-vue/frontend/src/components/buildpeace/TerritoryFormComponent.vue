@@ -419,7 +419,6 @@ export default {
   created() {
      api.getZones().then(response => {
         this.zones = response;
-        console.log(response);
       })
       .catch(err => console.log(err));
 
@@ -511,80 +510,6 @@ export default {
     }
   },
   computed: {
-    /*currentCities() {
-      if (this.currentState.name != "") {
-        api
-          .getCities(this.currentState.name)
-          .then(response => {
-            this.currentCitiesComputed = response;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-      return this.currentCitiesComputed;
-    },
-    originCities() {
-      if (this.originState.name != "") {
-        api
-          .getCities(this.originState.name)
-          .then(response => {
-            this.originCitiesComputed = response;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-      return this.originCitiesComputed;
-    },
-    currentNeighborhoodsCali() {
-      if (this.currentComuna.name != "") {
-        let dataComuna = ["Cali", "Urbana", this.currentComuna.name];
-        api
-          .getNeighborhoodsVeredas(dataComuna)
-          .then(response => {
-            this.neighborhoodsCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.neighborhoodsCali;
-    },
-    originNeighborhoodsCali() {
-      if (this.originComuna.name != "") {
-        let dataComuna = ["Cali", "Urbana", this.originComuna.name];
-        api
-          .getNeighborhoodsVeredas(dataComuna)
-          .then(response => {
-            this.origNeighborhoodsCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.origNeighborhoodsCali;
-    },
-    currentVeredasCali() {
-      if (this.currentCorregimiento.name != "") {
-        let dataCorregimiento = ["Cali", "Rural", this.currentCorregimiento.name];
-        api
-          .getNeighborhoodsVeredas(dataCorregimiento)
-          .then(response => {
-            this.veredasCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.veredasCali;
-    },
-    originVeredasCali() {
-      if (this.originCorregimiento.name != "") {
-        let dataCorregimiento = ["Cali", "Rural", this.originCorregimiento.name];
-        api
-          .getNeighborhoodsVeredas(dataCorregimiento)
-          .then(response => {
-            this.origVeredasCali = response;
-          })
-          .catch(err => console.log(err));
-      }
-      return this.origVeredasCali;
-    },*/
     currentZoneErrors() {
       const errors = [];
       if (!this.$v.currentZone.$dirty) return errors;

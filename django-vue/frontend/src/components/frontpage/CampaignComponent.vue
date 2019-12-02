@@ -28,7 +28,7 @@
             depressed 
             rounded  
             light
-            to="/construirpaz"
+            to="/campanas"
           >Aprender más</v-btn>
         </v-col>
       </v-row>

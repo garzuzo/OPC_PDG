@@ -84,9 +84,7 @@ export default {
       this.$v.$touch();
       if (this.$v.$anyError) {
         this.submitStatus = "Error";
-        console.log("Errorrrr")
       } else {
-        console.log("Entreeee")
         this.submitStatus = "";
         let data = {
           username: this.email,
@@ -94,15 +92,6 @@ export default {
           dialog : false
         };
         this.$emit("allToParent", data);
-        /*this.$store
-        .dispatch("register", data)
-        .then(() => {
-          console.log("Registerrr")
-          this.$router.push("/login")
-        })
-        .catch(err => {
-          console.log(err);
-        });*/
       }
     }
   },

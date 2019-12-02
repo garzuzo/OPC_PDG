@@ -51,6 +51,11 @@
   btnText
   description="¡Ayudanos a construir más paz!"
 />
+<whatsapp-button 
+  class="share-button--circle share-button--outline"
+  v-bind:url="url"
+  btnText
+/>
       </v-speed-dial>
 
       <v-container style="padding-top: 20vh;">
@@ -155,7 +160,7 @@ import { required } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import TwitterButton from "vue-share-buttons/src/components/TwitterButton";
 import FacebookButton from "vue-share-buttons/src/components/FacebookButton";
-
+import WhatsappButton from "vue-share-buttons/src/components/WhatsAppButton";
 export default {
   name: "BuildPeace",
   mixins: [validationMixin],
@@ -165,7 +170,8 @@ export default {
   },
   components: {
     TwitterButton,
-    FacebookButton
+    FacebookButton,
+    WhatsappButton
   },
   data() {
     return {
@@ -262,7 +268,7 @@ export default {
          this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
          let data= {campaign:response.campaign, user: response.id}
          this.$store.dispatch("saveNarrative",data)
-         setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
+         setTimeout(() => this.$router.push("/visualizacampana"), 3000);
          }).catch(err=> console.log(err))
       }
       }
@@ -345,7 +351,6 @@ export default {
         this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo. "
       }else{
         this.submitStatus = ""
-        console.log("HERE I AMMMMMM")
         let data = {
         campaign : this.campaign.id,
         age: this.age,
@@ -373,15 +378,11 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-      //console.log(data)
       api.saveData(data).then((resp)=>{
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
-        console.log(resp)
         let data= {campaign:resp.campaign, user: resp.id}
-        console.log("DATOS ANTES DE STORE")
-        console.log(data)
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
+        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
         }).catch(err=> {console.log(err)});
       }
       
@@ -392,7 +393,6 @@ export default {
         this.submitStatus = "Revisa las advertencias. Tienes algún error en los campos. Intenta de nuevo."
       }else{
         this.submitStatus = ""
-        console.log("HERE I AMMMMMM REGISTER")
         let data = {
         email : this.email,
         password : this.password,
@@ -422,13 +422,11 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-      console.log(data)
       api.saveData(data).then((resp)=>{
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampaña"), 5000);
-        //this.$router.push("/login")
+        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
         }).catch(err=> {
           this.submitStatus= err.data.detail
       console.log(err)});

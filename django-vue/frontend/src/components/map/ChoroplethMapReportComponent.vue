@@ -61,21 +61,9 @@ export default {
               fillColor: fillColor,
               fillOpacity: 0.6
             };
-
-            /*if (feature.properties.comuna_corregimiento > 11) {
-            return {
-              weight: 4,
-              color: '#00FF00'
-            }
-          } else {
-            return {
-              weight: 4,
-              color: '#FF0000'
-            }
-          }*/
           },
           onEachFeature: function(feature, layer) {
-            // does this feature have a property named popupContent?
+          
             let PopupCont = Vue.extend(PopupContent);
             var campaignPopup = self.campaign;
             let popup = new PopupCont({
@@ -91,21 +79,10 @@ export default {
                   maxHeight: 350
                 });
                 
-            //layer.bindPopup( "<p> hola bb</p>");
-            //layer.bindPopup(popup)*/
-            //layer.bindPopup(feature.properties.nombre);
           }
         }
       }
     };
-  },
-  computed: {
-    options() {
-      return {
-        onEachFeature: this.onEachFeature(),
-        style: this.styleFilterFunction
-      };
-    }
   },
   methods: {
     zoomUpdated(zoom) {

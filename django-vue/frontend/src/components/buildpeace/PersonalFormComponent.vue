@@ -91,7 +91,6 @@ function dateMaxValue (date) {
       //const validator = minValue(new Date())
       const dateSplit = date.split("-")
       date = new Date(parseInt(dateSplit[0]), parseInt(dateSplit[1])-1, parseInt(dateSplit[2]))
-      console.log(date)
       return date < new Date()
 }
 
@@ -118,7 +117,6 @@ export default {
       .getGender()
       .then(response => {
         this.genders = response;
-        console.log(this.genders);
       })
       .catch(err => console.log(err));
   },

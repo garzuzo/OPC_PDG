@@ -96,7 +96,6 @@ export default {
   },
   watch:{
     higherEducation(education){
-      console.log("CAMBIE")
         api
         .getAchievedLevel(this.higherEducation.name)
         .then(response => {
