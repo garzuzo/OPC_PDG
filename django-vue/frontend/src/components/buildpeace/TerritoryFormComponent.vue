@@ -42,7 +42,7 @@
           ></v-select>
         </div>
 
-        <div class="form-group" v-bind:v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
           <label for="currentComuna">Comuna*</label>
           <v-select
             :items="comunasCali"
@@ -60,7 +60,7 @@
           ></v-select>
         </div>
 
-        <div class="form-group"  v-bind:v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
+        <div class="form-group"  v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
           <label for="currentCorregimiento">Corregimiento*</label>
           <v-select
             :items="corregimientosCali"
@@ -99,7 +99,7 @@
           ></v-select>
         </div>
 
-        <div class="form-group"  v-bind:v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
+        <div class="form-group" v-if="currentZone.zoneType == zones[1].zoneType & currentCity.name == 'Cali'">
           <label for="currentNeighborhood">Barrio*</label>
           <v-select
             :items="currentNeighborhoodsCali"
@@ -116,8 +116,8 @@
             @change="$v.currentNeighborhood.$touch()"
           ></v-select>
         </div>
-
-        <div class="form-group"  v-bind:v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
+        
+        <div class="form-group"  v-if="currentZone.zoneType == zones[0].zoneType & currentCity.name == 'Cali'">
           <label for="currentVereda">Vereda*</label>
           <v-select
             :items="currentVeredasCali"
