@@ -72,7 +72,9 @@ urlpatterns = [
     path('create_person/', views.create_person),
     path('obtain_person_campaign_logged/', views.obtain_person_campaign_logged),
 
-
+    #obtain percentages
+    path('obtain_topics_percentage/', views.obtain_topics_percentage),
+    path('obtain_minmax_date/', views.obtain_minmax_date),
 
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),

@@ -54,8 +54,29 @@ from datetime import date,datetime
 #Tener en cuenta rutas:
 #os.getcwd()+'/../modelo_entrenado.pkl'
 #os.getcwd()+'/../data/df_limpieza.xlsx'
-from opcapp.analitica import clean_text,obtain_topics
+from opcapp.analitica import clean_text,obtain_topics,topics_percentage
 
+@api_view(['GET'])
+def obtain_topics_percentage(request):
+    if request.method=="GET":
+        data={
+         "topic_percentage":topics_percentage()   
+        }
+
+        return JsonResponse(data, safe=False)
+
+@api_view(['GET'])
+def obtain_minmax_date(request):
+    if request.method=="GET":
+
+        minDate=Campaign.objects.all().order_by('startDate').first()
+        maxDate=Campaign.objects.all().order_by('endDate').last()
+        data={
+         "min_date":minDate.startDate,
+         "max_date":maxDate.endDate
+        }
+
+        return JsonResponse(data)
 
 @api_view(['GET'])
 def predictTopic(request):
