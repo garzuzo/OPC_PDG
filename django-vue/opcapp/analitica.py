@@ -133,3 +133,16 @@ def obtain_topics(data_list):
     topic_list.append(topic1String)
     topic_list.append(topic2String)
     return topic_list
+
+
+def topics_percentage():
+    dictPercentageTopic={}
+    indexTopic=0
+    for topic in lda_model.components_:
+        listIndex=(-topic).argsort()[:20]
+        listPercentage=[]
+        for i in listIndex:
+            listPercentage.append(topic[i])
+        dictPercentageTopic[indexTopic]=listPercentage
+        indexTopic+=1
+    return dictPercentageTopic
