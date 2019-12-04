@@ -1,6 +1,11 @@
 from django.urls import include, path
 from rest_framework import routers
 from . import views
+#swagger
+from django.conf.urls import url
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view = get_swagger_view(title='opc API',url='../schema.yml')
 #Auth
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -13,7 +18,7 @@ from rest_framework_simplejwt.views import (
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
    # path('', views.index, name='index'),
-
+    url(r'^docs/$', schema_view),
     path('gender/', views.gender),
     path('levelseducation/', views.levelseducation),
 

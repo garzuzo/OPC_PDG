@@ -1,0 +1,573 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /opcapi/docs/:
+    get:
+      operationId: listSwaggerSchemas
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/gender/:
+    get:
+      operationId: listgenders
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/levelseducation/:
+    get:
+      operationId: listlevelseducations
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/levelineducation/:
+    get:
+      operationId: listleveleducation_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/states/:
+    get:
+      operationId: liststates_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/cities/:
+    get:
+      operationId: listcities_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/corregimientos_comunas/:
+    get:
+      operationId: listcorregcomunas_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/veredas_neighborhoods/:
+    get:
+      operationId: listneighborvereda_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/zones/:
+    get:
+      operationId: listzones_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/activecampaigns/:
+    get:
+      operationId: listacampaigns_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/notactivecampaigns/:
+    get:
+      operationId: listnotacampaigns_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/roleu/{id}/:
+    get:
+      operationId: Retrieveroleuser_list
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+    post:
+      operationId: Createroleuser_list
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+    put:
+      operationId: Updateroleuser_list
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/keywords/:
+    get:
+      operationId: listfivekeywords_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/gender_list/:
+    get:
+      operationId: listgender_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/ages/:
+    get:
+      operationId: listage_range_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/population_comunas/:
+    get:
+      operationId: listpopulation_comunas_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/educations/:
+    get:
+      operationId: listeducation_visualization_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/acampaigns_person_list/:
+    get:
+      operationId: listacampaigns_person_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/person_data/:
+    get:
+      operationId: listperson_datas
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+    put:
+      operationId: Updateperson_data
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/campaigns_created_person/:
+    get:
+      operationId: listcampaigns_created_persons
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/campaigns_person/:
+    get:
+      operationId: listcampaigns_persons
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/city_person/:
+    get:
+      operationId: listcity_persons
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/predict/:
+    get:
+      operationId: listpredictTopics
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/obtain_opendata/:
+    get:
+      operationId: listobtain_opendatas
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/obtain_percentage/:
+    get:
+      operationId: listobtain_percentages
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/narratives/:
+    get:
+      operationId: listnarratives_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/narrative_user_campaign/:
+    get:
+      operationId: listnarratives_campaign_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/role_user/:
+    get:
+      operationId: listrole_users
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/topic_list/:
+    get:
+      operationId: listtopic_lists
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/topic_person_campaign/:
+    get:
+      operationId: listtopic_person_campaigns
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/obtain_campaign/:
+    get:
+      operationId: listobtain_campaigns
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/obtain_person_campaign_logged/:
+    get:
+      operationId: listobtain_person_campaign_loggeds
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+  /opcapi/comunacorr/:
+    post:
+      operationId: Createcreate_comunacorr
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/saveall/:
+    post:
+      operationId: Createsave_info
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/register/:
+    post:
+      operationId: Createregister
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/save_info_zone/:
+    post:
+      operationId: Createsave_info_zone
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/campaign/:
+    post:
+      operationId: Createsave_campaign
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+    put:
+      operationId: Updatesave_campaign
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/save_info_ruser/:
+    post:
+      operationId: Createsave_info_registered_user
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/create_person/:
+    post:
+      operationId: Createcreate_person
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /opcapi/login/:
+    post:
+      operationId: CreateTokenObtainPair
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  writeOnly: true
+              required:
+              - username
+              - password
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  username:
+                    type: string
+                required:
+                - username
+          description: ''
+  /opcapi/refresh/:
+    post:
+      operationId: CreateTokenRefresh
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                refresh:
+                  type: string
+              required:
+              - refresh
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  refresh:
+                    type: string
+                required:
+                - refresh
+          description: ''
+  /opcapi/change_zone/:
+    put:
+      operationId: Updatet_change_zone
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
