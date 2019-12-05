@@ -615,7 +615,10 @@ export default {
           neighborhoodVeredaActual: this.neighborhoodVereda,
           cityActual : this.currentCity.id
         }
-        api.editProfile(data).then(response=>{this.succes= "Tu perfil se actualizó correctamente."}).catch(err=>console.log(err))
+        api.editProfile(data).then(response=>{
+          this.succes= "Tu perfil se actualizó correctamente."
+          this.$emit("allToParent", data)
+        }).catch(err=>console.log(err))
       }
     }
   },

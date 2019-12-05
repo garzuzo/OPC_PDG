@@ -218,7 +218,10 @@ export default {
         narratives_goal: this.narrativesGoal,
         is_active: this.checkbox
       };
-        api.saveCampaign(data).then(response => {this.succes = "Tu campaña ha sido creada con éxito"}).catch(err=> {console.log(err)})
+        api.saveCampaign(data).then(response => {
+          this.succes = "Tu campaña ha sido creada con éxito"
+          this.$emit("allToParent", data)
+        }).catch(err=> {console.log(err)})
       }
       },
       editCampaign(){

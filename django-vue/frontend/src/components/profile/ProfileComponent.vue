@@ -17,7 +17,7 @@
               </v-btn>
               <v-toolbar-title>Editar perfil</v-toolbar-title>
             </v-toolbar>
-            <edit-profile-component :profile="profile"></edit-profile-component>
+            <edit-profile-component :profile="profile" v-on:allToParent="allFromEditProfile"></edit-profile-component>
           </v-card>
         </v-dialog>
         
@@ -60,7 +60,7 @@
 
         <v-col v-if="roleUser==2" cols="12" sm="12" md="4">
             <h2 class="ml-3"> Creadas </h2>
-            <v-col v-for="campaign in createdCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
+            <v-col v-for="campaign in userCampaigns" v-bind:key="campaign.id" class="d-flex child-flex">
                 <campaign-item-component color="#E6CEFF" :edit="true" :campaign="campaign"></campaign-item-component>
             </v-col>
 
@@ -77,7 +77,7 @@
                <v-toolbar-title>Crear campaña</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
-            <create-campaign-component> </create-campaign-component>
+            <create-campaign-component v-on:allToParent="allFromCreateCampaign"> </create-campaign-component>
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -106,10 +106,12 @@ export default {
       userCampaigns: [],
       dialogEdit: false,
       dialogCampaign: false,
-      cityComputed: '',
+      city: '',
       narratives: 0, 
       campaigns: 0,
       roleUser: 0,
+      campaignCreated: false,
+      changedProfile: false, 
       profile: {
         gender: {id:0, typeGender: ""},
         level: {id:0, name: ""},
@@ -144,6 +146,7 @@ export default {
     
     api.getRoleUser().then(response => {
         this.roleUser = response.role_user
+        console.log(this.roleUser)
     }).catch(err => console.log(err));
 
     api.getProfile().then(response =>{
@@ -177,20 +180,30 @@ export default {
         this.profile.currentVereda.name = response.neighborhoodVeredaActual.split("/")[0]
       }
     }).catch(err => console.log(err));
+
+    api.getCreatedCampaigns().then(response => {
+        this.campaigns = response.length
+        this.userCampaigns = response
+      }).catch(err => console.log(err));
+
+      api.getCityPerson().then(response => {
+        this.city = response.city_name
+      }).catch(err => console.log(err));
+      
   },
-  computed:{
-    createdCampaigns(){
+  watch:{
+    campaignCreated(created){
       api.getCreatedCampaigns().then(response => {
         this.campaigns = response.length
         this.userCampaigns = response
       }).catch(err => console.log(err));
-      return this.userCampaigns;
+      //return this.userCampaigns;
     },
-    city(){
+    changedProfile(profile){
       api.getCityPerson().then(response => {
-        this.cityComputed = response.city_name
+        this.city = response.city_name
     }).catch(err => console.log(err));
-      return this.cityComputed
+      //return this.cityComputed
     }
   },
   methods:{
@@ -204,6 +217,12 @@ export default {
           console.log(err);
         });
     },
+    allFromCreateCampaign(value){
+      this.campaignCreated= !this.campaignCreated
+    },
+    allFromEditProfile(value){
+       this.changedProfile= !this.changedProfile
+    }
   }
 };
 </script>
