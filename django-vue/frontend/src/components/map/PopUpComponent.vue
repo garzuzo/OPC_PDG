@@ -81,16 +81,16 @@ export default {
       this.ageData.rows.length = 0
       this.ageData.rows.push({ 'range': 'Primera infancia', 'frequency': response.primeraInfancia })
       this.ageData.rows.push({ 'range': 'Infancia', 'frequency': response.infancia })
-      this.ageData.rows.push({ 'range': 'adolescencia', 'frequency': response.adolescencia })
-      this.ageData.rows.push({ 'range': 'juventud', 'frequency': response.juventud })
-      this.ageData.rows.push({ 'range': 'adultez', 'frequency': response.adultez })
-      this.ageData.rows.push({ 'range': 'vejez', 'frequency': response.vejez })
+      this.ageData.rows.push({ 'range': 'Adolescencia', 'frequency': response.adolescencia })
+      this.ageData.rows.push({ 'range': 'Juventud', 'frequency': response.juventud })
+      this.ageData.rows.push({ 'range': 'Adultez', 'frequency': response.adultez })
+      this.ageData.rows.push({ 'range': 'Vejez', 'frequency': response.vejez })
     }).catch(err => console.log(err));
     
     api.getEducationByCampaignAndTerritory(data).then(response => {
       this.educationData.rows.length = 0
       this.educationData.rows.push({ 'education': 'Primaria', 'frequency': response.primaria })
-      this.educationData.rows.push({ 'education': 'Pecundaria', 'frequency': response.secundaria })
+      this.educationData.rows.push({ 'education': 'Secundaria', 'frequency': response.secundaria })
       this.educationData.rows.push({ 'education': 'Técnica y tecnología', 'frequency': response.tyt })
       this.educationData.rows.push({ 'education': 'Universitaria', 'frequency': response.universitaria })
       this.educationData.rows.push({ 'education': 'Postgrado', 'frequency': response.postgrado })

@@ -18,13 +18,15 @@
           <v-row justify="center">
             <v-col cols="12" sm="12" md="6">
               <ve-wordcloud
-                :data="topicOneData"
                 :tooltip-visible="tooltip"
+                :data="topicOneData"
                 :textStyle="textStyle"
                 :settings="wordSettings"
                 :events="topicOneEvents"
                 width="400px"
                 height="350px"
+                :rotationRange="rotation"
+                shape="diamond"
               ></ve-wordcloud>
             </v-col>
             <v-col cols="12" sm="12" md="6">
@@ -36,6 +38,8 @@
                 :events="topicTwoEvents"
                 width="400px"
                 height="350px"
+                :rotationRange="rotation"
+                shape="diamond"
               ></ve-wordcloud>
             </v-col>
             <v-col cols="12" sm="12" md="6">
@@ -47,6 +51,8 @@
                 :events="topicThreeEvents"
                 width="400px"
                 height="350px"
+                :rotationRange="rotation"
+                shape="diamond"
               ></ve-wordcloud>
             </v-col>
             <v-col cols="12" sm="12" md="6">
@@ -58,6 +64,8 @@
                 :events="topicFourEvents"
                 width="400px"
                 height="350px"
+                :rotationRange="rotation"
+                shape="diamond"
               ></ve-wordcloud>
             </v-col>
             <v-col cols="12" sm="12" md="6">
@@ -69,6 +77,8 @@
                 :events="topicFiveEvents"
                 width="400px"
                 height="350px"
+                :rotationRange="rotation"
+                shape="diamond"
               ></ve-wordcloud>
             </v-col>
           </v-row>
@@ -116,10 +126,10 @@
         <v-col cols="12" sm="12" md="4">
           <h3>Educación</h3>
           <ve-pie :data="educationData" :settings="educationSettings" :events="educationEvents"></ve-pie>
-        </v-col>        
+        </v-col>
       </v-row>
 
-      <h3> Filtros aplicados: </h3>
+      <h3>Filtros aplicados:</h3>
       <v-row justify="center">
         <v-col cols="12" sm="12" md="4">
           <p>{{sex.toUpperCase()}}</p>
@@ -134,49 +144,98 @@
         </v-col>
       </v-row>
 
-      <v-row justify="start">
+      <v-row justify="space-around">
         <v-col cols="10" sm="10" md="4">
-          <h3>Tiempo</h3>
+          <h3>Tiempo inicio</h3>
           <form class="form-inline">
-          <div class="form-group div-filter">
-            <label for="filter" class="filter mr-2 mb-5">Año:</label>
-            <v-select
-              :items="years"
-              outlined
-              v-model="year"
-              required
-              class="input"
-              color="#0C186D"
-              name="filter"
-            ></v-select>
-          </div>
+            <div class="form-group div-filter">
+              <label for="filter" class="filter mr-2 mb-5">Año:</label>
+              <v-select
+                :items="years"
+                outlined
+                v-model="startYear"
+                required
+                class="input"
+                color="#0C186D"
+                name="filter"
+              ></v-select>
+            </div>
           </form>
         </v-col>
-        <v-col cols="12" sm="12" md="10">
-          <v-range-slider class="hidden-sm-and-down"
-            :value="[0, 1]"
-            v-model="month"
-            :tick-labels="months"
-            tick-size="4"
-            min="0"
-            max="11"
-            ticks="always"
-            track-color="blue"
-            track-fill-color="blue"
-          ></v-range-slider>
-          <v-range-slider class="hidden-md-and-up"
-            :value="[0, 1]"
-            v-model="month"
-            :tick-labels="months"
-            v-bind:vertical="true"
-            tick-size="4"
-            min="0"
-            max="11"
-            v-bind:ticks="true"
-            track-color="blue"
-            track-fill-color="blue"
-          ></v-range-slider>
+        
+        <v-col cols="10" sm="10" md="4">
+          <h3>Tiempo fin</h3>
+          <form class="form-inline">
+            <div class="form-group div-filter">
+              <label for="filter" class="filter mr-2 mb-5">Año:</label>
+              <v-select
+                :items="years"
+                outlined
+                v-model="endYear"
+                required
+                class="input"
+                color="#0C186D"
+                name="filter"
+              ></v-select>
+            </div>
+          </form>
         </v-col>
+      </v-row>
+
+      <v-row justify="start">  
+        <v-col cols="12" sm="12" md="6">
+          <v-slider
+            class="hidden-sm-and-down"
+            v-model="startMonth"
+            min="0"
+            max="11"
+            ticks
+            track-color="blue"
+            track-fill-color="blue"
+            :tick-labels="months"
+            tick-size="4"
+          ></v-slider>
+          <v-slider
+            class="hidden-md-and-up"
+            v-model="startMonth"
+            v-bind:vertical="true"
+            min="0"
+            max="11"
+            ticks
+            track-color="blue"
+            track-fill-color="blue"
+            :tick-labels="months"
+            tick-size="4"
+          ></v-slider>
+        </v-col>
+
+        <v-col cols="12" sm="12" md="6">
+          <v-slider
+            class="hidden-sm-and-down"
+            v-model="endMonth"
+            min="0"
+            max="11"
+            ticks
+            track-color="blue"
+            track-fill-color="blue"
+            :tick-labels="months"
+            tick-size="4"
+          ></v-slider>
+
+          <v-slider
+            class="hidden-md-and-up"
+            v-model="endMonth"
+            v-bind:vertical="true"
+            min="0"
+            max="11"
+            ticks
+            track-color="blue"
+            track-fill-color="blue"
+            :tick-labels="months"
+            tick-size="4"
+          ></v-slider>
+        </v-col>
+
       </v-row>
     </v-container>
   </div>
@@ -201,9 +260,13 @@ export default {
       metrics: "frequency"
     };
     this.wordSettings = {
-      sizeMin: 14,
-      sizeMax: 30
+      sizeMin: 12,
+      sizeMax: 24
     };
+    this.orientSettings={
+      orient: 'horizontal'
+    }
+    this.rotation = [0,0]
     this.textStyle = { fontFamily: "Poppins" };
     var self = this;
     this.topicOneEvents = {
@@ -271,8 +334,11 @@ export default {
         "Dic"
       ],
       month: [0, 1],
-      years: [2019, 2020, 2021, 2022],
-      year: 2019,
+      startMonth: 0,
+      endMonth: 0,
+      years: [],
+      startYear: 2019,
+      endYear: 2019,
       switch1: false,
       ageData: {
         columns: ["range", "frequency"],
@@ -373,6 +439,27 @@ export default {
       })
       .catch(err => console.log(err));
 
+    //topic one
+    api.getTopicWordCount().then(response=>{
+      for (var i = 0; i < this.topicOneData.rows.length; i++) {
+          this.topicOneData.rows[i].count = parseInt(response.topic_percentage["0"][i]);
+          this.topicTwoData.rows[i].count = parseInt(response.topic_percentage["1"][i]);
+          this.topicThreeData.rows[i].count = parseInt(response.topic_percentage["2"][i]);
+          this.topicFourData.rows[i].count = parseInt(response.topic_percentage["3"][i]);
+          this.topicFiveData.rows[i].count = parseInt(response.topic_percentage["4"][i]);
+        }
+    }).catch(err=> console.log(err))
+    //topic two
+
+    //topic three
+
+    //topic four
+
+    //topic five
+    api.getAvailableDates().then(response =>{
+        this.years.push(response.min_date.split("-")[0])
+        this.years.push(response.max_date.split("-")[0])
+    }).catch(err=> console.log(err))
     this.init();
   },
   watch: {
@@ -382,6 +469,12 @@ export default {
         this.filter.minDate = this.calculateDate(this.year, range[0], "min");
         this.filter.maxDate = this.calculateDate(this.year, range[1], "max");
       }
+    },
+    startMonth(month){
+        this.filter.minDate = this.calculateDate(this.startYear, month, "min");
+    },
+    endMonth(month){
+        this.filter.maxDate = this.calculateDate(this.endYear, month, "max");
     }
   },
   methods: {
@@ -623,7 +716,7 @@ h3 {
   color: #0c186d;
 }
 
-p{
+p {
   font-family: "Roboto";
   font-style: normal;
   font-weight: normal;

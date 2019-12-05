@@ -476,5 +476,27 @@ export default {
                     reject('Error getting percentage', err);
                 })
         });
+    },
+    getAvailableDates(){
+        return new Promise((resolve, reject) => {
+            axios.get("/obtain_minmax_date/")
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting available dates', err);
+                })
+        });
+    },
+    getTopicWordCount(){
+        return new Promise((resolve, reject) => {
+            axios.get("/obtain_topics_percentage/")
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((err) => {
+                    reject('Error getting topic word count', err);
+                })
+        });
     }
 }

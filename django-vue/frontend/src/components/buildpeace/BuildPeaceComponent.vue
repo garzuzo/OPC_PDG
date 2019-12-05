@@ -130,6 +130,7 @@
 
               <v-stepper-content step="5">
                 <save-info-component
+                  :success="succes"
                   v-on:allToParent="allFromFinishChildClick"
                   v-on:before="beforeFinish"
                 ></save-info-component>
@@ -145,9 +146,9 @@
          <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
           {{submitStatus}}
       </div>
-      <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
+      <!--<div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
            {{succes}}
-          </div>
+          </div>-->
         </v-col>
       </v-row>
     </v-container>
@@ -268,7 +269,7 @@ export default {
          this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
          let data= {campaign:response.campaign, user: response.id}
          this.$store.dispatch("saveNarrative",data)
-         setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+         setTimeout(() => this.$router.push("/visualizacampana"), 1000);
          }).catch(err=> console.log(err))
       }
       }
@@ -382,7 +383,7 @@ export default {
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+        setTimeout(() => this.$router.push("/visualizacampana"), 1000);
         }).catch(err=> {console.log(err)});
       }
       
@@ -426,7 +427,7 @@ export default {
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+        setTimeout(() => this.$router.push("/visualizacampana"), 1000);
         }).catch(err=> {
           this.submitStatus= err.data.detail
       console.log(err)});

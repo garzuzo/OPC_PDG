@@ -21,6 +21,7 @@
             :settings="wordSettings"
             :events="topicOneEvents"
             width="400px" height="350px"
+            shape="diamond"
           ></ve-wordcloud>
           <ve-wordcloud
             :data="topicTwoData"
@@ -29,6 +30,7 @@
             :settings="wordSettings"
             :events="topicTwoEvents"
             width="400px" height="350px"
+            shape="diamond"
           ></ve-wordcloud>
         </v-col>
       </v-row>
@@ -109,8 +111,8 @@ export default {
       metrics: "frequency"
     };
     this.wordSettings={
-        sizeMin: 14,
-        sizeMax: 30
+        sizeMin: 12,
+        sizeMax: 24
     }
     this.textStyle = { fontFamily: "Poppins" };
     var self = this;
@@ -240,6 +242,14 @@ export default {
         }
       })
       .catch(err => console.log(err));
+
+      api.getTopicWordCount().then(response=>{
+      for (var i = 0; i < this.topicOneData.rows.length; i++) {
+          this.topicOneData.rows[i].count = parseInt(response.topic_percentage[this.topicOne-1][i]);
+          this.topicTwoData.rows[i].count = parseInt(response.topic_percentage[this.topicTwo-1][i]);
+        }
+    }).catch(err=> console.log(err))
+
 
      this.init() 
   },
