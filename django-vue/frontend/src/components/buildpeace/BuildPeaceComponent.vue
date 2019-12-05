@@ -268,7 +268,7 @@ export default {
          this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
          let data= {campaign:response.campaign, user: response.id}
          this.$store.dispatch("saveNarrative",data)
-         setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+         setTimeout(() => this.$router.push("/visualizacampana"), 1000);
          }).catch(err=> console.log(err))
       }
       }
@@ -382,7 +382,7 @@ export default {
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+        setTimeout(() => this.$router.push("/visualizacampana"), 1000);
         }).catch(err=> {console.log(err)});
       }
       
@@ -426,7 +426,7 @@ export default {
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
-        setTimeout(() => this.$router.push("/visualizacampana"), 3000);
+        setTimeout(() => this.$router.push("/visualizacampana"), 1000);
         }).catch(err=> {
           this.submitStatus= err.data.detail
       console.log(err)});
