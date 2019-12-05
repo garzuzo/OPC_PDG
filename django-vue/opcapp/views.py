@@ -1183,7 +1183,7 @@ def obtain_person_campaign_logged(request):
 def role_user(request):
 
     if request.method=="GET":
-        person=Person.objects.filter(id=request.user.id).first()
+        person=Person.objects.filter(user=request.user.id).first()
 
         data={
             "role_user":person.roleUser.id
@@ -1198,7 +1198,7 @@ def role_user(request):
 @permission_classes([IsAuthenticated])
 def acampaigns_person_list(request):
     if request.method == "GET":
-        person=Person.objects.filter(id=request.user.id).first()
+        person=Person.objects.filter(user=request.user.id).first()
         campList=Campaign.objects.filter(startDate__lte=date.today(),endDate__gte=date.today(),isActive=True)
 
         person=Person.objects.get(user=request.user.id)
