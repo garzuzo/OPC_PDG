@@ -66,6 +66,9 @@
         <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
           {{submitStatus}}
       </div>
+       <div v-if="success!=''" class="pa-5 alert alert-success" role="alert">
+           {{success}}
+          </div>
 
         <v-row justify="space-between">
           <v-col cols="4" sm="4" md="2">
@@ -111,6 +114,9 @@ export default {
     passwordConfirmation: { required: requiredIf(function () {
         return this.checkbox
       }), sameAsPassword: sameAs('password') }
+  },
+  props:{
+    success: String
   },
     data(){
         return{

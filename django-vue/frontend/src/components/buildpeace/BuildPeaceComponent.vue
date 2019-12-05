@@ -130,6 +130,7 @@
 
               <v-stepper-content step="5">
                 <save-info-component
+                  :success="succes"
                   v-on:allToParent="allFromFinishChildClick"
                   v-on:before="beforeFinish"
                 ></save-info-component>
@@ -145,9 +146,9 @@
          <div v-if="submitStatus!=''" class="pa-5 alert alert-danger" role="alert">
           {{submitStatus}}
       </div>
-      <div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
+      <!--<div v-if="succes!=''" class="pa-5 alert alert-success" role="alert">
            {{succes}}
-          </div>
+          </div>-->
         </v-col>
       </v-row>
     </v-container>
