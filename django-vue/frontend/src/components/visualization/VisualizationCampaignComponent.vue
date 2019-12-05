@@ -13,7 +13,8 @@
 
         <!--VISUALIZATION-->
         <v-col cols="12" sm="12" md="6">
-          <h3>En la campaña "{{campaign}}", para ti la paz está asociada a los siguientes conceptos:</h3>
+          <h3>En la campaña "{{campaign}}", para ti la paz está asociada a las 2 nubes de palabras que presentan el lenguaje utilizado para referirse a la Paz.</h3>
+           <p>Al dar click sobre los conceptos agrupados en las nubes de palabras, el mapa presentará la afinidad con dicha nube representada por colores y la variación en los gráficos de sexo, edad y educación.</p> 
           <ve-wordcloud
             :data="topicOneData"
             :tooltip-visible="tooltip"
@@ -34,20 +35,23 @@
           ></ve-wordcloud>
         </v-col>
       </v-row>
-      <h3>Selecciona opciones para filtrar en el mapa</h3>
+      <h3>Dimensiones para filtrar en el mapa</h3>
+      <p>Los siguientes 3 gráficos presentan atributos de los enfoques población diferencial y desarrollo de capacidades. Al dar click sobre sexo, edad y/o situación educativa, el mapa cambiará para mostrar la afinidad con el grupo, también si escoges una opción de nube de palabra.
+        Recuerda que puedes combinar las dimensiones. 
+      </p>
       <v-row justify="start">
         
         <v-col cols="6" sm="6" md="3">
           <v-checkbox
             v-model="checkboxTopicOne"
-            label="Topico primario"
+            label="Nube primaria"
             @change="checkTopicOne($event)"
           ></v-checkbox>
         </v-col>
         <v-col cols="6" sm="6" md="3">
           <v-checkbox
             v-model="checkboxTopicTwo"
-            label="Topico secundario"
+            label="Nube secundaria"
             @change="checkTopicTwo($event)"
           ></v-checkbox>
         </v-col>
@@ -193,7 +197,7 @@ export default {
         "Para mi la paz es sentir que el río está limpio",
         "Para mi la paz es que la gente no tire basuras al río"
       ],
-      campaign: "Ríos de mi ciudad",
+      campaign: "",
       sex:"",
       age:"",
       education:"",
@@ -215,6 +219,8 @@ export default {
     };
   },
   created() {
+    console.log(this.idCampaign)
+    console.log(this.idUser)
     let campaign = { id: this.idCampaign };
     api
       .getCampaign(campaign)
@@ -383,81 +389,6 @@ export default {
         this.filter.topicTwo = this.topicTwo
       }else{
         this.filter.topicTwo = 0
-      }
-    },
-    changeData(word) {
-      if (word == "tranquilidad") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 60 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 80 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 15 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
-      }
-      if (word == "familia") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 60 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 70 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 20 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 50 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
-      }
-      if (word == "amor") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 60 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 70 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 20 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 50 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
-      }
-      if (word == "cultura") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 20 });
-        this.ageData.rows.push({ range: "6-11", frequency: 12 });
-        this.ageData.rows.push({ range: "12-17", frequency: 70 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 50 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 70 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 30 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 20
-        });
-      }
-      if (word == "paz") {
-        this.ageData.rows.length = 0;
-        this.ageData.rows.push({ range: "0-5", frequency: 70 });
-        this.ageData.rows.push({ range: "6-11", frequency: 80 });
-        this.ageData.rows.push({ range: "12-17", frequency: 60 });
-        this.pieData.rows.length = 0;
-        this.pieData.rows.push({ gender: "mujeres", frequency: 80 });
-        this.pieData.rows.push({ gender: "hombres", frequency: 80 });
-        this.educationData.rows.length = 0;
-        this.educationData.rows.push({ education: "primaria", frequency: 10 });
-        this.educationData.rows.push({
-          education: "secundaria",
-          frequency: 80
-        });
       }
     }
   }

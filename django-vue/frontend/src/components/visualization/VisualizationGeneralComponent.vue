@@ -13,8 +13,8 @@
 
         <!--VISUALIZATION-->
         <v-col cols="12" sm="12" md="6">
-          <h3>La paz está asociada a los siguientes conceptos:</h3>
-
+          <h3>Las siguientes 5 nubes de palabras presentan el lenguaje utilizado para referirse a la Paz</h3>
+           <p>Al dar click sobre los conceptos agrupados en las nubes de palabras, el mapa presentará la afinidad con dicha nube representada por colores y la variación en los gráficos de sexo, edad y educación.</p> 
           <v-row justify="center">
             <v-col cols="12" sm="12" md="6">
               <ve-wordcloud
@@ -84,26 +84,30 @@
           </v-row>
         </v-col>
       </v-row>
-      <h3>Selecciona opciones para filtrar en el mapa</h3>
+
+      <h3>Dimensiones para filtrar en el mapa</h3>
+      <p>Los siguientes 3 gráficos presentan atributos de los enfoques población diferencial y desarrollo de capacidades. Al dar click sobre sexo, edad y/o situación educativa, el mapa cambiará para mostrar la afinidad con el grupo, también si escoges una opción de nube de palabra.
+        <br> Además, puedes filtrar desde un mes y año de inicio hasta un mes y año de fin, el mapa cambiará para mostrar la afinidad. Recuerda que puedes combinar las dimensiones. 
+      </p>
       <v-row justify="start">
         <v-col cols="12" sm="12" md="10">
           <v-radio-group row>
-            <v-radio label="Topico 1" v-model="radioOne" value="1" @change="radioOneEvent($event)"></v-radio>
-            <v-radio label="Topico 2" v-model="radioTwo" value="2" @change="radioTwoEvent($event)"></v-radio>
+            <v-radio label="Nube 1" v-model="radioOne" value="1" @change="radioOneEvent($event)"></v-radio>
+            <v-radio label="Nube 2" v-model="radioTwo" value="2" @change="radioTwoEvent($event)"></v-radio>
             <v-radio
-              label="Topico 3"
+              label="Nube 3"
               v-model="radioThree"
               value="3"
               @change="radioThreeEvent($event)"
             ></v-radio>
             <v-radio
-              label="Topico 4"
+              label="Nube 4"
               v-model="radioFour"
               value="4"
               @change="radioFourEvent($event)"
             ></v-radio>
             <v-radio
-              label="Topico 5"
+              label="Nube 5"
               v-model="radioFive"
               value="5"
               @change="radioFiveEvent($event)"

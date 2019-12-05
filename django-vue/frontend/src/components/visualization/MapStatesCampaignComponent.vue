@@ -124,7 +124,11 @@ export default {
         var fillColor,
           state = feature.properties.DPTO;
 
-        if (respState[state] <= 0.25) {
+        if (respState[state] <= 0.10) {
+            fillColor = "#cafff7";
+        }
+        else if (respState[state] > 0.10 &&
+            respState[state] <= 0.25) {
             fillColor = "#9bd7d5";
           } else if (
             respState[state] > 0.25 &&

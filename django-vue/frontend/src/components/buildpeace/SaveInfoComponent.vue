@@ -87,7 +87,9 @@
             outlined
             color="#673ab7"
             @click="emitAllToParent"
+            :disabled="disabled"
           >Finalizar</v-btn>
+          {{disabled}}
         </v-col>
         </v-row>
     </v-container>
@@ -116,7 +118,8 @@ export default {
       }), sameAsPassword: sameAs('password') }
   },
   props:{
-    success: String
+    success: String,
+    disabled: Boolean
   },
     data(){
         return{

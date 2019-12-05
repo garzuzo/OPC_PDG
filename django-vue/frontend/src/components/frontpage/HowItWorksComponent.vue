@@ -12,43 +12,48 @@
 
         <v-row justify="center"> 
 
-          <v-col class="hidden-sm-and-down" md="4">
+          <v-col class="hidden-sm-and-down" md="5">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col offset-md="1" cols="10" sm="10" md="4">
+          <v-col  cols="10" sm="10" md="5">
             <h2>01 </h2>
             <h3>Responde ¿Para tí, qué es la paz? </h3>
-            <p> Es importante que te cuestiones qué es la paz para ti de manera que contribuyas a las mediciones de percepción de paz.</p>
+            <p> Es importante que te cuestiones para ti,¿Qué sí es la Paz? escribiendo un texto corto y 5 palabras clave. 
+
+Con esta información contribuyes a definir tu Paz, indicadores y grupos para establecer el impacto de los proyectos y las iniciativas de Construcción de Paz.</p>
           </v-col>
 
-          <v-col cols="10" sm="10" md="4">
+          <v-col cols="10" sm="10" md="5">
             <h2>02 </h2>
             <h3>Comparate con personas </h3>
             <p> Podrás comparar tu percepción de paz con la de los demás participantes en diferentes enfoques como el territorio, el diferencial, el desarrollo de capacidades y el tiempo.</p>
           </v-col>
 
-          <v-col offset-md="1" class="hidden-sm-and-down" md="4">
+          <v-col  class="hidden-sm-and-down" md="5">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col class="hidden-sm-and-down" md="4">
+          <v-col class="hidden-sm-and-down" md="5">
             <img src="@/assets/steps.png" />
           </v-col>
 
-          <v-col offset-md="1" cols="10" sm="10" md="4">
+          <v-col  cols="10" sm="10" md="5">
             <h2>03 </h2>
-            <h3>Comparte a tus conocidos </h3>
-            <p> Ayudanos a que más personas contribuyan a la construcción de paz para la ciudad y región para que puedan compararse contigo y los demás.</p>
+            <h3>Comparte con tus conocidos </h3>
+            <p> Construir paz significa comprender que incluso las personas mas cercanas definen su Paz de una manera diferente a la nuestra. 
+
+                <br>Usa esta herramienta para construir múltiples definiciones de Paz en tu hogar, en tu ciudad y en tu región. Incluso con tus amigos que ahora visitan el país e incluso con los que se fueron y que volverán.</p>
           </v-col>
 
-          <v-col cols="10" sm="10" md="4">
+          <v-col cols="10" sm="10" md="5">
             <h2>04 </h2>
-            <h3>Contribuye a proyectos alineados a la construcción de paz y convivencia</h3>
-            <p> Narrativas de Paz es un insumo importante para definir proyectos alineados a la construcción de paz y convivencia puesto que ayuda a la toma de decisiones públicas para la ciudad y región.</p>
+            <h3>Contribuye a medir el impacto de la Construcción de Paz</h3>
+            <p> Tu Narrativa de Paz es un insumo clave que contribuye a 
+recopilar información referente a la percepción de la Paz y la Construcción de Paz; a definir indicadores y grupos para establecer el impacto de un proyecto o iniciativa de Construcción de paz.</p>
           </v-col>
 
-          <v-col offset-md="1" class="hidden-sm-and-down" md="4">
+          <v-col  class="hidden-sm-and-down" md="5">
             <img src="@/assets/steps.png" />
           </v-col>
         </v-row>
@@ -82,7 +87,7 @@ export default {
   data() {
     return {
       subtitle:"Cómo funciona",
-      title:"Construir paz entre todos",
+      title:"Construir paz es definir la paz entre todos",
       description:"El propósito de medir las percepciones de paz de los ciudadanos es que entre todos logremos construir multiples definiciones de paz que varian según diferentes enfoques como el territorio, el diferencial, el desarrollo de capacidades y el tiempo."
     };
   }

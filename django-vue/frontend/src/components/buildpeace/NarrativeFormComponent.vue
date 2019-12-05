@@ -115,6 +115,7 @@
             @click="emitAllToParent"
           >Siguiente</v-btn>
           <v-btn v-if="isLoggedIn"
+            :disabled="disabled"
             :ripple="false"
             class="ma-2 next"
             outlined
@@ -186,7 +187,8 @@ export default {
     word5: { required, minLength: minLength(3), differents }
   },
   props:{
-    succes: String
+    succes: String,
+    disabled: Boolean
   },
   data(){
       return{

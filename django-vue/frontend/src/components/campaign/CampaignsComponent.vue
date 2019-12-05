@@ -8,7 +8,7 @@
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
           <v-col sm="12" md="7">
             <h1 style="padding-bottom:10vh;">Campañas</h1>
-            <p>Las campañas de Narrativas de Paz tienen como objetivo recolectar datos de percepción de paz para poder formular proyectos relacionados a la construcción de paz y cultura ciudadana según los enfoques de territorio, diferencial, desarrollo de capacidades y tiempo.</p>
+            <p>Una campaña de Narrativas de Paz es en sí recolectar percepciones de Paz para definir indicadores, establecer alternativas para medir el impacto y en general es contrastar la construcción de Paz que tiene lugar entre ciudadanos y técnicos de la administración pública en las iniciativas comunitarias y los proyectos institucionales. </p>
           </v-col>
         </v-row>
       </v-container>

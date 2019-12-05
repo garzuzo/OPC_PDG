@@ -107,7 +107,7 @@
             <v-stepper-items>
 
               <v-stepper-content step="1">
-                <narrative-form-component :succes="succesUser" v-on:allToParent="allFromNarrativeChildClick"></narrative-form-component>
+                <narrative-form-component :succes="succesUser" :disabled="disabledUser" v-on:allToParent="allFromNarrativeChildClick"></narrative-form-component>
               </v-stepper-content>
 
               <v-stepper-content step="2">
@@ -131,6 +131,7 @@
               <v-stepper-content step="5">
                 <save-info-component
                   :success="succes"
+                  :disabled="disabled"
                   v-on:allToParent="allFromFinishChildClick"
                   v-on:before="beforeFinish"
                 ></save-info-component>
@@ -191,6 +192,8 @@ export default {
       submitStatus: "",
       succes:"",
       succesUser:"",
+      disabled:false,
+      disabledUser:false,
       dialog: false,
       scroll: false, 
       checkbox: false,
@@ -265,9 +268,10 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
-       api.saveNarrativeLoggedUser(data).then(response=> {
+       api.saveNarrativeLoggedUser(data).then( response=> {
+         this.disabledUser=true
          this.succesUser="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
-         let data= {campaign:response.campaign, user: response.id}
+         let data= {campaign:response.data.campaign, user: response.data.id}
          this.$store.dispatch("saveNarrative",data)
          setTimeout(() => this.$router.push("/visualizacampana"), 1000);
          }).catch(err=> console.log(err))
@@ -380,6 +384,7 @@ export default {
         word5: this.word5
       };
       api.saveData(data).then((resp)=>{
+        this.disabled=true
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)
@@ -423,7 +428,9 @@ export default {
         word4: this.word4,
         word5: this.word5
       };
+
       api.saveData(data).then((resp)=>{
+        this.disabled=true
         this.succes="Tu narrativa ha sido guardada exitosamente. ¡Gracias por ayudarnos a construir paz!."
         let data= {campaign:resp.campaign, user: resp.id}
         this.$store.dispatch("saveNarrative",data)

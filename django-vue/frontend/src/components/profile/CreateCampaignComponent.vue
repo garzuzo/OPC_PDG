@@ -109,12 +109,10 @@
           <v-checkbox v-if="!edit"
           v-model="checkbox"
           label="¿Crear como campaña activa?"
-          @change="check($event)"
         ></v-checkbox>
         <v-checkbox v-if="edit"
           v-model="checkbox"
           label="Activa"
-          @change="check($event)"
         ></v-checkbox>
         </div>
 

@@ -139,10 +139,10 @@
     <v-divider> </v-divider>
     <v-row justify="center">
       <v-col cols="12" sm="12" md="8">
-        <h3>Territorio de origen</h3>
+        <h3>Territorio de nacimiento</h3>
         <v-checkbox
           v-model="checkbox"
-          label="¿Tu territorio de origen es igual al territorio donde vives?"
+          label="¿Tu territorio de nacimiento es igual al territorio donde vives?"
           @change="check($event)"
         ></v-checkbox>
       </v-col>

@@ -160,13 +160,15 @@ export default {
         comuna_corregimiento = feature.properties.comuna_corregimiento;
 
         if(comuna_corregimiento < 23){
-            if(respComuna[comuna_corregimiento] <= 0.25){ fillColor = "#9bd7d5"}
+            if(respComuna[comuna_corregimiento] <= 0.10){ fillColor = "#cafff7";}
+            else if(respComuna[comuna_corregimiento] > 0.10 && respComuna[comuna_corregimiento] <= 0.25){ fillColor = "#9bd7d5"}
             else if(respComuna[comuna_corregimiento] > 0.25 && respComuna[comuna_corregimiento] <= 0.5){ fillColor = "#129793"}
             else if(respComuna[comuna_corregimiento] > 0.5 && respComuna[comuna_corregimiento] <= 0.75){ fillColor = "#2f5887"}
             else if(respComuna[comuna_corregimiento] > 0.75 && respComuna[comuna_corregimiento] <= 1.0){ fillColor = "#2b374b"}
 
         }else{
-            if(respCorregimiento[comuna_corregimiento] <= 0.25){ fillColor = "#9bd7d5"}
+            if(respCorregimiento[comuna_corregimiento] <= 0.10){ fillColor = "#cafff7";}
+            if(respCorregimiento[comuna_corregimiento] > 0.10 && respCorregimiento[comuna_corregimiento] <= 0.25){ fillColor = "#9bd7d5"}
             else if(respCorregimiento[comuna_corregimiento] > 0.25 && respCorregimiento[comuna_corregimiento] <= 0.5){ fillColor = "#129793"}
             else if(respCorregimiento[comuna_corregimiento] > 0.5 && respCorregimiento[comuna_corregimiento] <= 0.75){ fillColor = "#2f5887"}
             else if(respCorregimiento[comuna_corregimiento] > 0.75 && respCorregimiento[comuna_corregimiento] <= 1.0){ fillColor = "#2b374b"}

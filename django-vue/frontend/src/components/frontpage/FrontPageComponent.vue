@@ -7,9 +7,9 @@
       <v-container class="fill-height" style="min-height: 100%">
         <!--INITIAL IMAGE -->
         <v-row style="padding-top: 20vh; padding-bottom:20vh;">
-          <v-col sm="12" md="7">
+          <v-col sm="12" md="8">
             <h1 style="padding-bottom:10vh;">Narrativas de Paz</h1>
-            <p style="padding-bottom:5vh;">El Observatorio de Paz y Convivencia (OPC) de la Secretaría de Paz y Cultura Ciudadana de la Alcaldía de Santiago de Cali tiene como objetivo realizar mediciones de la percepción de la paz bajo el mandato ciudad-región. </p>
+            <p style="padding-bottom:5vh;">El Observatorio de Paz y Convivencia (OPC) es un equipo de la Secretaría de Paz y Cultura Ciudadana de la Alcaldía de Santiago de Cali, que trabaja para delimitar un marco de referencia de lo que sí es Paz construido y validado por ciudadanos.  Con este trabajo busca establecer una relación entre las diversas percepciones, perspectivas, lenguajes de la población (palabras) y conceptos de Paz en cuatro enfoques: territorial, población diferencial, desarrollo de capacidades y tiempo. </p>
             <v-btn :ripple="false" depressed rounded class="mx-2 pa-5 btn peace" color="#673AB7" dark to="/construirpaz">Quiero construir paz</v-btn>
           </v-col>
         </v-row>

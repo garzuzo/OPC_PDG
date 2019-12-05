@@ -148,7 +148,11 @@ export default {
           comuna_corregimiento = feature.properties.comuna_corregimiento;
 
         if (comuna_corregimiento < 23) {
-          if (respComuna[comuna_corregimiento] <= 0.25) {
+          if (respComuna[comuna_corregimiento] <= 0.10) {
+            fillColor = "#cafff7";
+          }
+          else if (respComuna[comuna_corregimiento] > 0.10 &&
+            respComuna[comuna_corregimiento] <= 0.25) {
             fillColor = "#9bd7d5";
           } else if (
             respComuna[comuna_corregimiento] > 0.25 &&
@@ -167,7 +171,11 @@ export default {
             fillColor = "#2b374b";
           }
         } else {
-          if (respCorregimiento[comuna_corregimiento] <= 0.25) {
+          if (respCorregimiento[comuna_corregimiento] <= 0.10) {
+            fillColor = "#cafff7";
+          }
+          else if (respCorregimiento[comuna_corregimiento] > 0.10 &&
+            respCorregimiento[comuna_corregimiento] <= 0.25) {
             fillColor = "#9bd7d5";
           } else if (
             respCorregimiento[comuna_corregimiento] > 0.25 &&

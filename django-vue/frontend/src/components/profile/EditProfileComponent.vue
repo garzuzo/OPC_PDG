@@ -543,7 +543,6 @@ export default {
           .catch(err => console.log(err));
     },
     higherEducation(education){
-      console.log("CAMBIE")
         api
         .getAchievedLevel(this.higherEducation.name)
         .then(response => {
