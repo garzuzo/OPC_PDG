@@ -89,7 +89,6 @@
             @click="emitAllToParent"
             :disabled="disabled"
           >Finalizar</v-btn>
-          {{disabled}}
         </v-col>
         </v-row>
     </v-container>
