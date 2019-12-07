@@ -114,6 +114,8 @@ celerybeat-schedule
 .venv
 env/
 venv/
+myvenv/
+myenvwindows/
 ENV/
 env.bak/
 venv.bak/
@@ -208,5 +210,6 @@ dmypy.json
 node_modules/
 npm-debug.log
 yarn-error.log
+
 
 # End of https://www.gitignore.io/api/vuejs,python,django,visualstudiocode
