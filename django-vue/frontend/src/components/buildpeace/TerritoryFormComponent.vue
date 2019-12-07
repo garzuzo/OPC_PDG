@@ -504,7 +504,7 @@ export default {
         api
           .getNeighborhoodsVeredas(dataCorregimiento)
           .then(response => {
-            this.origVeredasCali = response;
+            this.originVeredasCali = response;
           })
           .catch(err => console.log(err));
     }
