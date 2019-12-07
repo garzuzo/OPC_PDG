@@ -21,12 +21,12 @@ Activar el ambiente virtual:
 source myvenv/bin/activate
 ```
 
-2. Luego de activar el ambiente virtual, instalar las dependencias de python 3.6:
+2. Luego de activar el ambiente virtual, se deben instalar las dependencias de python 3.6:
 ```bash
 pip install -R requirements.txt
 ```
 
-**Nota:** Para el modelo de analitica de datos se requiere instalar una dependencia extra que pertenece a spacy:
+**Nota:** Para el modelo de analítica de datos se requiere instalar una dependencia extra que pertenece a spacy:
 - opción 1:
  ```bash 
  spacy download es_core_news_sm
@@ -48,7 +48,7 @@ ALTER ROLE U_OPC SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE OPC_DB TO U_OPC;
 ```
 
-**Nota:** Para poder ejecutar las pruebas unitarias se necesita que el usuario de la base de datos tenga permiso para crear una base de datos que es usada para realizar dichas pruebas:
+**Nota:** Para poder ejecutar las pruebas unitarias se necesita que el usuario, en este caso *U_OPC*, tenga permiso para crear una base de datos que es usada para realizar dichas pruebas:
 ```SQL
 ALTER USER U_OPC CREATEDB;
 ```
@@ -79,13 +79,18 @@ python manage.py migrate
 - Municipios o Comunas
 - Barrios o Veredas
 
+**Nota:** Este script se encuentra en *scripts/newEnv1.sql*
+
 7. Crear una persona proyectista, esto incluye crearlo como *user* y como *person*.
+
+**Nota:** Un ejemplo de la creación del usuario mencionado en el paso 7. se encuentra en *scripts/newEnv1.1.sql*.
+
 
 8. Crear una campaña asociada a la persona que se agregó en el paso anterior
 
+**Nota:** Un ejemplo de este script se encuentra en *scripts/newEnv1.2.sql*
 
 
-**Nota:** si se desea ver la documentación realizada en *openapi*, la variable **debug** debe estar en **true**, en el archivo *opc/settings.py*.
 
 
 ### Ejecutar la aplicación:
@@ -93,6 +98,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver #.#.#.#:port
 ```
+**Nota:** si se desea ver la documentación realizada en *OpenAPI*, la variable **debug** debe estar en **true**, en el archivo *opc/settings.py*.
 
 ## Frontend
 
