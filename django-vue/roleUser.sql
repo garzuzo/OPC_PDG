@@ -1,1 +1,0 @@
-INSERT INTO opcapp_roleuser (id, "name") VALUES (1, 'Registrado');

@@ -1,2 +1,0 @@
-﻿INSERT INTO opcapp_campaign (id, "startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive") VALUES (3, '2019-06-25', '2019-11-28', 'Campañas en las diferentes comunas de Cali', 'Paz en mi ciudad Cali', 15000, 0, TRUE);
-INSERT INTO opcapp_campaign (id, "startDate", "endDate", description, title, "narrativesGoal", "accumulatedNarratives", "isActive") VALUES (4, '2019-06-25', '2019-09-28', 'Campañas en los barrios de la comuna 2 de Cali', 'Paz en mi linda Cali', 20000, 0, FALSE);
