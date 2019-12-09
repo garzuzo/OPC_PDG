@@ -18,7 +18,6 @@ export default {
     },
     data(){
       return {
-        imgSandra:"@/assets/sandra.jpg"
       }
     }
 }

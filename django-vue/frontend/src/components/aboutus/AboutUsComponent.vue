@@ -76,8 +76,8 @@ export default {
         {name:'Sandra Niño', img:'sandra.jpg', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
         {name:'Johnatan Garzón', img:'johnatan.jpg', profession: 'Estudiante Ingeniería de Sistemas', place: 'Universidad Icesi'},
         {name:'Juan Carlos Muñoz, PhD', img:'juancarlos.jpg', profession: 'Profesor Ingeniería de Sistemas', place: 'Universidad Icesi'},
-        {name:'Mauricio Sedano', img:'mauricio.jpg', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'},
-        {name:'Andrés', img:'profile.png', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'}
+        {name:'Mauricio Sedano', img:'mauricio.jpeg', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'},
+        {name:'Andrés Suarez', img:'andres.png', profession: 'Contratista OPC', place: 'OPC-Alcaldía Santiago de Cali'}
       ]
     }
   }
