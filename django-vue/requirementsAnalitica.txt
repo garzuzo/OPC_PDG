@@ -1,8 +1,0 @@
-
-pip install -U spacy
-
-option 1:
-python -m spacy download es_core_news_sm
-
-option 2:
-spacy download es
