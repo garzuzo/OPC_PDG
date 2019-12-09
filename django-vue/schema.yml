@@ -6,282 +6,578 @@ openapi: 3.0.0
 paths:
   /opcapi/acampaigns_person_list/:
     get:
-      operationId: acampaigns_person_list_list
-      summary: Listar las campaÃ±as activas por usuario
+      operationId: acampaigns_person_list
+      summary: Lista campañas activas por usuario
       tags:
-      - acampaigns_person_list
+      - Lista de campañas activas por persona
+      description: |
+        Permite listar las campañas activas dado el id de un usuario
       responses:
         '200':
-          description: Se retorna las listas correctamente
+          description: |
+            Se retorna las listas correctamente
         '400':
-          description: Hacen falta parametros en el query
+          description: |
+            Hacen falta parámetros en el query
   /opcapi/activecampaigns/:
     get:
       operationId: activecampaigns_list
+      summary: Listar las campañas activas
       tags:
-      - active campaigns
+      - Campañas activas
+      description: |
+        Permite listar las campañas activas
       responses:
         '200':
-          description: Se retorna las listas correctamente
+          description: |
+            Se retorna las listas correctamente
         '400':
-          description: Hacen falta parametros en el query
+          description: |
+            Hacen falta parámetros en el query
   /opcapi/ages/:
     get:
-      operationId: ages_list
+      operationId: age_range_list
+      summary: Lista de rangos de edad
       tags:
-      - ages
+      - Lista de rangos de edad
+      description: |
+        "Listar las personas por rangos de edad: 0-5 años, 6-11 años, 12-18 años, 19-26 años, 27-59 años y 60 años en adelante"
+        
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
   /opcapi/campaign/:
     post:
-      operationId: campaign_create
+      summary: Crear una campaña
+      requestBody:
+        description: Crea una campaña
+        content:
+          application/json:
+            schema:
+              $ref: “/components/schemas/TopicFilter”
+      operationId: save_campaign
       tags:
-      - campaign
+      - Crear Campaña
+      description: |
+        Permite listar las campañas activas dado el id de un usuario
+      responses:
+        '201':
+          description: |
+            Se crea la campaña correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
     put:
-      operationId: campaign_update
-      tags:
-      - campaign
-  /opcapi/campaigns_created_person/:
-    get:
+      summary: Editar una campaña
       operationId: campaigns_created_person_list
       tags:
-      - campaigns_created_person
+      - Editar campaña
+      description: |
+        Permite editar una campaña, dado el id de la misma
+      responses:
+        '200':
+          description: |
+            Se retorna la campaña actualizada
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
+  /opcapi/campaigns_created_person/:
+    get:
+      summary: Listar las campañas creadas por un usuario
+      operationId: campaigns_created_person
+      tags:
+      - Lista de campañas creadas por un usuario
+      description: |
+          Permite listar las campañas creadas por un usuario dado su id
+      responses:
+        '200':
+          description: |
+            Se lista la campaña correctamente
+        '400':
+          description: |
+              Hacen falta parámetros en el query
+
   /opcapi/campaigns_person/:
     get:
+      summary: Listar campañas de un usuario
+          
       operationId: campaigns_person_list
       tags:
-      - campaigns_person
-  /opcapi/change_zone/:
-    put:
-      operationId: change_zone_update
-      tags:
-      - change_zone
+      - Lista campañas de un usuario
+      description: |
+          "Listar las campañas, tanto activas como finalizadas, en las que ha participado un usuario.
+      responses:
+        '200':
+          description: |
+              Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
+
   /opcapi/cities/:
     get:
+      summary: Listar las ciudades dado el id de un departamento
       operationId: cities_list
       tags:
-      - cities
+      - Lista de ciudades de un departamento
+      description: |
+          Permite listar todas las ciudades de un departamento
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/city_person/:
     get:
       operationId: city_person_list
       tags:
-      - city_person
-  /opcapi/comunacorr/:
-    post:
-      operationId: comunacorr_create
-      tags:
-      - comunacorr
+      - Ciudad de una persona
+      description: |
+        Permite obtener la ciudad en la que vive una persona
+      responses:
+        '200':
+          description: |
+            Se retorna la ciudad correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
+
   /opcapi/corregimientos_comunas/:
     get:
-      operationId: corregimientos_comunas_list
+      operationId: corregcomunas_list
       tags:
-      - corregimientos_comunas
+      - Lista de comunas o corregimientos
+      description: |
+          Permite listar las comunas o corregimientos de una ciudad, retorna comunas si la zona es urbana, en caso de que sea rural retorna corregimientos
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+             Hacen falta parámetros en el query
+
   /opcapi/create_person/:
     post:
-      operationId: create_person_create
+      operationId: create_person
       tags:
-      - create_person
-  /opcapi/docs/:
-    get:
-      operationId: docs_list
-      tags:
-      - docs
+      - Crear una persona
+      description: |
+            Permite crear una persona dado sus datos de caracterización. Esta persona tiene asociado un email y una contraseña
+      responses:
+        '201':
+          description: |
+            Se crea correctamente la persona
+        '400':
+          description: |
+              Hacen falta parámetros en el query
+        '409':
+          description: |
+              El usuario ya existe
+
   /opcapi/educations/:
     get:
-      operationId: educations_list
+      operationId: education_visualization_list
       tags:
-      - educations
+      - Número de personas por nivel educativo
+      description: |
+          Permite listar el número de personas por nivel educativo. Dado el id de un departamento, comuna o corregimiento.
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/gender/:
     get:
       operationId: gender_list
       tags:
-      - gender
+      - Géneros
+      description: |
+          Permite listar todos los géneros de la base de datos
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/gender_list/:
     get:
       operationId: gender_list_list
       tags:
-      - gender_list
+      - Número de personas por genero
+      description: |
+          Permite listar el número de personas por genero
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/keywords/:
     get:
-      operationId: keywords_list
+      operationId: fivekeywords_list
       tags:
-      - keywords
+      - Lista de palabras clave
+      description: |
+          Permite listar las 5 palabras claves con mayor frecuencia
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/levelineducation/:
     get:
-      operationId: levelineducation_list
+      operationId: leveleducation_list
       tags:
-      - levelineducation
-  /opcapi/levelseducation/:
-    get:
-      operationId: levelseducation_list
-      tags:
-      - levelseducation
+      - Niveles de educación
+      description: |
+          Permite listar los niveles alcanzados de un tipo educación dado
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+
+ 
   /opcapi/login/:
     post:
-      description: 'Takes a set of user credentials and returns an access and refresh
-        JSON web
-
-        token pair to prove the authentication of those credentials.'
+      description: |
+          'Obtiene las credenciales de un usuario y retorna un token de acceso y un token de refresh usando JWT para probar la autenticación de dichas credenciales'
       operationId: login_create
       tags:
-      - login
+      - Login
+      responses:
+        '200':
+          description: |
+              Se retorna el Json Web Token correctamente
+        '404':
+          description: |
+            El usuario no es válido
+
   /opcapi/narrative_user_campaign/:
     get:
       operationId: narrative_user_campaign_list
       tags:
-      - narrative_user_campaign
+      - Narrativas de un usuario en una campaña
+      description: |
+          Permite obtener la narrativa de un usuario en una campaña
+      responses:
+        '200':
+          description: |
+            Se retorna la narrativa correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/narratives/:
     get:
       operationId: narratives_list
       tags:
-      - narratives
+      - Lista de narrativas
+      description: |
+          Permite listar todas las narrativas
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+
+
   /opcapi/notactivecampaigns/:
     get:
       operationId: notactivecampaigns_list
       tags:
-      - notactivecampaigns
+      - Campañas no activas
+      description: |
+          Permite listar las campañas no activas guardadas en la base de datos
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/obtain_campaign/:
     get:
       operationId: obtain_campaign_list
       tags:
-      - obtain_campaign
+      - Obtener una campaña
+      description: |
+          Permite obtener una campaña dado su id
+      responses:
+        '200':
+          description: |
+            Se retorna la campaña correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/obtain_minmax_date/:
     get:
       operationId: obtain_minmax_date_list
       tags:
-      - obtain_minmax_date
+      - Obtener rango de fechas de campaña
+      description: |
+          Permite obtener la fecha más antigua y más lejana de las campañas guardadas en la base de datos
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/obtain_opendata/:
     get:
       operationId: obtain_opendata_list
       tags:
-      - obtain_opendata
+      - Obtener datos abiertos
+      description: |
+          Permite obtener los datos más relevantes de todas las narrativas ingresadas al sistema
+      responses:
+        '200':
+          description: |
+            Se retorna las listas correctamente
+
+
   /opcapi/obtain_percentage/:
     get:
       operationId: obtain_percentage_list
       tags:
-      - obtain_percentage
+      - Obtener porcentaje de correlación
+      description: |
+          "Permite obtener el porcentaje de correlación al aplicar diferentes filtros que implican la comuna, el corregimiento o el departamento, y como opcional se tiene: la edad, el genero, el nivel educativo, una campaña, un tópico primario, un tópico secundario, un tópico general, un rango de fechas"
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de porcentajes correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/obtain_person_campaign_logged/:
     get:
       operationId: obtain_person_campaign_logged_list
       tags:
-      - obtain_person_campaign_logged
+      - Obtener campañas de persona logueada
+      description: |
+          Permite listar las campañas de un usuario que está logueado
+      responses:
+        '200':
+          description: |
+            Se retorna las listas correctamente
+        '401':
+          description: |
+            Acceso no autorizado
+
   /opcapi/obtain_topics_percentage/:
     get:
       operationId: obtain_topics_percentage_list
       tags:
-      - obtain_topics_percentage
+      - Obtener porcentaje de tópicos
+      description: |
+          Permite obtener el porcentaje de cada uno de los conceptos que construyen un tópico.
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de porcentajes correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/person_data/:
     get:
       operationId: person_data_list
       tags:
-      - person_data
+      - Obtener datos de persona
+      description: |
+          Permite obtener los datos de caracterización de una persona
+      responses:
+        '200':
+          description: |
+            Se retorna las listas correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
     put:
       operationId: person_data_update
       tags:
-      - person_data
+      - Actualizar datos de persona
+      description: |
+          Permite actualizar los datos de caracterización de una persona
+      responses:
+        '204':
+          description: |
+            Se actualiza correctamente los datos de caracterización
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/population_comunas/:
     get:
       operationId: population_comunas_list
       tags:
-      - population_comunas
+      - Obtener número de personas por comuna, corregimiento o departamento
+      description: |
+          Permite obtener el número de personas por comuna, corregimiento o departamento
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/predict/:
     get:
       operationId: predict_list
       tags:
-      - predict
-  /opcapi/refresh/:
-    post:
-      description: 'Takes a refresh type JSON web token and returns an access type
-        JSON web
-
-        token if the refresh token is valid.'
-      operationId: refresh_create
-      tags:
-      - refresh
-  /opcapi/register/:
-    post:
-      operationId: register_create
-      tags:
-      - register
+      - Predecir tópico
+      description: |
+          Permite obtener los conceptos asociados a un texto de narrativa de paz
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de conceptos correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+            
   /opcapi/role_user/:
     get:
       operationId: role_user_list
       tags:
-      - role_user
-  /opcapi/roleu/{id}/:
-    get:
-      operationId: roleu_read
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          description: ''
-          title: ''
-          type: string
-      tags:
-      - roleu
-    post:
-      operationId: roleu_create
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          description: ''
-          title: ''
-          type: string
-      tags:
-      - roleu
-    put:
-      operationId: roleu_update
-      parameters:
-      - in: path
-        name: id
-        required: true
-        schema:
-          description: ''
-          title: ''
-          type: string
-      tags:
-      - roleu
+      - Obtener rol de usuario
+      description: |
+          Permite obtener el rol de un usuario
+      responses:
+        '200':
+          description: |
+            Se retorna el rol correctamente
+        '401':
+          description: |
+            Acceso no autorizado
   /opcapi/save_info_ruser/:
     post:
       operationId: save_info_ruser_create
       tags:
-      - save_info_ruser
-  /opcapi/save_info_zone/:
-    post:
-      operationId: save_info_zone_create
-      tags:
-      - save_info_zone
+      - Guardar narrativa de usuario logueado
+      description: |
+          Permite guardar la narrativa de un usuario que está previamente logueado al sistema
+      responses:
+        '200':
+          description: |
+            Se crea correctamente la narrativa
+        '401':
+          description: |
+            Acceso no autorizado
   /opcapi/saveall/:
     post:
       operationId: saveall_create
       tags:
-      - saveall
+      - Guardar persona
+      description: |
+          Permite crear un usuario, junto a una narrativa. También puede incluir una cuenta para loguearse posteriormente.
+      responses:
+        '201':
+          description: |
+            Se crea el usuario correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/states/:
     get:
       operationId: states_list
       tags:
-      - states
+      - Obtener departamentos de un pais
+      description: |
+          Permite listar los departamentos de un pais dado
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de departamentos correctamente correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
   /opcapi/topic_list/:
     get:
       operationId: topic_list_list
       tags:
-      - topic_list
+      - Lista de tópicos
+      description: |
+          Permite listar todos los tópicos que se encuentran guardados en el sistema
+      responses:
+        '200':
+          description: |
+            Se retorna la lista correctamente
+
+
   /opcapi/topic_person_campaign/:
     get:
-      operationId: topic_person_campaign_list
+      operationId: topic_person_campaign
       tags:
-      - topic_person_campaign
+      - Tópicos de una persona
+
+      description: |
+        Permite listar los tópicos primario y secundario dado el id de un PersonCampaign
+      responses:
+        '200':
+          description: |
+              Se retorna correctamente los tópicos primario y secundario
+
+        '400':
+          description: |
+            Hacen falta parámetros en el query
+
   /opcapi/veredas_neighborhoods/:
     get:
-      operationId: veredas_neighborhoods_list
+      operationId: neighborvereda_list
       tags:
       - veredas_neighborhoods
+      description: |
+        Permite listar las veredas o barrios dado el id de una ciudad y el id de la zona, este último con el fin de listar veredas si es una zona rural, por el contrario, si es urbana se retornan barrios
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de barrios o veredas correctamente
+        '400':
+          description: |
+            Hacen falta parámetros en el query
   /opcapi/zones/:
     get:
       operationId: zones_list
       tags:
       - zones
+      description: |
+        Lista todas las zonas que están registradas en la base de datos
+      responses:
+        '200':
+          description: |
+            Se retorna la lista de zonas correctamente
+ 
+
 servers:
-- url: ''
+- url: 'http://127.0.0.1/opcapi/'
+
