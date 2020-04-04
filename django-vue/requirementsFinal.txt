@@ -16,7 +16,7 @@ djangorestframework==3.10.3
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==4.3.0
 docutils==0.15.2
-ecdsa==0.13.2
+ecdsa==0.13.3
 future==0.17.1
 gensim==3.8.1
 idna==2.8
